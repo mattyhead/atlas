@@ -268,7 +268,30 @@ table {
     opacity: 1;
 }
 
-.basetooltip {
+#parcel-tooltip-button {
+  background: #fff;
+  border: 2px solid rgb(204, 204, 204);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.parcel-tooltip-inactive {
+  height: 45px;
+  width: 150px;
+}
+
+.parcel-tooltip-active {
+  height: 320px;
+  width: 600px;
+  text-align: left;
+  padding: 20px;
+}
+
+#parcel-tooltip-button li {
+  margin-bottom: 15px;
+}
+
+/*.basetooltip {
     width: 26px;
     height: 26px;
     font: 20px/22px Arial, Helvetica, sans-serif;
@@ -287,4 +310,4 @@ table {
     background: rgba(255,255,255,1);
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-radius: 5px;
-}
+}*/

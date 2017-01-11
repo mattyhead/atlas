@@ -8,25 +8,25 @@ app.cyclomedia.wfsClient = new WFSClient(
 	""
 );
 
-L.Control.BaseToolTip = L.Control.extend({
-	options: {
-		position: 'bottomleft',
-	},
-	onAdd: function() {
-		this._div = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-load basetooltip');
-		this._div.innerHTML = '<a href="#">i</a>';
-		L.DomEvent.disableClickPropagation(this._div);
-  	return this._div;
-	},
-	onMouseover: function(data) {
-		$('.basetooltip').html('<div>'+data+'</div>');
-		$('.basetooltip').attr('class', 'leaflet-bar leaflet-control leaflet-control-load basetooltip2')
-	},
-	onMouseout: function(data) {
-		$('.basetooltip2').html('<a href="#">i</a>');
-		$('.basetooltip2').attr('class', 'leaflet-bar leaflet-control leaflet-control-load basetooltip')
-	}
-});
+// L.Control.BaseToolTip = L.Control.extend({
+// 	options: {
+// 		position: 'bottomleft',
+// 	},
+// 	onAdd: function() {
+// 		this._div = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-load basetooltip');
+// 		this._div.innerHTML = '<a href="#">i</a>';
+// 		L.DomEvent.disableClickPropagation(this._div);
+//   	return this._div;
+// 	},
+// 	onMouseover: function(data) {
+// 		$('.basetooltip').html('<div>'+data+'</div>');
+// 		$('.basetooltip').attr('class', 'leaflet-bar leaflet-control leaflet-control-load basetooltip2')
+// 	},
+// 	onMouseout: function(data) {
+// 		$('.basetooltip2').html('<a href="#">i</a>');
+// 		$('.basetooltip2').attr('class', 'leaflet-bar leaflet-control leaflet-control-load basetooltip')
+// 	}
+// });
 
 app.map = (function ()
 {
@@ -98,17 +98,27 @@ app.map = (function ()
       // create window level placeholder for _stViewHfovMarker
       _stViewMarkersLayerGroup = new L.LayerGroup(),
       _stViewHfovMarker,
-      _stViewCameraMarker
+      _stViewCameraMarker,
+
+			parcelTooltip;
 
   return {
 
 		waterLegend : L.control({position: 'bottomleft'}),
-		baseToolTip : new L.Control.BaseToolTip,
+		// baseToolTip : new L.Control.BaseToolTip,
 
     //theObject: queryParcel,
 		smallMarker: L.point(22,40),
 		largeMarker: L.point(32,50),
 		xLargeMarker: L.point(42,60),
+
+		config: {
+			initialXy: [39.952388, -75.163596],
+			disclaimers: {
+				dor: 'The property boundaries displayed on the map are for reference only and may not be used in place of recorded deeds or land surveys. Dimension lengths are calculated using the GIS feature.',
+				pwd: 'The property boundaries displayed on the map are for reference only and may not be used in place of recorded deeds or land surveys. Boundaries are generalized for ease of visualization.',
+			},
+		},
 
     initMap : function () {
       app.state.map = {
@@ -129,14 +139,13 @@ app.map = (function ()
       //app.state.map.appealsLayerGroup = new L.LayerGroup();
 
       //app.state.moveMode = true
-      var CITY_HALL = [39.952388, -75.163596];
 
-      _map = L.map('map', {
+      _map = new L.map('map', {
          zoomControl: false,
          // measureControl: true,
       });
 			// add routing fix
-      _map.setView(CITY_HALL, 17);
+      _map.setView(this.config.initialXy, 17);
 
 			/*app.map.baseToolTip.onAdd = function () {
 				var div = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-load basetooltip');
@@ -144,30 +153,51 @@ app.map = (function ()
 				//div.title = "enter tooltip here"
 				return div;
 			};*/
-			app.map.baseToolTip.addTo(_map);
-			app.state.map.waterDisclaimer = 'The property boundaries displayed on the map are for reference only and may not be used in place of recorded deeds or land surveys. Boundaries are generalized for ease of visualization. Source: Philadelphia Water'
-			app.state.map.DORDisclaimer = 'The property boundaries displayed on the map are for reference only and may not be used in place of recorded deeds or land surveys. Dimension lengths are calculated using the GIS feature. Source: Department of Records.'
+			// app.map.baseToolTip.addTo(_map);
+			// app.state.map.waterDisclaimer = 'The property boundaries displayed on the map are for reference only and may not be used in place of recorded deeds or land surveys. Boundaries are generalized for ease of visualization. Source: Philadelphia Water'
+			// app.state.map.DORDisclaimer = 'The property boundaries displayed on the map are for reference only and may not be used in place of recorded deeds or land surveys. Dimension lengths are calculated using the GIS feature. Source: Department of Records.'
 
-			$('.basetooltip').on('mouseover', function(){
-				if (!app.state.activeTopic || app.state.activeTopic != 'deeds' && app.state.activeTopic != 'zoning'){
-					app.map.baseToolTip.onMouseover(app.state.map.waterDisclaimer);
-				} else {
-					app.map.baseToolTip.onMouseover(app.state.map.DORDisclaimer);
-				}
-			});
-			$('.basetooltip').on('mouseout', function(){
-				app.map.baseToolTip.onMouseout();
-			})
+			// $('.basetooltip').on('mouseover', function(){
+			// 	if (!app.state.activeTopic || app.state.activeTopic != 'deeds' && app.state.activeTopic != 'zoning'){
+			// 		app.map.baseToolTip.onMouseover(app.state.map.waterDisclaimer);
+			// 	} else {
+			// 		app.map.baseToolTip.onMouseover(app.state.map.DORDisclaimer);
+			// 	}
+			// });
+			// $('.basetooltip').on('mouseout', function(){
+			// 	app.map.baseToolTip.onMouseout();
+			// })
 			/*app.map.baseToolTip.on('mouseover', function(){
 				console.log('mouseover happening');
 			});*/
 
+			// PARCEL TOOLTIP
+			// parcelTooltip = new L.easyButton({
+			// 	states: [
+			// 		{
+			// 			stateName: 'dor',
+			// 			icon: '<span>Parcels: <strong>DOR</strong></span>',
+			// 			onMouseover: function () {alert('hi')}
+			// 		},
+			// 		{
+			// 			stateName: 'pwd',
+			// 			icon: '<span>Parcels: <strong>PWD</strong></span>',
+			// 		},
+			// 	],
+			// 	position: 'bottomleft',
+			// 	width: '500px',
+			// });
+			//
+			// // give the button an id so we can style it
+			// $(parcelTooltip.button).attr({id: 'parcel-tooltip-button'});
+			//
+			// console.log('parcelTooltip', parcelTooltip);
+			// parcelTooltip.addTo(_map);
+
       // make measure control
       var measureControl = new L.Control.Measure({
         primaryLengthUnit: 'feet',
-        // secondaryLengthUnit: 'miles',
         primaryAreaUnit: 'sqfeet',
-        // secondaryAreaUnit: 'sqmiles',
       });
       measureControl.addTo(_map);
 
@@ -617,6 +647,87 @@ app.map = (function ()
           app.map.drawStViewMarkers();
         };
       });
+
+			// PARCEL TOOLTIP
+			L.Control.ParcelTooltip = L.Control.extend({
+				render: function (state, isMouseover) {
+					var activeTopic = app.state.activeTopic,
+							parcelLayer = app.map.parcelLayerForTopic(activeTopic),
+							$el = $('#parcel-tooltip-button'),
+							content;
+
+					// mouseover
+					if (isMouseover) {
+						content = '\
+							<p><strong>Why did the parcels change when I opened the Deeds tab?</strong></p>\
+							<p>Atlas shows one of two types of parcels depending on which tab you have open:\
+							</p>\
+							<ul>\
+								<li>\
+									<strong>DOR Parcels</strong> are maintained by the Department of Records (DOR) and represent the approximate bounds of the recorded deed. These are used in the Deeds tab.\
+								</li>\
+								<li>\
+									<strong>PWD Parcels</strong> are maintained by the Philadelphia Water Department (PWD) and are a simplified version of the parcel used for billing purposes. These are shown in all tabs other than Deeds.\
+								</li>\
+							</ul>\
+							<p>\
+							<strong>Disclaimer:</strong> The property boundaries displayed on the map are for reference only and may not be used in place of recorded deeds or land surveys. Dimension lengths are calculated using the GIS feature.\
+							</p>\
+							';
+
+						if ($el.hasClass('parcel-tooltip-inactive')) {
+							// console.log('should add class');
+							$el.removeClass('parcel-tooltip-inactive');
+							$el.addClass('parcel-tooltip-active');
+						}
+					}
+
+					// mouseout
+					else {
+						content = 'Parcels: <strong>' + parcelLayer.toUpperCase() + '</strong>';
+						if ($el.hasClass('parcel-tooltip-active')) {
+							// console.log('should remove class');
+							$el.removeClass('parcel-tooltip-active');
+							$el.addClass('parcel-tooltip-inactive');
+						}
+					}
+
+					// set content
+					$el.html(content);
+				},
+
+				handleMouseEvent: function (e) {
+					// console.log('handle mouse event', e);
+
+					var isMouseover = (e.type == 'mouseover');
+
+					// render
+					parcelTooltip.render(app.state, isMouseover);
+				},
+
+				onAdd: function (map) {
+					var el = L.DomUtil.create('button');
+
+					el.id = 'parcel-tooltip-button';
+					el.classList.add('leaflet-control');
+					el.classList.add('parcel-tooltip-inactive');
+
+					// listen for mouse events
+					el.addEventListener('mouseover', this.handleMouseEvent);
+					el.addEventListener('mouseout', this.handleMouseEvent);
+
+					return el;
+				},
+			});
+
+			parcelTooltip = new L.Control.ParcelTooltip({
+				position: 'bottomleft',
+			});
+
+			parcelTooltip.addTo(_map);
+
+			// initial render
+			parcelTooltip.render(app.state, false);
     }, // end of initMap
 
     // add names of layers on the map to the DOM
@@ -675,8 +786,8 @@ app.map = (function ()
 			app.state.map.addressMarkers = {};
 
 			var aisGeom = app.state.ais.feature.geometry;
+
 			if (aisGeom) {
-				console.log('we have ais geom gonna make the marker')
 				aisMarker = new L.Marker.SVGMarker([aisGeom.coordinates[1], aisGeom.coordinates[0]], {
 					"iconOptions": {
 						className: 'svg-icon-noClick',
@@ -1234,6 +1345,9 @@ app.map = (function ()
 			localStorage.setItem('previousTopic', prevTopic);
 			localStorage.setItem('activeTopic', nextTopic);
 			// console.log('got to end of didChangeTopic');
+
+			// tell parcel tooltip
+			parcelTooltip.render(app.state, false);
     },
 
 		basemapForTopic: function (topic) {
