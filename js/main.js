@@ -1272,7 +1272,9 @@ var app = (function ()
             }),
             rows = app.util.makeTableRowsFromGeoJson(features, ['APPEAL_NUM', 'GROUNDS', 'DATE_SCHEDULED', formatDistance]);
 
+        // populate table
         $('#pending-appeals tbody').html(rows);
+        app.util.formatTableFields($('#pending-appeals'));
 
         // update count
         $('#pending-appeals-count').html(' (' + features.length + ')');
