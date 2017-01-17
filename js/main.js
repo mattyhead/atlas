@@ -204,6 +204,9 @@ var app = (function ()
       // set up accounting
       accounting.settings.currency.precision = 0;
 
+      // add state plane to proj4 defs
+      proj4.defs('EPSG:2272', '+proj=lcc +lat_1=40.96666666666667 +lat_2=39.93333333333333 +lat_0=39.33333333333334 +lon_0=-77.75 +x_0=600000 +y_0=0 +ellps=GRS80 +datum=NAD83 +to_meter=0.3048006096012192 +no_defs');
+
       // listen for clicks on topics
       $('.topic-link').click(function (e) {
         e.preventDefault();
@@ -1236,6 +1239,48 @@ var app = (function ()
         // TODO clean up elections content
       }
 
+      /* APPEALS */
+      // project ais geom to state plane
+      var aisCoords = aisGeom.coordinates,
+          aisCoordsStatePlane = proj4('EPSG:4326', 'EPSG:2272', aisCoords);
+
+      // query for zoning appeals within x feet of this address with a future hearing date
+      var nearbyAppealsQuery = L.esri.query({url: '//gis.phila.gov/arcgis/rest/services/PhilaGov/Construction/MapServer/5'})
+                                .where('DATE_SCHEDULED > CURRENT_DATE')
+                                // 152.4 meters == 500 feet
+                                .nearby([aisCoords[1], aisCoords[0]], 152.4);
+
+      nearbyAppealsQuery.run(function (error, featureCollection, response) {
+        // console.log('did get nearby appeals', featureCollection);
+
+        var aisPt = L.point(aisCoords[0], aisCoords[1]),
+            formatDistance = function (row) {
+              var appealCoords = row.geometry.coordinates,
+                  appealPt = L.point(appealCoords[0], appealCoords[1]),
+                  dist = app.util.crowFliesDistance(aisCoords[1], aisCoords[0], appealCoords[1], appealCoords[0]),
+                  distRounded = parseInt(dist);
+              return distRounded + ' feet';
+            };
+
+        var features = featureCollection.features,
+            // try to filter out appeals within a threshold
+            features = _.reject(features, function (feature) {
+              var featureCoords = feature.geometry.coordinates,
+                  distance = app.util.crowFliesDistance(aisCoords[1], aisCoords[0], featureCoords[1], featureCoords[0]) * 3.28084;
+              // console.warn('dist', distance);
+              return parseInt(distance) < 10;
+            }),
+            rows = app.util.makeTableRowsFromGeoJson(features, ['APPEAL_NUM', 'GROUNDS', 'DATE_SCHEDULED', formatDistance]);
+
+        $('#pending-appeals tbody').html(rows);
+
+        // update count
+        $('#pending-appeals-count').html(' (' + features.length + ')');
+
+        // save to state
+        app.state.pendingAppeals = features;
+      });
+
       /*
       PUBLIC SAFETY
       */
@@ -1391,7 +1436,7 @@ var app = (function ()
         // TEMP since we moved appeals to zoning
         var $liSectionTable;
         if (stateKey === 'appeals') {
-         $liSectionTable = $('#zoning-appeals');
+         $liSectionTable = $('#appeals');
         }
         else {
           $liSectionTable = $('#li-table-' + stateKey);
@@ -1403,7 +1448,7 @@ var app = (function ()
             countText = ' (' + count + ')',
             $liCount = $('#li-section-' + stateKey + ' > .topic-subsection-title > .li-count');
         // TEMP for appeals
-        if (stateKey === 'appeals') $liCount = $('#zoning-appeals-count');
+        if (stateKey === 'appeals') $liCount = $('#appeals-count');
         $liCount.text(countText);
 
         // add "see more" link, if there are rows not shown

@@ -384,7 +384,7 @@
                         </div>
 
 
-                        <a id="topic-link-zoning" class="topic-link" href="/#/zoning/"><span class="topic-link-icon flaticon-industrial-zone"></span>Zoning</a>
+                        <a id="topic-link-zoning" class="topic-link" href="/#/zoning/"><span class="topic-link-icon flaticon-industrial-zone"></span>Zoning Info</a>
                         <div id="topic-zoning" class="topic">
                             <!--OPTION 1: Zoning Badge-->
                             <div class="topic-badge panel center">
@@ -428,7 +428,7 @@
                                 <tbody></tbody>
                             </table>
 
-                            <h4>Appeals<span id="zoning-appeals-count"></span></h4>
+                            <!--<h4>Appeals<span id="zoning-appeals-count"></span></h4>
                             <table id="zoning-appeals" role="grid" class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
                                 <thead>
                                     <tr>
@@ -439,7 +439,7 @@
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
-                            </table>
+                            </table>-->
 
                             <h4>
                               <!-- <span class="has-tip" title="Also known as the Zoning Archive">Documents</span> -->
@@ -460,6 +460,40 @@
                                 </thead>
                                 <tbody></tbody>
                             </table>
+                        </div>
+
+                        <!-- APPEALS -->
+                        <a id="topic-link-appeals" class="topic-link" href="/#/appeals/"><span class="topic-link-icon flaticon-copy"></span>Zoning Appeals</a>
+                        <div id="topic-appeals" class="topic">
+                          <h4>Appeals at This Address<span id="appeals-count"></span></h4>
+                          <table id="appeals" role="grid" class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
+                              <thead>
+                                  <tr>
+                                      <th scope="col" data-field-type="date">Date</th>
+                                      <th scope="col" data-field-type="zoning-appeal-id">ID</th>
+                                      <th scope="col">Description</th>
+                                      <th scope="col">Status</th>
+                                  </tr>
+                              </thead>
+                              <tbody></tbody>
+                          </table>
+
+                          <h4>Upcoming Hearings within 500 Feet<span id="pending-appeals-count"></span></h4>
+                          <div class="callout">
+                            <p>Hearings take place at the Zoning Board of Adjustment, 1515 Arch St 18th Floor.</p>
+                          </div>
+                          <table id="pending-appeals" role="grid" class="tablesaw tablesaw-stack" data-tablesaw-mode="stack" style="margin-bottom: 0">
+                            <thead>
+                              <tr>
+                                <th scope="col">ID</th>
+                                <!-- <th scope="col" data-field-type="zoning-appeal-id">ID</th> -->
+                                <th scope="col">Description</th>
+                                <th scope="col">Hearing Date</th>
+                                <th scope="col">Distance</th>
+                              </tr>
+                            </thead>
+                            <tbody></tbody>
+                          </table>
                         </div>
 
                         <a id="topic-link-water" class="topic-link" href="/#/water/"><span class="topic-link-icon flaticon-drop"></span>Water</a>
@@ -651,12 +685,8 @@
                                         <h1 id="elections-next-date">May 16, 2017</h1>
                                         <strong><span id="elections-next-description">Municipal Primary<span></strong>
                                     </div>
-                                    <!--<div class="topic-badge-footer"></div>-->
                                 </div>
 
-                                <!-- <h3>You vote at the BETHESDA COMM CENTER located at 1234 FRANKFORD AVE.</h3> -->
-
-                                <!-- <h4>More Information</h4> -->
                                 <table>
                                     <tr>
                                         <th>Polling Place</th>

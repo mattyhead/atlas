@@ -45,7 +45,14 @@ app.util = (function () {
         var props = row.properties;
         // loop over fields
         var valsHtml = _.map(fields, function (field) {
-          var val = props[field] || '';
+          var val;
+          // if a function is passed in, run it against the row
+          if (typeof field === 'function') {
+            val = field(row);
+          }
+          else {
+            val = props[field] || row[field] || '';
+          }
 
           // truncate long strings
           if ((typeof val === 'string' || val instanceof String) && val.length > 150) {
@@ -259,5 +266,23 @@ app.util = (function () {
     numberWithCommas: function (x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
+
+    // This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+    // http://stackoverflow.com/a/18883819/676001
+    crowFliesDistance: function (lat1, lon1, lat2, lon2)
+    {
+      // var R = 6371; // km
+      var R = 6371000; // m
+      var dLat = (lat2-lat1) * Math.PI / 180;
+      var dLon = (lon2-lon1) * Math.PI / 180;
+      var lat1 = (lat1) * Math.PI / 180;
+      var lat2 = (lat2) * Math.PI / 180;
+
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      var d = R * c;
+      return d;
+    }
   };
 }());
