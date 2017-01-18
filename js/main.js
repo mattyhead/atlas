@@ -1305,7 +1305,6 @@ var app = (function ()
           var $rowEl = $(rowEls[i]),
               id = feature.properties.APPEAL_NUM;
           $rowEl.attr('data-id', id);
-          console.warn('add id', $rowEl, id)
         });
 
         // listen for hover
