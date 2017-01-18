@@ -1864,7 +1864,9 @@ app.map = (function ()
 
 		didGetPendingAppeals: function () {
 			// console.log('did get pending appeals', app.state.pendingAppeals);
-			this.addPendingAppeals();
+			if (app.state.activeTopic == 'appeals') {
+				this.addPendingAppeals();
+			}
 		},
 
 		addPendingAppeals: function () {
@@ -1926,6 +1928,7 @@ app.map = (function ()
 						});
 				_nearbyActivityLayerGroup.addLayer(newMarker);
 			});
+			_nearbyActivityLayerGroup.addLayer(app.state.map.addressMarkers.aisMarker);
 
 			// fit map to markers
 			//app.state.map.bounds = _map.getBounds();
@@ -1943,6 +1946,9 @@ app.map = (function ()
 
 		removePendingAppeals: function () {
 			_nearbyActivityLayerGroup.clearLayers();
+			if (app.state.map.addressMarkers.aisMarker){
+				app.state.map.addressMarkers.aisMarker.addTo(_map);
+			}	
 		},
 
   }; // end of return
