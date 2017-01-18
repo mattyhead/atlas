@@ -156,6 +156,10 @@ app.util = (function () {
         var url = '//li.phila.gov/#details?entity=zoningboardappeals&eid=' + val;
         return '<a class="external" href="' + url + '">' + val + '</a>';
       },
+      'pending-appeal-id': function (val) {
+        var url = '//www.phila.gov/li/zoning-appeals/#appeals/' + val;
+        return '<a class="external" href="' + url + '">' + val + '</a>';
+      },
       'zoning-document-link': function (val) {
         return '<a class="external" href="' + val + '">View Scan</a>';
       },
