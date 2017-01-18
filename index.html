@@ -384,7 +384,7 @@
                         </div>
 
 
-                        <a id="topic-link-zoning" class="topic-link" href="/#/zoning/"><span class="topic-link-icon flaticon-industrial-zone"></span>Zoning Info</a>
+                        <a id="topic-link-zoning" class="topic-link" href="/#/zoning/"><span class="topic-link-icon flaticon-industrial-zone"></span>Zoning</a>
                         <div id="topic-zoning" class="topic">
                             <!--OPTION 1: Zoning Badge-->
                             <div class="topic-badge panel center">
@@ -460,25 +460,25 @@
                                 </thead>
                                 <tbody></tbody>
                             </table>
+
+                            <h4>Appeals <span id="appeals-count"></span></h4>
+                            <table id="appeals" role="grid" class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" data-field-type="date">Date</th>
+                                        <th scope="col" data-field-type="zoning-appeal-id">ID</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
 
                         <!-- APPEALS -->
-                        <a id="topic-link-appeals" class="topic-link" href="/#/appeals/"><span class="topic-link-icon flaticon-copy"></span>Zoning Appeals</a>
+                        <a id="topic-link-appeals" class="topic-link" href="/#/appeals/"><span class="topic-link-icon flaticon-copy"></span>Nearby Zoning Appeals</a>
                         <div id="topic-appeals" class="topic">
-                          <h4>Appeals at This Address<span id="appeals-count"></span></h4>
-                          <table id="appeals" role="grid" class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
-                              <thead>
-                                  <tr>
-                                      <th scope="col" data-field-type="date">Date</th>
-                                      <th scope="col" data-field-type="zoning-appeal-id">ID</th>
-                                      <th scope="col">Description</th>
-                                      <th scope="col">Status</th>
-                                  </tr>
-                              </thead>
-                              <tbody></tbody>
-                          </table>
-
-                          <h4>Upcoming Hearings within 500 Feet<span id="pending-appeals-count"></span></h4>
+                          <h4>Appeals with an Upcoming Hearing within 500 Feet<span id="pending-appeals-count"></span></h4>
                           <div class="callout">
                             <p>Hearings take place at the Zoning Board of Adjustment, 1515 Arch St 18th Floor.</p>
                           </div>
