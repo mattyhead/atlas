@@ -1872,7 +1872,7 @@ app.map = (function ()
 
 			var rows = app.state.pendingAppeals;
 
-			if (!rows) {
+			if (!rows || rows.length === 0) {
 				console.warn('add pending appeals, but no rows');
 				return;
 			}
