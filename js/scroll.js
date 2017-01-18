@@ -1,4 +1,5 @@
 function isElementInViewport(par, el) {
+    console.log('is element in viewport', par, el);
     var elRect = el.getBoundingClientRect(),
         parRect = par.getBoundingClientRect();
     return (

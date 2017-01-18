@@ -1289,7 +1289,8 @@ var app = (function ()
             rows = app.util.makeTableRowsFromGeoJson(features, ['APPEAL_NUM', 'GROUNDS', 'DATE_SCHEDULED', formatDistance]);
 
         // populate table
-        $('#pending-appeals tbody').html(rows);
+        var $tbody = $('#pending-appeals tbody');
+        $tbody.html(rows);
         app.util.formatTableFields($('#pending-appeals'));
 
         // update count
@@ -1297,6 +1298,36 @@ var app = (function ()
 
         // save to state
         app.state.pendingAppeals = features;
+
+        // give id's to rows so the map highlight them when markers are mousedover
+        var rowEls = $tbody.find('tr');
+        _.forEach(features, function (feature, i) {
+          var $rowEl = $(rowEls[i]),
+              id = feature.properties.APPEAL_NUM;
+          $rowEl.attr('data-id', id);
+          console.warn('add id', $rowEl, id)
+        });
+
+        // listen for hover
+        $tbody.find('tr').hover(
+          function () {
+            var $this = $(this);
+            // $this.css('background', '#ffffff');
+            $this.css('background', '#F3D661');
+            // tell map to highlight pin
+            var id = $this.attr('data-id');
+            app.map.didMouseOverNearbyActivityRow(id);
+          },
+          function () {
+            var $this = $(this);
+            $this.css('background', '');
+            var id = $this.attr('data-id');
+            app.map.didMouseOffNearbyActivityRow(id);
+          }
+        );
+
+        // tell map
+        app.map.didGetPendingAppeals();
       });
 
       /*

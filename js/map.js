@@ -1276,41 +1276,60 @@ app.map = (function ()
 				}
 			});
 
-			// handle water
-			if (nextTopic === 'water') {
-				_overlayLayerGroup.addLayer(app.state.map.mapServices.water);
-				app.map.domLayerList();
-				// app.map.addOpacitySlider(app.state.map.mapServices.water, app.state.map.opacity.water);
-				app.map.waterLegend.onAdd = function () {
-					var div = L.DomUtil.create('div', 'info legend'),
-					grades = ['#FEFF7F', '#F2DCFF'],
-					labels = ['Roof', 'Other Impervious Surface'];
-					for (var i = 0; i < 2; i++) {
-						div.innerHTML += '<i style="background:' + grades[i] + '"></i> ' + labels[i] + '<br>'
-					}
-					return div;
-				};
-				app.map.waterLegend.addTo(_map);
-			}
-			else if (prevTopic === 'water') {
-				app.map.waterLegend.remove();
+			// handle next topic
+			switch (nextTopic) {
+				case 'water':
+					_overlayLayerGroup.addLayer(app.state.map.mapServices.water);
+					app.map.domLayerList();
+					// app.map.addOpacitySlider(app.state.map.mapServices.water, app.state.map.opacity.water);
+					app.map.waterLegend.onAdd = function () {
+						var div = L.DomUtil.create('div', 'info legend'),
+						grades = ['#FEFF7F', '#F2DCFF'],
+						labels = ['Roof', 'Other Impervious Surface'];
+						for (var i = 0; i < 2; i++) {
+							div.innerHTML += '<i style="background:' + grades[i] + '"></i> ' + labels[i] + '<br>'
+						}
+						return div;
+					};
+					app.map.waterLegend.addTo(_map);
+					break;
+
+				case 'appeals':
+					this.addPendingAppeals();
+					break;
+
+				case 'elections':
+					this.addElectionInfo();
+					break;
+
+				case 'nearby':
+					this.addNearbyActivity();
+					break;
+
+				default:
+					console.warn('unhandled next topic:', nextTopic)
+					break;
 			}
 
-			// handle elections
-			if (nextTopic === 'elections') {
-				this.addElectionInfo();
-			}
-			else if (prevTopic === 'elections') {
-				this.removeElectionInfo();
+			// handle prev topic
+			switch (prevTopic) {
+				case 'water':
+					app.map.waterLegend.remove();
+					break;
+
+				case 'appeals':
+					this.removePendingAppeals();
+					break;
+
+				case 'elections':
+					this.removeElectionInfo();
+					break;
+
+				case 'nearby':
+					this.removeNearbyActivity();
+					break;
 			}
 
-			// handle nearby activity
-			if (nextTopic === 'nearby') {
-				this.addNearbyActivity();
-			}
-			else if (prevTopic === 'nearby') {
-				this.removeNearbyActivity();
-			}
 
 			localStorage.setItem('previousTopic', prevTopic);
 			localStorage.setItem('activeTopic', nextTopic);
@@ -1573,6 +1592,8 @@ app.map = (function ()
 		},
 
 		addNearbyActivity: function (rows) {
+			// console.log('add nearby activity');
+
 			// if no rows were passed in, get them from state
 			if (!rows) {
 					app.state.map.nearbyActivity = app.state.map.nearbyActivity || {};
@@ -1580,6 +1601,13 @@ app.map = (function ()
 					rows = app.state.map.nearbyActivity.data;
 			} else {
 				app.state.map.nearbyActivity.data = rows;
+			}
+
+			// if we still don't have any rows (i.e. the api call hasn't finished yet),
+			// don't do anything
+			if (_.keys(rows).length === 0) {
+				console.warn('add nearby activity, but no rows yet');
+				return;
 			}
 
 			// TODO clear existing
@@ -1665,11 +1693,12 @@ app.map = (function ()
 		// },
 
 		didMouseOverNearbyActivityRow: function (id) {
-			var markerlatlng
+			// console.log('did mouseover nearby activity row', id);
+
 			_nearbyActivityLayerGroup.eachLayer(function (layer) {
 				// make sure it's a nearby marker
 				var layerRowId = layer.options.rowId;
-				if (!layerRowId) console.log('layerRowId not found');
+				if (!layerRowId) console.warn('layerRowId not found');
 
 				if (id == layerRowId) {
 					markerlatlng = layer._latlng
@@ -1686,7 +1715,10 @@ app.map = (function ()
 		},
 
 		didMouseOffNearbyActivityRow: function (id) {
+			// console.log('did mouseoff nearby activity row', id);
+
 			var markerlatlng;
+
 			_nearbyActivityLayerGroup.eachLayer(function (layer) {
 				// make sure it's a nearby marker
 				var layerRowId = layer.options.rowId;
@@ -1828,8 +1860,92 @@ app.map = (function ()
 					firstLoadEvent = false;
 				}
 			});
+		},
+
+		didGetPendingAppeals: function () {
+			// console.log('did get pending appeals', app.state.pendingAppeals);
+			this.addPendingAppeals();
+		},
+
+		addPendingAppeals: function () {
+			this.removePendingAppeals();
+
+			var rows = app.state.pendingAppeals;
+
+			if (!rows) {
+				console.warn('add pending appeals, but no rows');
+				return;
+			}
+
+			console.log('add pending appeals', rows);
+
+			_.forEach(rows, function (row) {
+				var lon = row.geometry.coordinates[0],
+						lat = row.geometry.coordinates[1],
+						id = row.properties.APPEAL_NUM,
+						newMarker = new L.Marker.SVGMarker([lat, lon], {
+							"iconOptions": {
+								className: 'svg-icon-noClick',
+								circleRatio: 0,
+								color: 'rgb(0,102,255)',
+								fillColor: 'rgb(0,102,255)',
+								fillOpacity: 0.5,
+								iconSize: app.map.smallMarker,
+							},
+							title: 'TODO',
+							// custom attr to link with data rows
+							rowId: id,
+						}).on('click', 	function () {
+							// console.log('clicked a marker');
+						}).on('mouseover', function () {
+							// this part is for scrolling to the row
+							// check(row.id);
+							newMarker.setStyle({
+								"iconOptions": {
+									color: 'rgb(243, 198, 19)',//'rgb(255,30,100)',
+									fillColor: 'rgb(243, 198, 19)',//'rgb(255,102,0)',
+									iconSize: app.map.largeMarker,
+									iconAnchor: [app.map.largeMarker.x/2, app.map.largeMarker.y],
+				        }
+							});
+
+							var id = row.properties.APPEAL_NUM,
+									$tr = $('[data-id =' + id + ']');
+							console.warn(id, $tr);
+							$tr.trigger('mouseenter');
+						}).on('mouseout', function(){
+							newMarker.setStyle({
+								"iconOptions": {
+									color: 'rgb(0,102,255)',
+									fillColor: 'rgb(0,102,255)',
+									iconSize: app.map.smallMarker,
+									iconAnchor: [app.map.smallMarker.x/2, app.map.smallMarker.y],
+				        }
+							})
+							// $('[data-id ='+row.id+']').css('background', '');
+							$('[data-id =' + row.properties.APPEAL_NUM + ']').trigger('mouseout');
+						});
+				_nearbyActivityLayerGroup.addLayer(newMarker);
+			});
+
+			// fit map to markers
+			//app.state.map.bounds = _map.getBounds();
+			//app.state.map.activitybounds = _nearbyActivityLayerGroup.getBounds();
+			if (_map.getBounds().contains(_nearbyActivityLayerGroup.getBounds())) {
+				console.log('map bounds contain nearby activity bounds');
+			} else {
+				console.log('map bounds do not contain activity bounds');
+				_map.fitBounds(_nearbyActivityLayerGroup.getBounds());
+				//_map.panInsideBounds(_nearbyActivityLayerGroup.getBounds());
+			}
+			app.map.domLayerList();
 
 		},
+
+		removePendingAppeals: function () {
+			_nearbyActivityLayerGroup.clearLayers();
+		},
+
   }; // end of return
 })();
 
