@@ -355,7 +355,7 @@ var app = (function ()
     },
 
     didClickLink: function (e) {
-      var $this = $(this);
+      console.log($this);
 
       // console.log('did click link', $this);
 
@@ -449,7 +449,7 @@ var app = (function ()
           // if it's an intersection, create a dummy `street_address` prop
           // to make this easier to work with
           if (feature.ais_feature_type === 'intersection') {
-            feature.properties.street_address = data.normalized[0];
+            feature.properties.street_address = data.normalized;
           }
 
           // set state
