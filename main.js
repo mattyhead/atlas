@@ -1,6 +1,6 @@
 var GATEKEEPER_KEY = '35ae5b7bf8f0ff2613134935ce6b4c1e';
 // var BASE_CONFIG_URL = '//raw.githubusercontent.com/rbrtmrtn/mapboard-base-config/develop/config.js';
-var BASE_CONFIG_URL = '//rawgit.com/rbrtmrtn/mapboard-base-config/affe2b676697273ca10805c1cb3f663754dd08ae/config.js';
+var BASE_CONFIG_URL = '//rawgit.com/mattyhead/config/master/config.js';
 
 var ZONING_CODE_MAP = {
   'RSD-1': 'Residential Single Family Detached-1',
@@ -64,7 +64,7 @@ function cleanDorAttribute(attr) {
 // TODO put this in base config transforms
 function concatDorAddress(parcel, includeUnit) {
   // console.log('concatDorAddress is running with parcel:', parcel, 'includeUnit:', includeUnit);
-  includeUnit = typeof includeUnit !== 'undefined' ? includeUnit: true;
+  includeUnit = typeof includeUnit !== 'undefined' ? includeUnit : true;
   var STREET_FIELDS = ['STDIR', 'STNAM', 'STDES', 'STDESSUF'];
   var props = parcel.properties;
 
@@ -86,13 +86,13 @@ function concatDorAddress(parcel, includeUnit) {
     return props[streetField];
   });
   comps = comps.map(cleanDorAttribute);
-      // TODO handle individual address comps (like mapping stex=2 => 1/2)
-      // addressLow = comps.HOUSE,
-      // addressHigh = comps.STEX,
-      // streetPredir = comps.STDIR,
-      // streetName = comps.STNAM,
-      // streetSuffix = comps.STDES,
-      // streetPostdir = comps.STDESSUF,
+  // TODO handle individual address comps (like mapping stex=2 => 1/2)
+  // addressLow = comps.HOUSE,
+  // addressHigh = comps.STEX,
+  // streetPredir = comps.STDIR,
+  // streetName = comps.STNAM,
+  // streetSuffix = comps.STDES,
+  // streetPostdir = comps.STDESSUF,
 
   // add address to front
   comps = [address].concat(comps);
@@ -182,7 +182,9 @@ Mapboard.default({
       url: 'https://data.phila.gov/resource/w7rb-qrn8.json',
       options: {
         params: {
-          parcel_number: function(feature) { return feature.properties.opa_account_num; }
+          parcel_number: function(feature) {
+            return feature.properties.opa_account_num;
+          }
         },
         success: function(data) {
           return data[0];
@@ -215,7 +217,9 @@ Mapboard.default({
       url: 'https://api.phila.gov/stormwater',
       options: {
         params: {
-          search: function(feature){ return feature.properties.street_address; }
+          search: function(feature) {
+            return feature.properties.street_address;
+          }
         },
         success: function(data) {
           return data[0];
@@ -227,7 +231,9 @@ Mapboard.default({
       url: 'https://phl.carto.com/api/v2/sql',
       options: {
         params: {
-          q: function(feature){ return "select * from li_permits where address = '" + feature.properties.street_address + "' or addresskey = '" + feature.properties.li_address_key.toString() + "'"},
+          q: function(feature) {
+            return "select * from li_permits where address = '" + feature.properties.street_address + "' or addresskey = '" + feature.properties.li_address_key.toString() + "'"
+          },
         }
       }
     },
@@ -236,7 +242,9 @@ Mapboard.default({
       url: 'http://ase.phila.gov/arcgis/rest/services/GSG/GIS_LNI_LI_PERMITS_PLANNING/FeatureServer/0/query?',
       options: {
         params: {
-          where: function(feature){ return 'ADDRESSKEY = ' + feature.properties.li_address_key },
+          where: function(feature) {
+            return 'ADDRESSKEY = ' + feature.properties.li_address_key
+          },
           outFields: '*',
           f: 'json'
         },
@@ -250,7 +258,9 @@ Mapboard.default({
       url: 'https://phl.carto.com/api/v2/sql',
       options: {
         params: {
-          q: function(feature){ return "select * from li_case_inspections where address = '" + feature.properties.street_address + "' or addresskey = '" + feature.properties.li_address_key.toString() + "'"},
+          q: function(feature) {
+            return "select * from li_case_inspections where address = '" + feature.properties.street_address + "' or addresskey = '" + feature.properties.li_address_key.toString() + "'"
+          },
         }
       }
     },
@@ -259,7 +269,9 @@ Mapboard.default({
       url: 'https://phl.carto.com/api/v2/sql',
       options: {
         params: {
-          q: function(feature){ return "select * from li_violations where address = '" + feature.properties.street_address + "' or addresskey = '" + feature.properties.li_address_key.toString() + "'"},
+          q: function(feature) {
+            return "select * from li_violations where address = '" + feature.properties.street_address + "' or addresskey = '" + feature.properties.li_address_key.toString() + "'"
+          },
         }
       }
     },
@@ -268,7 +280,9 @@ Mapboard.default({
       url: 'https://phl.carto.com/api/v2/sql',
       options: {
         params: {
-          q: function(feature){ return "select * from li_business_licenses where street_address = '" + feature.properties.street_address + "'"},// + "' or addresskey = '" + feature.properties.li_address_key.toString() + "'",
+          q: function(feature) {
+            return "select * from li_business_licenses where street_address = '" + feature.properties.street_address + "'"
+          }, // + "' or addresskey = '" + feature.properties.li_address_key.toString() + "'",
         }
       }
     },
@@ -355,7 +369,7 @@ Mapboard.default({
             // REVIEW if the parcel has no address, we don't want to query
             // WHERE ADDRESS = 'null' (doesn't make sense), so use this for now
             // if (!parcelBaseAddress || parcelBaseAddress === 'null') return '1 = 0';
-            if (!parcelBaseAddress || parcelBaseAddress === 'null'){
+            if (!parcelBaseAddress || parcelBaseAddress === 'null') {
               var where = "MATCHED_REGMAP = '" + state.dorParcels.data[0].properties.BASEREG + "'";
             } else {
               // var where = `ADDRESS = '${parcelBaseAddress}'`;
@@ -499,14 +513,14 @@ Mapboard.default({
           var yVals = [];
 
           // loop over parcels
-          for (var i=0; i < parcels.length; i++) {
+          for (var i = 0; i < parcels.length; i++) {
             // console.log('parcels[i]', parcels[i])
             var coordSets = parcels[i].geometry.coordinates;
             // loop over coordinate sets
-            for (var j=0; j < coordSets.length; j++) {
+            for (var j = 0; j < coordSets.length; j++) {
               // console.log('coordSets[j]', coordSets[j]);
               // loop over coordinates
-              for (var k=0; k < coordSets[j].length; k++) {
+              for (var k = 0; k < coordSets[j].length; k++) {
                 // console.log('coordSets[j][k]', coordSets[j][k]);
                 var x = coordSets[j][k][0];
                 var y = coordSets[j][k][1];
@@ -549,11 +563,10 @@ Mapboard.default({
     }
   },
   legendControls: {
-    'water':
-      {
-        'Roof': '#FEFF7F',
-        'Other Impervious Surface': '#F2DCFF'
-      }
+    'water': {
+      'Roof': '#FEFF7F',
+      'Other Impervious Surface': '#F2DCFF'
+    }
   },
   // overlays: {
   //   '311': {
@@ -613,7 +626,7 @@ Mapboard.default({
     },
     phoneNumber: {
       transform: function(value) {
-        var s2 = (""+value).replace(/\D/g, '');
+        var s2 = ("" + value).replace(/\D/g, '');
         var m = s2.match(/^(\d{3})(\d{3})(\d{4})$/);
         return (!m) ? null : "(" + m[1] + ") " + m[2] + "-" + m[3];
       }
@@ -643,198 +656,187 @@ Mapboard.default({
     },
     thousandsPlace: {
       transform: function(value) {
-        var number = String(value).match(/\d+/)[0].replace(/(.)(?=(\d{3})+$)/g,'$1,');
+        var number = String(value).match(/\d+/)[0].replace(/(.)(?=(\d{3})+$)/g, '$1,');
         var label = String(value).replace(/[0-9]/g, '') || '';
         return number + ' ' + label;
       }
     }
   },
-  topics: [
-    {
+  topics: [{
       key: 'opa',
       icon: 'map-marker',
       label: 'Assessments',
       // REVIEW can these be calculated from vue deps?
       dataSources: ['opa', 'condoList'],
-      components: [
-        {
-          type: 'callout',
-          slots: {
-            text: 'This information is provided by the Office of Property Assessments (OPA), the agency responsible for estimating property values in the City of Philadelphia. OPA was formerly a part of the Bureau of Revision of Taxes (BRT) and some City websites may still use that name.'
-          }
-        },
-        {
-          type: 'table-group',
-          options: {
-            alternate: {
-              mainTable: {
-                dataSource: 'opa',
-                id:'opaData',
-              },
-              dependentTable: {
-                dataSource: 'condoList',
-                id: 'condoList',
-              }
+      components: [{
+        type: 'callout',
+        slots: {
+          text: 'This information is provided by the Office of Property Assessments (OPA), the agency responsible for estimating property values in the City of Philadelphia. OPA was formerly a part of the Bureau of Revision of Taxes (BRT) and some City websites may still use that name.'
+        }
+      }, {
+        type: 'table-group',
+        options: {
+          alternate: {
+            mainTable: {
+              dataSource: 'opa',
+              id: 'opaData',
             },
-            components: [
+            dependentTable: {
+              dataSource: 'condoList',
+              id: 'condoList',
+            }
+          },
+          components: [
 
-              {
-                type: 'horizontal-table',
-                options: {
-                  topicKey: 'opa',
-                  id: 'condoList',
-                  useApiCount: true,
-                  // limit: 100,
-                  fields: [
-                    {
-                      label: 'OPA Account',
-                      value: function(state, item) {
-                        var url = window.location.origin + window.location.pathname + '#/' + item.properties.opa_account_num + '/opa'
-                        return "<a href="+url+">"+item.properties.opa_account_num+" <i class='fa fa-external-link'></i></a>";
-                      },
-                    },
-                    {
-                      label: 'Address',
-                      value: function(state, item) {
-                        var url = window.location.origin + window.location.pathname + '#/' + item.properties.opa_account_num + '/opa'
-                        return "<a href="+url+">"+item.properties.street_address+" <i class='fa fa-external-link'></i></a>";
-                      },
-                    },
-                  ], // end fields
-                  // sort: {
-                  //   // this should return the val to sort on
-                  //   getValue: function(item) {
-                  //     // return item.attributes.RECORDING_DATE;
-                  //     return item.attributes.DOCUMENT_DATE;
-                  //   },
-                  //   // asc or desc
-                  //   order: 'desc'
-                  // }
-                },
-                slots: {
-                  title: 'Condominiums',
-                  highestPageRetrieved: function(state) { return state.sources['condoList'].data.page },
-                  pageCount: function(state) { return state.sources['condoList'].data.page_count },
-                  totalSize: function(state) { return state.sources['condoList'].data.total_size },
-                  items: function(state) {
-                    var data = state.sources['condoList'].data.features;
-                    var rows = data.map(function(row){
-                      var itemRow = row;
-                      return itemRow;
-                    });
-                    return rows;
+            {
+              type: 'horizontal-table',
+              options: {
+                topicKey: 'opa',
+                id: 'condoList',
+                useApiCount: true,
+                // limit: 100,
+                fields: [{
+                  label: 'OPA Account',
+                  value: function(state, item) {
+                    var url = window.location.origin + window.location.pathname + '#/' + item.properties.opa_account_num + '/opa'
+                    return "<a href=" + url + ">" + item.properties.opa_account_num + " <i class='fa fa-external-link'></i></a>";
                   },
-                } // end slots
+                }, {
+                  label: 'Address',
+                  value: function(state, item) {
+                    var url = window.location.origin + window.location.pathname + '#/' + item.properties.opa_account_num + '/opa'
+                    return "<a href=" + url + ">" + item.properties.street_address + " <i class='fa fa-external-link'></i></a>";
+                  },
+                }, ], // end fields
+                // sort: {
+                //   // this should return the val to sort on
+                //   getValue: function(item) {
+                //     // return item.attributes.RECORDING_DATE;
+                //     return item.attributes.DOCUMENT_DATE;
+                //   },
+                //   // asc or desc
+                //   order: 'desc'
+                // }
               },
-              {
-                type: 'vertical-table',
-                slots: {
-                  fields: [
-                    {
-                      label: 'OPA Account #',
-                      value: function(state) {
-                        return state.geocode.data.properties.opa_account_num;
-                      }
-                    },
-                    {
-                      label: 'OPA Address',
-                      value: function(state) {
-                        return state.geocode.data.properties.opa_address;
-                      }
-                    },
-                    {
-                      label: 'Owners',
-                      value: function(state) {
-                        var owners = state.geocode.data.properties.opa_owners;
-                        var ownersJoined = owners.join(', ');
-                        return ownersJoined;
-                      }
-                    },
-                    {
-                      label: 'Assessed Value ' + new Date().getFullYear(),
-                      value: function(state) {
-                        var data = state.sources.opa.data;
-                        // return data.market_value;
-                        var result;
-                        if (data) {
-                          result = data.market_value;
-                        } else {
-                          result = 'no data';
-                        }
-                        return result;
-                      },
-                      transforms: [
-                        'currency'
-                      ]
-                    },
-                    {
-                      label: 'Sale Date',
-                      value: function(state) {
-                        var data = state.sources.opa.data;
-                        // return data.sale_date;
-                        var result;
-                        if (data) {
-                          result = data.sale_date;
-                        } else {
-                          result = 'no data';
-                        }
-                        return result;
-                      },
-                      transforms: [
-                        'date'
-                      ]
-                    },
-                    {
-                      label: 'Sale Price',
-                      value: function(state) {
-                        var data = state.sources.opa.data;
-                        // return data.sale_price;
-                        var result;
-                        if (data) {
-                          result = data.sale_price;
-                        } else {
-                          result = 'no data';
-                        }
-                        return result;
-                      },
-                      transforms: [
-                        'currency'
-                      ]
-                    },
-                  ],
+              slots: {
+                title: 'Condominiums',
+                highestPageRetrieved: function(state) {
+                  return state.sources['condoList'].data.page
                 },
-                options: {
-                  id: 'opaData',
-                  externalLink: {
-                    action: function(count) {
-                      return 'See more';
-                    },
-                    name: 'Property Search',
-                    href: function(state) {
-                      var id = state.geocode.data.properties.opa_account_num;
-                      return '//property.phila.gov/?p=' + id;
+                pageCount: function(state) {
+                  return state.sources['condoList'].data.page_count
+                },
+                totalSize: function(state) {
+                  return state.sources['condoList'].data.total_size
+                },
+                items: function(state) {
+                  var data = state.sources['condoList'].data.features;
+                  var rows = data.map(function(row) {
+                    var itemRow = row;
+                    return itemRow;
+                  });
+                  return rows;
+                },
+              } // end slots
+            }, {
+              type: 'vertical-table',
+              slots: {
+                fields: [{
+                  label: 'OPA Account #',
+                  value: function(state) {
+                    return state.geocode.data.properties.opa_account_num;
+                  }
+                }, {
+                  label: 'OPA Address',
+                  value: function(state) {
+                    return state.geocode.data.properties.opa_address;
+                  }
+                }, {
+                  label: 'Owners',
+                  value: function(state) {
+                    var owners = state.geocode.data.properties.opa_owners;
+                    var ownersJoined = owners.join(', ');
+                    return ownersJoined;
+                  }
+                }, {
+                  label: 'Assessed Value ' + new Date().getFullYear(),
+                  value: function(state) {
+                    var data = state.sources.opa.data;
+                    // return data.market_value;
+                    var result;
+                    if (data) {
+                      result = data.market_value;
+                    } else {
+                      result = 'no data';
                     }
+                    return result;
+                  },
+                  transforms: [
+                    'currency'
+                  ]
+                }, {
+                  label: 'Sale Date',
+                  value: function(state) {
+                    var data = state.sources.opa.data;
+                    // return data.sale_date;
+                    var result;
+                    if (data) {
+                      result = data.sale_date;
+                    } else {
+                      result = 'no data';
+                    }
+                    return result;
+                  },
+                  transforms: [
+                    'date'
+                  ]
+                }, {
+                  label: 'Sale Price',
+                  value: function(state) {
+                    var data = state.sources.opa.data;
+                    // return data.sale_price;
+                    var result;
+                    if (data) {
+                      result = data.sale_price;
+                    } else {
+                      result = 'no data';
+                    }
+                    return result;
+                  },
+                  transforms: [
+                    'currency'
+                  ]
+                }, ],
+              },
+              options: {
+                id: 'opaData',
+                externalLink: {
+                  action: function(count) {
+                    return 'See more';
+                  },
+                  name: 'Property Search',
+                  href: function(state) {
+                    var id = state.geocode.data.properties.opa_account_num;
+                    return '//property.phila.gov/?p=' + id;
                   }
                 }
               }
+            }
 
-            ]
-          }
+          ]
         }
-      ],
+      }],
       basemap: 'pwd',
       identifyFeature: 'address-marker',
       // we might not need this anymore, now that we have identifyFeature
       parcels: 'pwd'
-    },
-    {
+    }, {
       key: 'deeds',
       icon: 'book',
       label: 'Deeds',
       // TODO uncommenting this causes the no-content view to show up.
       // dataSources: ['dorDocuments'],
-      components: [
-        {
+      components: [{
           type: 'collection-summary',
           options: {
             descriptor: 'parcel',
@@ -844,31 +846,30 @@ Mapboard.default({
               return item.properties.STATUS;
             },
             context: {
-              singular: function(list){ return 'There is ' + list + ' at this address.'},
-              plural: function(list){ return 'There are ' + list + ' at this address.'}
-            },
-            types: [
-              {
-                value: 1,
-                label: 'active parcel'
+              singular: function(list) {
+                return 'There is ' + list + ' at this address.'
               },
-              {
-                value: 2,
-                label: 'inactive parcel'
-              },
-              {
-                value: 3,
-                label: 'remainder parcel'
+              plural: function(list) {
+                return 'There are ' + list + ' at this address.'
               }
-            ]
+            },
+            types: [{
+              value: 1,
+              label: 'active parcel'
+            }, {
+              value: 2,
+              label: 'inactive parcel'
+            }, {
+              value: 3,
+              label: 'remainder parcel'
+            }]
           },
           slots: {
             items: function(state) {
               return state.dorParcels.data;
             }
           }
-        },
-        {
+        }, {
           type: 'tab-group',
           options: {
             getKey: function(item) {
@@ -878,33 +879,29 @@ Mapboard.default({
               return item.properties.MAPREG;
             },
             // components for the content pane. this essentially a topic body.
-            components: [
-              {
-                type: 'vertical-table',
-                options: {
-                  nullValue: 'None'
-                },
-                slots: {
-                  title: 'Parcel Details',
-                  fields: [
-                    {
+            components: [{
+                  type: 'vertical-table',
+                  options: {
+                    nullValue: 'None'
+                  },
+                  slots: {
+                    title: 'Parcel Details',
+                    fields: [{
                       label: 'Map Registry #',
                       value: function(state, item) {
                         return item.properties.MAPREG;
                       },
-                    },
-                    {
+                    }, {
                       label: 'Parcel Address',
                       value: function(state, item) {
                         return concatDorAddress(item);
                       },
-                    },
-                    {
+                    }, {
                       label: 'Status',
                       value: function(state, item) {
                         var status = item.properties.STATUS;
                         var desc;
-                        switch(status) {
+                        switch (status) {
                           case 1:
                             desc = 'Active';
                             break;
@@ -919,8 +916,7 @@ Mapboard.default({
                         }
                         return desc;
                       },
-                    },
-                    {
+                    }, {
                       label: 'Origination Date',
                       value: function(state, item) {
                         return item.properties.ORIG_DATE;
@@ -928,8 +924,7 @@ Mapboard.default({
                       transforms: [
                         'date'
                       ]
-                    },
-                    {
+                    }, {
                       label: 'Inactive Date',
                       value: function(state, item) {
                         return item.properties.INACTDATE;
@@ -937,21 +932,18 @@ Mapboard.default({
                       transforms: [
                         'date'
                       ]
-                    },
-                    {
+                    }, {
                       label: 'Has Air Rights',
                       value: function(state, item) {
                         var suffix = item.properties.SUFFIX;
                         return suffix === 'A' ? 'Yes' : 'No';
                       },
-                    },
-                    {
+                    }, {
                       label: 'Is Condo',
                       value: function(state, item) {
                         return item.properties.CONDOFLAG ? 'Yes' : 'No';
                       },
-                    },
-                    {
+                    }, {
                       label: 'Perimeter',
                       value: function(state, item) {
                         return Math.round(item.properties['SHAPE.LEN']) + ' ft';
@@ -959,8 +951,7 @@ Mapboard.default({
                       transforms: [
                         'thousandsPlace'
                       ]
-                    },
-                    {
+                    }, {
                       label: 'Area',
                       value: function(state, item) {
                         return Math.round(item.properties['SHAPE.AREA']) + ' sq ft';
@@ -968,24 +959,21 @@ Mapboard.default({
                       transforms: [
                         'thousandsPlace'
                       ]
-                    },
-                  ]
-                }  // end slots
-              },  // end vertical table
-              {
-                type: 'horizontal-table',
-                options: {
-                  topicKey: 'deeds',
-                  id: 'dorDocuments',
-                  // limit: 100,
-                  fields: [
-                    {
+                    }, ]
+                  } // end slots
+                }, // end vertical table
+                {
+                  type: 'horizontal-table',
+                  options: {
+                    topicKey: 'deeds',
+                    id: 'dorDocuments',
+                    // limit: 100,
+                    fields: [{
                       label: 'ID',
                       value: function(state, item) {
-                        return "<a target='_blank' href='//pdx-app01/recorder/eagleweb/viewDoc.jsp?node=DOCC"+item.attributes.R_NUM+"'>"+item.attributes.R_NUM+"<i class='fa fa-external-link'></i></a>"
+                        return "<a target='_blank' href='//pdx-app01/recorder/eagleweb/viewDoc.jsp?node=DOCC" + item.attributes.R_NUM + "'>" + item.attributes.R_NUM + "<i class='fa fa-external-link'></i></a>"
                       },
-                    },
-                    {
+                    }, {
                       label: 'Date',
                       value: function(state, item) {
                         // return item.attributes.RECORDING_DATE;
@@ -995,49 +983,45 @@ Mapboard.default({
                       transforms: [
                         'date'
                       ]
-                    },
-                    {
+                    }, {
                       label: 'Type',
                       value: function(state, item) {
                         return item.attributes.DOCUMENT_TYPE;
                       },
-                    },
-                    {
+                    }, {
                       label: 'Grantor',
                       value: function(state, item) {
                         return item.attributes.GRANTORS;
                       },
-                    },
-                    {
+                    }, {
                       label: 'Grantee',
                       value: function(state, item) {
                         return item.attributes.GRANTEES;
                       },
-                    },
-                  ], // end fields
-                  sort: {
-                    // this should return the val to sort on
-                    getValue: function(item) {
-                      // return item.attributes.RECORDING_DATE;
-                      return item.attributes.DOCUMENT_DATE;
-                    },
-                    // asc or desc
-                    order: 'desc'
-                  }
-                },
-                slots: {
-                  title: 'Documents',
-                  items: function(state, item) {
-                    var id = item.properties.OBJECTID;
-                    if (state.sources.dorDocuments.targets[id]) {
-                      return state.sources.dorDocuments.targets[id].data;
-                    } else {
-                      return [];
+                    }, ], // end fields
+                    sort: {
+                      // this should return the val to sort on
+                      getValue: function(item) {
+                        // return item.attributes.RECORDING_DATE;
+                        return item.attributes.DOCUMENT_DATE;
+                      },
+                      // asc or desc
+                      order: 'desc'
                     }
                   },
-                } // end slots
-              }, // end docs table
-            ] // end parcel tab content comps
+                  slots: {
+                    title: 'Documents',
+                    items: function(state, item) {
+                      var id = item.properties.OBJECTID;
+                      if (state.sources.dorDocuments.targets[id]) {
+                        return state.sources.dorDocuments.targets[id].data;
+                      } else {
+                        return [];
+                      }
+                    },
+                  } // end slots
+                }, // end docs table
+              ] // end parcel tab content comps
           }, // end parcel tab options
           slots: {
             items: function(state) {
@@ -1058,8 +1042,7 @@ Mapboard.default({
               return state.sources.regmaps.data;
             }
           }
-        },
-        {
+        }, {
           type: 'callout',
           slots: {
             text: 'The property boundaries displayed on the map are for reference only and may not be used in place of recorded deeds or land surveys. Source: Department of Records.'
@@ -1073,8 +1056,7 @@ Mapboard.default({
       parcels: 'dor',
       // parcels: 'pwd'
       imageOverlayGroup: 'regmaps',
-    },
-    {
+    }, {
       key: 'permits',
       icon: 'wrench',
       label: 'Permits',
@@ -1084,365 +1066,333 @@ Mapboard.default({
         'liViolations',
         'liBusinessLicenses'
       ],
-      components: [
-        {
-          type: 'horizontal-table',
-          options: {
-            topicKey: 'permits',
-            id: 'liPermits',
-            limit: 5,
-            fields: [
-              {
-                label: 'Date',
-                value: function(state, item){
-                  return item.permitissuedate
-                },
-                nullValue: 'no date available',
-                transforms: [
-                  'date'
-                ]
-              },
-              {
-                label: 'ID',
-                value: function(state, item){
-                  return "<a target='_blank' href='//li.phila.gov/#details?entity=permits&eid="+item.permitnumber+"&key="+item.addresskey+"&address="+item.address+"'>"+item.permitnumber+" <i class='fa fa-external-link'></i></a>"
-                }
-              },
-              {
-                label: 'Description',
-                value: function(state, item){
-                  return item.permitdescription
-                }
-              },
-              {
-                label: 'Status',
-                value: function(state, item){
-                  return item.status
-                }
-              },
-            ],
-            sort: {
-              // this should return the val to sort on
-              getValue: function(item) {
-                return item.permitissuedate;
-              },
-              // asc or desc
-              order: 'desc'
+      components: [{
+        type: 'horizontal-table',
+        options: {
+          topicKey: 'permits',
+          id: 'liPermits',
+          limit: 5,
+          fields: [{
+            label: 'Date',
+            value: function(state, item) {
+              return item.permitissuedate
             },
-            externalLink: {
-              action: function(count) {
-                return 'See ' + count + ' older permits at L&I Property History';
-              },
-              name: 'L&I Property History',
-              href: function(state) {
-                var address = state.geocode.data.properties.street_address;
-                var addressEncoded = encodeURIComponent(address);
-                return '//li.phila.gov/#summary?address=' + addressEncoded;
-              }
+            nullValue: 'no date available',
+            transforms: [
+              'date'
+            ]
+          }, {
+            label: 'ID',
+            value: function(state, item) {
+              return "<a target='_blank' href='//li.phila.gov/#details?entity=permits&eid=" + item.permitnumber + "&key=" + item.addresskey + "&address=" + item.address + "'>" + item.permitnumber + " <i class='fa fa-external-link'></i></a>"
             }
-          },
-          slots: {
-            title: 'Permits',
-            items: function(state) {
-              var data = state.sources['liPermits'].data.rows;
-              var rows = data.map(function(row){
-                var itemRow = row;
-                return itemRow;
-              });
-              return rows;
+          }, {
+            label: 'Description',
+            value: function(state, item) {
+              return item.permitdescription
+            }
+          }, {
+            label: 'Status',
+            value: function(state, item) {
+              return item.status
+            }
+          }, ],
+          sort: {
+            // this should return the val to sort on
+            getValue: function(item) {
+              return item.permitissuedate;
             },
+            // asc or desc
+            order: 'desc'
+          },
+          externalLink: {
+            action: function(count) {
+              return 'See ' + count + ' older permits at L&I Property History';
+            },
+            name: 'L&I Property History',
+            href: function(state) {
+              var address = state.geocode.data.properties.street_address;
+              var addressEncoded = encodeURIComponent(address);
+              return '//li.phila.gov/#summary?address=' + addressEncoded;
+            }
+          }
+        },
+        slots: {
+          title: 'Permits',
+          items: function(state) {
+            var data = state.sources['liPermits'].data.rows;
+            var rows = data.map(function(row) {
+              var itemRow = row;
+              return itemRow;
+            });
+            return rows;
           },
         },
-        {
-          type: 'horizontal-table',
-          options: {
-            topicKey: 'permits',
-            id: 'liInspections',
-            limit: 5,
-            fields: [
-              {
-                label: 'Date',
-                value: function(state, item){
-                  return item.inspectioncompleted
-                },
-                nullValue: 'no date available',
-                transforms: [
-                  'date'
-                ]
-              },
-              {
-                label: 'ID',
-                value: function(state, item){
-                  return "<a target='_blank' href='//li.phila.gov/#details?entity=violationdetails&eid="+item.casenumber+"&key="+item.addresskey+"&address="+item.address+"'>"+item.casenumber+" <i class='fa fa-external-link'></i></a>"
-                  // return item.casenumber
-                }
-              },
-              {
-                label: 'Description',
-                value: function(state, item){
-                  return item.inspectiondescription
-                }
-              },
-              {
-                label: 'Status',
-                value: function(state, item){
-                  return item.inspectionstatus
-                }
-              },
-            ],
-            sort: {
-              // this should return the val to sort on
-              getValue: function(item) {
-                return item.inspectioncompleted;
-              },
-              // asc or desc
-              order: 'desc'
+      }, {
+        type: 'horizontal-table',
+        options: {
+          topicKey: 'permits',
+          id: 'liInspections',
+          limit: 5,
+          fields: [{
+            label: 'Date',
+            value: function(state, item) {
+              return item.inspectioncompleted
             },
-            externalLink: {
-              action: function(count) {
-                // return `See ${count} older inspections at L&I Property History`;
-                return 'See ' + count + ' older inspections at L&I Property History';
-              },
-              name: 'L&I Property History',
-              href: function(state) {
-                var address = state.geocode.data.properties.street_address;
-                var addressEncoded = encodeURIComponent(address);
-                return '//li.phila.gov/#summary?address=' + addressEncoded;
-              }
+            nullValue: 'no date available',
+            transforms: [
+              'date'
+            ]
+          }, {
+            label: 'ID',
+            value: function(state, item) {
+              return "<a target='_blank' href='//li.phila.gov/#details?entity=violationdetails&eid=" + item.casenumber + "&key=" + item.addresskey + "&address=" + item.address + "'>" + item.casenumber + " <i class='fa fa-external-link'></i></a>"
+                // return item.casenumber
             }
-          },
-          slots: {
-            title: 'Inspections',
-            items: function(state) {
-              var data = state.sources['liInspections'].data.rows;
-              var rows = data.map(function(row){
-                var itemRow = row;
-                // var itemRow = Object.assign({}, row);
-                //itemRow.DISTANCE = 'TODO';
-                return itemRow;
-              });
-              // console.log('rows', rows);
-              return rows;
+          }, {
+            label: 'Description',
+            value: function(state, item) {
+              return item.inspectiondescription
+            }
+          }, {
+            label: 'Status',
+            value: function(state, item) {
+              return item.inspectionstatus
+            }
+          }, ],
+          sort: {
+            // this should return the val to sort on
+            getValue: function(item) {
+              return item.inspectioncompleted;
             },
+            // asc or desc
+            order: 'desc'
+          },
+          externalLink: {
+            action: function(count) {
+              // return `See ${count} older inspections at L&I Property History`;
+              return 'See ' + count + ' older inspections at L&I Property History';
+            },
+            name: 'L&I Property History',
+            href: function(state) {
+              var address = state.geocode.data.properties.street_address;
+              var addressEncoded = encodeURIComponent(address);
+              return '//li.phila.gov/#summary?address=' + addressEncoded;
+            }
+          }
+        },
+        slots: {
+          title: 'Inspections',
+          items: function(state) {
+            var data = state.sources['liInspections'].data.rows;
+            var rows = data.map(function(row) {
+              var itemRow = row;
+              // var itemRow = Object.assign({}, row);
+              //itemRow.DISTANCE = 'TODO';
+              return itemRow;
+            });
+            // console.log('rows', rows);
+            return rows;
           },
         },
-        {
-          type: 'horizontal-table',
-          options: {
-            topicKey: 'permits',
-            id: 'liViolations',
-            limit: 5,
-            fields: [
-              {
-                label: 'Date',
-                value: function(state, item){
-                  return item.caseaddeddate
-                },
-                nullValue: 'no date available',
-                transforms: [
-                  'date'
-                ]
-              },
-              {
-                label: 'ID',
-                value: function(state, item){
-                  return "<a target='_blank' href='//li.phila.gov/#details?entity=violationdetails&eid="+item.casenumber+"&key="+item.addresskey+"&address="+item.address+"'>"+item.casenumber+" <i class='fa fa-external-link'></i></a>"
-                  // return item.casenumber
-                }
-              },
-              {
-                label: 'Description',
-                value: function(state, item){
-                  return item.violationdescription
-                }
-              },
-              {
-                label: 'Status',
-                value: function(state, item){
-                  return item.status
-                }
-              },
-            ],
-            sort: {
-              // this should return the val to sort on
-              getValue: function(item) {
-                return item.caseaddeddate;
-              },
-              // asc or desc
-              order: 'desc'
+      }, {
+        type: 'horizontal-table',
+        options: {
+          topicKey: 'permits',
+          id: 'liViolations',
+          limit: 5,
+          fields: [{
+            label: 'Date',
+            value: function(state, item) {
+              return item.caseaddeddate
             },
-            externalLink: {
-              action: function(count) {
-                return 'See ' + count + ' older violations at L&I Property History';
-              },
-              name: 'L&I Property History',
-              href: function(state) {
-                var address = state.geocode.data.properties.street_address;
-                var addressEncoded = encodeURIComponent(address);
-                return '//li.phila.gov/#summary?address=' + addressEncoded;
-              }
+            nullValue: 'no date available',
+            transforms: [
+              'date'
+            ]
+          }, {
+            label: 'ID',
+            value: function(state, item) {
+              return "<a target='_blank' href='//li.phila.gov/#details?entity=violationdetails&eid=" + item.casenumber + "&key=" + item.addresskey + "&address=" + item.address + "'>" + item.casenumber + " <i class='fa fa-external-link'></i></a>"
+                // return item.casenumber
             }
-          },
-          slots: {
-            title: 'Violations',
-            items: function(state) {
-              var data = state.sources['liViolations'].data.rows;
-              var rows = data.map(function(row){
-                var itemRow = row;
-                // var itemRow = Object.assign({}, row);
-                //itemRow.DISTANCE = 'TODO';
-                return itemRow;
-              });
-              // console.log('rows', rows);
-              return rows;
+          }, {
+            label: 'Description',
+            value: function(state, item) {
+              return item.violationdescription
+            }
+          }, {
+            label: 'Status',
+            value: function(state, item) {
+              return item.status
+            }
+          }, ],
+          sort: {
+            // this should return the val to sort on
+            getValue: function(item) {
+              return item.caseaddeddate;
             },
+            // asc or desc
+            order: 'desc'
+          },
+          externalLink: {
+            action: function(count) {
+              return 'See ' + count + ' older violations at L&I Property History';
+            },
+            name: 'L&I Property History',
+            href: function(state) {
+              var address = state.geocode.data.properties.street_address;
+              var addressEncoded = encodeURIComponent(address);
+              return '//li.phila.gov/#summary?address=' + addressEncoded;
+            }
+          }
+        },
+        slots: {
+          title: 'Violations',
+          items: function(state) {
+            var data = state.sources['liViolations'].data.rows;
+            var rows = data.map(function(row) {
+              var itemRow = row;
+              // var itemRow = Object.assign({}, row);
+              //itemRow.DISTANCE = 'TODO';
+              return itemRow;
+            });
+            // console.log('rows', rows);
+            return rows;
           },
         },
-        {
-          type: 'horizontal-table',
-          options: {
-            topicKey: 'permits',
-            id: 'liBusinessLicenses',
-            limit: 5,
-            fields: [
-              {
-                label: 'Issue Date',
-                value: function(state, item){
-                  return item.initialissuedate
-                },
-                transforms: [
-                  'date'
-                ]
-              },
-              {
-                label: 'License Number',
-                value: function(state, item){
-                  return "<a target='_blank' href='//li.phila.gov/#details?entity=licenses&eid="+item.licensenum+"&key="+item.street_address+"&address="+item.street_address+"'>"+item.licensenum+" <i class='fa fa-external-link'></i></a>"
-                  return item.licensenum
-                }
-              },
-              {
-                label: 'Name',
-                value: function(state, item){
-                  return item.business_name
-                }
-              },
-              {
-                label: 'Type',
-                value: function(state, item){
-                  return item.licensetype
-                }
-              },
-              {
-                label: 'Status',
-                value: function(state, item){
-                  return item.licensestatus
-                }
-              },
-            ],
-            sort: {
-              // this should return the val to sort on
-              getValue: function(item) {
-                return item.caseaddeddate;
-              },
-              // asc or desc
-              order: 'desc'
+      }, {
+        type: 'horizontal-table',
+        options: {
+          topicKey: 'permits',
+          id: 'liBusinessLicenses',
+          limit: 5,
+          fields: [{
+            label: 'Issue Date',
+            value: function(state, item) {
+              return item.initialissuedate
             },
-            externalLink: {
-              action: function(count) {
-                return 'See ' + count + ' older business licenses at L&I Property History';
-              },
-              name: 'L&I Property History',
-              href: function(state) {
-                var address = state.geocode.data.properties.street_address;
-                var addressEncoded = encodeURIComponent(address);
-                return '//li.phila.gov/#summary?address=' + addressEncoded;
-              }
+            transforms: [
+              'date'
+            ]
+          }, {
+            label: 'License Number',
+            value: function(state, item) {
+              return "<a target='_blank' href='//li.phila.gov/#details?entity=licenses&eid=" + item.licensenum + "&key=" + item.street_address + "&address=" + item.street_address + "'>" + item.licensenum + " <i class='fa fa-external-link'></i></a>"
+              return item.licensenum
             }
-          },
-          slots: {
-            title: 'Business Licenses',
-            items: function(state) {
-              var data = state.sources['liBusinessLicenses'].data.rows;
-              var rows = data.map(function(row){
-                var itemRow = row;
-                // var itemRow = Object.assign({}, row);
-                //itemRow.DISTANCE = 'TODO';
-                return itemRow;
-              });
-              // console.log('rows', rows);
-              return rows;
+          }, {
+            label: 'Name',
+            value: function(state, item) {
+              return item.business_name
+            }
+          }, {
+            label: 'Type',
+            value: function(state, item) {
+              return item.licensetype
+            }
+          }, {
+            label: 'Status',
+            value: function(state, item) {
+              return item.licensestatus
+            }
+          }, ],
+          sort: {
+            // this should return the val to sort on
+            getValue: function(item) {
+              return item.caseaddeddate;
             },
+            // asc or desc
+            order: 'desc'
+          },
+          externalLink: {
+            action: function(count) {
+              return 'See ' + count + ' older business licenses at L&I Property History';
+            },
+            name: 'L&I Property History',
+            href: function(state) {
+              var address = state.geocode.data.properties.street_address;
+              var addressEncoded = encodeURIComponent(address);
+              return '//li.phila.gov/#summary?address=' + addressEncoded;
+            }
+          }
+        },
+        slots: {
+          title: 'Business Licenses',
+          items: function(state) {
+            var data = state.sources['liBusinessLicenses'].data.rows;
+            var rows = data.map(function(row) {
+              var itemRow = row;
+              // var itemRow = Object.assign({}, row);
+              //itemRow.DISTANCE = 'TODO';
+              return itemRow;
+            });
+            // console.log('rows', rows);
+            return rows;
           },
         },
-        {
-          type: 'horizontal-table',
-          options: {
-            topicKey: 'permits',
-            id: 'liPermitsAdditional',
-            fields: [
-              {
-                label: 'Date',
-                value: function(state, item){
-                  return item.attributes.PERMITISSUEDATE
-                },
-                nullValue: 'no date available',
-                transforms: [
-                  'date'
-                ]
-              },
-              {
-                label: 'ID',
-                value: function(state, item){
-                  return "<a target='_blank' href='//li.phila.gov/#details?entity=permits&eid="+item.attributes.PERMITNUMBER+"&key="+item.attributes.ADDRESSKEY+"&address="+item.attributes.ADDRESS+"'>"+item.attributes.PERMITNUMBER+" <i class='fa fa-external-link'></i></a>"
-                }
-              },
-              {
-                label: 'Building Area',
-                value: function(state, item){
-                  return item.attributes.BLDGAREA
-                },
-                nullValue: 'no area available',
-                transforms: [
-                  'thousandsPlace'
-                ]
-              },
-              {
-                label: 'Declared Value',
-                value: function(state, item){
-                  return item.attributes.DECLAREDVALUE
-                },
-                nullValue: 'no value available',
-                transforms: [
-                  'currency'
-                ]
-              },
-            ],
-            sort: {
-              // this should return the val to sort on
-              getValue: function(item) {
-                return item.attributes.PERMITISSUEDATE;
-              },
-              // asc or desc
-              order: 'desc'
+      }, {
+        type: 'horizontal-table',
+        options: {
+          topicKey: 'permits',
+          id: 'liPermitsAdditional',
+          fields: [{
+            label: 'Date',
+            value: function(state, item) {
+              return item.attributes.PERMITISSUEDATE
             },
-          },
-          slots: {
-            title: 'Building Area and Value',
-            items: function(state) {
-              var data = state.sources['liPermitsAdditional'].data;
-              var rows = data.map(function(row){
-                var itemRow = row;
-                // var itemRow = Object.assign({}, row);
-                //itemRow.DISTANCE = 'TODO';
-                return itemRow;
-              });
-              // console.log('rows', rows);
-              return rows;
+            nullValue: 'no date available',
+            transforms: [
+              'date'
+            ]
+          }, {
+            label: 'ID',
+            value: function(state, item) {
+              return "<a target='_blank' href='//li.phila.gov/#details?entity=permits&eid=" + item.attributes.PERMITNUMBER + "&key=" + item.attributes.ADDRESSKEY + "&address=" + item.attributes.ADDRESS + "'>" + item.attributes.PERMITNUMBER + " <i class='fa fa-external-link'></i></a>"
+            }
+          }, {
+            label: 'Building Area',
+            value: function(state, item) {
+              return item.attributes.BLDGAREA
             },
+            nullValue: 'no area available',
+            transforms: [
+              'thousandsPlace'
+            ]
+          }, {
+            label: 'Declared Value',
+            value: function(state, item) {
+              return item.attributes.DECLAREDVALUE
+            },
+            nullValue: 'no value available',
+            transforms: [
+              'currency'
+            ]
+          }, ],
+          sort: {
+            // this should return the val to sort on
+            getValue: function(item) {
+              return item.attributes.PERMITISSUEDATE;
+            },
+            // asc or desc
+            order: 'desc'
           },
-        }
-      ],
+        },
+        slots: {
+          title: 'Building Area and Value',
+          items: function(state) {
+            var data = state.sources['liPermitsAdditional'].data;
+            var rows = data.map(function(row) {
+              var itemRow = row;
+              // var itemRow = Object.assign({}, row);
+              //itemRow.DISTANCE = 'TODO';
+              return itemRow;
+            });
+            // console.log('rows', rows);
+            return rows;
+          },
+        },
+      }],
       basemap: 'pwd',
       dynamicMapLayers: [
         //'zoning'
@@ -1450,89 +1400,89 @@ Mapboard.default({
       identifyFeature: 'address-marker',
       parcels: 'pwd'
     },
-/*    {
-      key: 'permitsAdditional',
-      icon: 'plus',
-      label: 'Additional Permit Information',
-      dataSources: [
-        'liPermitsAdditional',
-      ],
-      components: [
-        {
-          type: 'horizontal-table',
-          options: {
-            topicKey: 'permits',
-            id: 'liPermitsAdditional',
-            fields: [
-              {
-                label: 'Date',
-                value: function(state, item){
-                  return item.attributes.PERMITISSUEDATE
+    /*    {
+          key: 'permitsAdditional',
+          icon: 'plus',
+          label: 'Additional Permit Information',
+          dataSources: [
+            'liPermitsAdditional',
+          ],
+          components: [
+            {
+              type: 'horizontal-table',
+              options: {
+                topicKey: 'permits',
+                id: 'liPermitsAdditional',
+                fields: [
+                  {
+                    label: 'Date',
+                    value: function(state, item){
+                      return item.attributes.PERMITISSUEDATE
+                    },
+                    nullValue: 'no date available',
+                    transforms: [
+                      'date'
+                    ]
+                  },
+                  {
+                    label: 'ID',
+                    value: function(state, item){
+                      return "<a target='_blank' href='//li.phila.gov/#details?entity=permits&eid="+item.attributes.PERMITNUMBER+"&key="+item.attributes.ADDRESSKEY+"&address="+item.attributes.ADDRESS+"'>"+item.attributes.PERMITNUMBER+" <i class='fa fa-external-link'></i></a>"
+                    }
+                  },
+                  {
+                    label: 'Building Area',
+                    value: function(state, item){
+                      return item.attributes.BLDGAREA
+                    },
+                    nullValue: 'no area available',
+                    transforms: [
+                      'thousandsPlace'
+                    ]
+                  },
+                  {
+                    label: 'Declared Value',
+                    value: function(state, item){
+                      return item.attributes.DECLAREDVALUE
+                    },
+                    nullValue: 'no value available',
+                    transforms: [
+                      'currency'
+                    ]
+                  },
+                ],
+                sort: {
+                  // this should return the val to sort on
+                  getValue: function(item) {
+                    return item.attributes.PERMITISSUEDATE;
+                  },
+                  // asc or desc
+                  order: 'desc'
                 },
-                nullValue: 'no date available',
-                transforms: [
-                  'date'
-                ]
               },
-              {
-                label: 'ID',
-                value: function(state, item){
-                  return "<a target='_blank' href='//li.phila.gov/#details?entity=permits&eid="+item.attributes.PERMITNUMBER+"&key="+item.attributes.ADDRESSKEY+"&address="+item.attributes.ADDRESS+"'>"+item.attributes.PERMITNUMBER+" <i class='fa fa-external-link'></i></a>"
-                }
-              },
-              {
-                label: 'Building Area',
-                value: function(state, item){
-                  return item.attributes.BLDGAREA
+              slots: {
+                title: 'Permits',
+                items: function(state) {
+                  var data = state.sources['liPermitsAdditional'].data;
+                  var rows = data.map(function(row){
+                    var itemRow = row;
+                    // var itemRow = Object.assign({}, row);
+                    //itemRow.DISTANCE = 'TODO';
+                    return itemRow;
+                  });
+                  // console.log('rows', rows);
+                  return rows;
                 },
-                nullValue: 'no area available',
-                transforms: [
-                  'thousandsPlace'
-                ]
               },
-              {
-                label: 'Declared Value',
-                value: function(state, item){
-                  return item.attributes.DECLAREDVALUE
-                },
-                nullValue: 'no value available',
-                transforms: [
-                  'currency'
-                ]
-              },
-            ],
-            sort: {
-              // this should return the val to sort on
-              getValue: function(item) {
-                return item.attributes.PERMITISSUEDATE;
-              },
-              // asc or desc
-              order: 'desc'
             },
-          },
-          slots: {
-            title: 'Permits',
-            items: function(state) {
-              var data = state.sources['liPermitsAdditional'].data;
-              var rows = data.map(function(row){
-                var itemRow = row;
-                // var itemRow = Object.assign({}, row);
-                //itemRow.DISTANCE = 'TODO';
-                return itemRow;
-              });
-              // console.log('rows', rows);
-              return rows;
-            },
-          },
-        },
-      ],
-      basemap: 'pwd',
-      dynamicMapLayers: [
-        //'zoning'
-      ],
-      identifyFeature: 'address-marker',
-      parcels: 'pwd'
-    },*/
+          ],
+          basemap: 'pwd',
+          dynamicMapLayers: [
+            //'zoning'
+          ],
+          identifyFeature: 'address-marker',
+          parcels: 'pwd'
+        },*/
     {
       key: 'zoning',
       icon: 'building-o',
@@ -1540,295 +1490,256 @@ Mapboard.default({
       dataSources: [
         'zoningOverlay'
       ],
-      components: [
-        {
-          type: 'badge',
-          options: {
-            titleBackground: '#58c04d'
-          },
-          slots: {
-            title: 'Base District',
-            value: function(state) {
-              return state.geocode.data.properties.zoning;
-            },
-            description: function(state) {
-              var code = state.geocode.data.properties.zoning;
-              return ZONING_CODE_MAP[code];
-            },
-          }
+      components: [{
+        type: 'badge',
+        options: {
+          titleBackground: '#58c04d'
         },
-        {
-          type: 'horizontal-table',
-          options: {
-            topicKey: 'zoning',
-            id: 'zoningOverlay',
-            // limit: 100,
-            fields: [
-              {
-                label: 'Name',
-                value: function(state, item){
-                  return item.properties.OVERLAY_NAME
-                }
-              },
-              {
-                label: 'Code Section',
-                value: function(state, item){
-                  // return item.properties.CODE_SECTION
-                  return "<a target='_blank' href='"+item.properties.CODE_SECTION_LINK+"'>"+item.properties.CODE_SECTION+" <i class='fa fa-external-link'></i></a>"
-                }
-              },
-            ],
+        slots: {
+          title: 'Base District',
+          value: function(state) {
+            return state.geocode.data.properties.zoning;
           },
-          slots: {
-            title: 'Overlays',
-            items: function(state) {
-              var data = state.sources['zoningOverlay'].data
-              var rows = data.map(function(row){
-                var itemRow = row;
-                // var itemRow = Object.assign({}, row);
-                //itemRow.DISTANCE = 'TODO';
-                return itemRow;
-              });
-              // console.log('rows', rows);
-              return rows;
-            },
+          description: function(state) {
+            var code = state.geocode.data.properties.zoning;
+            return ZONING_CODE_MAP[code];
           },
-        },
-        {
-          type: 'horizontal-table',
-          options: {
-            topicKey: 'zoning',
-            id: 'zoningAppeals',
-            // limit: 100,
-            fields: [
-              {
-                label: 'Processed Date',
-                value: function(state, item) {
-                  return item.processeddate;
-                },
-                transforms: [
-                  'date'
-                ]
-              },
-              {
-                label: 'ID',
-                value: function(state, item){
-                  //return item.appeal_key
-                  // return "<a target='_blank' href='//li.phila.gov/#details?entity=violationdetails&eid="+item.casenumber+"&key="+item.addresskey+"&address="+item.address+"'>"+item.casenumber+" <i class='fa fa-external-link'></i></a>"
-                  return "<a target='_blank' href='//li.phila.gov/#details?entity=appeals&eid="+item.appeal_key+"&key="+item.addresskey+"&address="+item.address+"'>"+item.appealno+"<i class='fa fa-external-link'></i></a>"
-                }
-              },
-              {
-                label: 'Description',
-                value: function(state, item){
-                  return item.appealgrounds;
-                }
-              },
-              {
-                label: 'Scheduled Date',
-                value: function(state, item) {
-                  return item.date_scheduled;
-                },
-                transforms: [
-                  'date'
-                ]
-              },
-              {
-                label: 'Status',
-                value: function(state, item){
-                  // return item.properties.CODE_SECTION
-                  return item.decision
-                }
-              },
-            ],
-            sort: {
-              // this should return the val to sort on
-              getValue: function(item) {
-                return item.date_scheduled;
-              },
-              // asc or desc
-              order: 'desc'
-            },
-          },
-          slots: {
-            title : 'Appeals',
-            items: function(state) {
-              if (state.sources['zoningAppeals'].data) {
-                if (state.sources['zoningAppeals'].data.rows) {
-                  var data = state.sources['zoningAppeals'].data.rows;
-                  var rows = data.map(function(row){
-                    var itemRow = row;
-                    // var itemRow = Object.assign({}, row);
-                    //itemRow.DISTANCE = 'TODO';
-                    return itemRow;
-                  });
-                  return rows;
-                }
-              }
-            },
-          },
-        },
-        {
-          type: 'horizontal-table',
-          options: {
-            topicKey: 'zoning',
-            id: 'zoningDocs',
-            // limit: 100,
-            fields: [
-              {
-                label: 'Date',
-                value: function(state, item){
-                  return item.scandate
-                },
-                nullValue: 'no date available',
-                transforms: [
-                  'date'
-                ]
-              },
-              {
-                label: 'ID',
-                value: function(state, item){
-                  return "<a target='_blank' href='//www.phila.gov/zoningarchive/Preview.aspx?address="
-                          + item.address
-                          + "&&docType="
-                          + item.doctype
-                          + "&numofPages="
-                          + item.page_numbers
-                          + "&docID="
-                          + item.docid
-                          + "&app="
-                          + item.appid
-                          +"'>"
-                          + item.appid + '-' + item.docid + ' '
-                          + "<i class='fa fa-external-link'></i></a>"
-                  // return item.appid + '-' + item.docid
-                }
-              },
-              {
-                label: 'Type',
-                value: function(state, item){
-                  return item.doctype
-                }
-              },
-              {
-                label: '# Pages',
-                value: function(state, item){
-                  return item.page_numbers
-                }
-              },
-              // {
-              //   label: 'Link',
-              //   value: function(state, item){
-              //     // return "<a href='//www.washingtonpost.com/'>View Scan</a>"
-              //     return "<a target='_blank' href='//www.phila.gov/zoningarchive/Preview.aspx?address=" + item.address + "&&docType=" + item.doctype + "&numofPages=" + item.page_numbers + "&docID=" + item.docid + "&app=" + item.appid +"'>View Scan <i class='fa fa-external-link'></i></a>"
-              //   }
-              // },
-            ],
-            sort: {
-              // this should return the val to sort on
-              getValue: function(item) {
-                return item.scandate;
-              },
-              // asc or desc
-              order: 'desc'
-            },
-          },
-          slots: {
-            title: 'Archived Documents',
-            subtitle: 'aka "Zoning Archive"',
-            items: function(state) {
-              if (state.sources['zoningDocs'].data) {
-                if (state.sources['zoningDocs'].data.rows) {
-                  var data = state.sources['zoningDocs'].data.rows;
-                  var rows = data.map(function(row){
-                    var itemRow = row;
-                    // var itemRow = Object.assign({}, row);
-                    //itemRow.DISTANCE = 'TODO';
-                    return itemRow;
-                  });
-                  return rows;
-                }
-              }
-            },
-          },
-        },
-        {
-          type: 'horizontal-table',
-          options: {
-            topicKey: 'zoning',
-            id: 'rco',
-            // limit: 100,
-            fields: [
-              {
-                label: 'RCO',
-                value: function(state, item) {
-                  return '<b>' + item.properties.ORGANIZATION_NAME + '</b><br>'
-                  + item.properties.ORGANIZATION_ADDRESS
-                },
-              },
-              {
-                label: 'Meeting Address',
-                value: function(state, item) {
-                  return item.properties.MEETING_LOCATION_ADDRESS
-                }
-              },
-              {
-                label: 'Primary Contact',
-                value: function(state, item) {
-                  // return item.properties.PRIMARY_PHONE
-                  return item.properties.PRIMARY_NAME + '<br>'
-                  + item.properties.PRIMARY_PHONE + '<br>'
-                  // + `<b><a :href="'mailto:' + item.properties.PRIMARY_EMAIL">`
-                  + item.properties.PRIMARY_EMAIL// + '</a></b>'
-                },
-                transforms: [
-                  'rcoPrimaryContact'
-                ]
-              },
-              {
-                label: 'Preferred Method',
-                value: function(state, item){
-                  return item.properties.PREFFERED_CONTACT_METHOD
-                }
-              },
-            ],
-            externalLink: {
-              forceShow: true,
-              action: function() {
-                return 'See a list of all RCOs in the city [PDF]';
-              },
-              name: '',
-              href: function(state) {
-                // var address = state.geocode.data.properties.street_address;
-                // var addressEncoded = encodeURIComponent(address);
-                return '//www.phila.gov/CityPlanning/projectreviews/RCO%20Related/List_of_RCOs.pdf';
-              }
+        }
+      }, {
+        type: 'horizontal-table',
+        options: {
+          topicKey: 'zoning',
+          id: 'zoningOverlay',
+          // limit: 100,
+          fields: [{
+            label: 'Name',
+            value: function(state, item) {
+              return item.properties.OVERLAY_NAME
             }
+          }, {
+            label: 'Code Section',
+            value: function(state, item) {
+              // return item.properties.CODE_SECTION
+              return "<a target='_blank' href='" + item.properties.CODE_SECTION_LINK + "'>" + item.properties.CODE_SECTION + " <i class='fa fa-external-link'></i></a>"
+            }
+          }, ],
+        },
+        slots: {
+          title: 'Overlays',
+          items: function(state) {
+            var data = state.sources['zoningOverlay'].data
+            var rows = data.map(function(row) {
+              var itemRow = row;
+              // var itemRow = Object.assign({}, row);
+              //itemRow.DISTANCE = 'TODO';
+              return itemRow;
+            });
+            // console.log('rows', rows);
+            return rows;
           },
-          slots: {
-            title: 'Registered Community Organizations',
-            items: function(state) {
-              if (state.sources['rco'].data) {
-                var data = state.sources['rco'].data;
-                var rows = data.map(function(row){
+        },
+      }, {
+        type: 'horizontal-table',
+        options: {
+          topicKey: 'zoning',
+          id: 'zoningAppeals',
+          // limit: 100,
+          fields: [{
+            label: 'Processed Date',
+            value: function(state, item) {
+              return item.processeddate;
+            },
+            transforms: [
+              'date'
+            ]
+          }, {
+            label: 'ID',
+            value: function(state, item) {
+              //return item.appeal_key
+              // return "<a target='_blank' href='//li.phila.gov/#details?entity=violationdetails&eid="+item.casenumber+"&key="+item.addresskey+"&address="+item.address+"'>"+item.casenumber+" <i class='fa fa-external-link'></i></a>"
+              return "<a target='_blank' href='//li.phila.gov/#details?entity=appeals&eid=" + item.appeal_key + "&key=" + item.addresskey + "&address=" + item.address + "'>" + item.appealno + "<i class='fa fa-external-link'></i></a>"
+            }
+          }, {
+            label: 'Description',
+            value: function(state, item) {
+              return item.appealgrounds;
+            }
+          }, {
+            label: 'Scheduled Date',
+            value: function(state, item) {
+              return item.date_scheduled;
+            },
+            transforms: [
+              'date'
+            ]
+          }, {
+            label: 'Status',
+            value: function(state, item) {
+              // return item.properties.CODE_SECTION
+              return item.decision
+            }
+          }, ],
+          sort: {
+            // this should return the val to sort on
+            getValue: function(item) {
+              return item.date_scheduled;
+            },
+            // asc or desc
+            order: 'desc'
+          },
+        },
+        slots: {
+          title: 'Appeals',
+          items: function(state) {
+            if (state.sources['zoningAppeals'].data) {
+              if (state.sources['zoningAppeals'].data.rows) {
+                var data = state.sources['zoningAppeals'].data.rows;
+                var rows = data.map(function(row) {
                   var itemRow = row;
                   // var itemRow = Object.assign({}, row);
+                  //itemRow.DISTANCE = 'TODO';
                   return itemRow;
                 });
                 return rows;
               }
-            },
+            }
           },
         },
-      ],
+      }, {
+        type: 'horizontal-table',
+        options: {
+          topicKey: 'zoning',
+          id: 'zoningDocs',
+          // limit: 100,
+          fields: [{
+              label: 'Date',
+              value: function(state, item) {
+                return item.scandate
+              },
+              nullValue: 'no date available',
+              transforms: [
+                'date'
+              ]
+            }, {
+              label: 'ID',
+              value: function(state, item) {
+                return "<a target='_blank' href='//www.phila.gov/zoningarchive/Preview.aspx?address=" + item.address + "&&docType=" + item.doctype + "&numofPages=" + item.page_numbers + "&docID=" + item.docid + "&app=" + item.appid + "'>" + item.appid + '-' + item.docid + ' ' + "<i class='fa fa-external-link'></i></a>"
+                  // return item.appid + '-' + item.docid
+              }
+            }, {
+              label: 'Type',
+              value: function(state, item) {
+                return item.doctype
+              }
+            }, {
+              label: '# Pages',
+              value: function(state, item) {
+                return item.page_numbers
+              }
+            },
+            // {
+            //   label: 'Link',
+            //   value: function(state, item){
+            //     // return "<a href='//www.washingtonpost.com/'>View Scan</a>"
+            //     return "<a target='_blank' href='//www.phila.gov/zoningarchive/Preview.aspx?address=" + item.address + "&&docType=" + item.doctype + "&numofPages=" + item.page_numbers + "&docID=" + item.docid + "&app=" + item.appid +"'>View Scan <i class='fa fa-external-link'></i></a>"
+            //   }
+            // },
+          ],
+          sort: {
+            // this should return the val to sort on
+            getValue: function(item) {
+              return item.scandate;
+            },
+            // asc or desc
+            order: 'desc'
+          },
+        },
+        slots: {
+          title: 'Archived Documents',
+          subtitle: 'aka "Zoning Archive"',
+          items: function(state) {
+            if (state.sources['zoningDocs'].data) {
+              if (state.sources['zoningDocs'].data.rows) {
+                var data = state.sources['zoningDocs'].data.rows;
+                var rows = data.map(function(row) {
+                  var itemRow = row;
+                  // var itemRow = Object.assign({}, row);
+                  //itemRow.DISTANCE = 'TODO';
+                  return itemRow;
+                });
+                return rows;
+              }
+            }
+          },
+        },
+      }, {
+        type: 'horizontal-table',
+        options: {
+          topicKey: 'zoning',
+          id: 'rco',
+          // limit: 100,
+          fields: [{
+            label: 'RCO',
+            value: function(state, item) {
+              return '<b>' + item.properties.ORGANIZATION_NAME + '</b><br>' + item.properties.ORGANIZATION_ADDRESS
+            },
+          }, {
+            label: 'Meeting Address',
+            value: function(state, item) {
+              return item.properties.MEETING_LOCATION_ADDRESS
+            }
+          }, {
+            label: 'Primary Contact',
+            value: function(state, item) {
+              // return item.properties.PRIMARY_PHONE
+              return item.properties.PRIMARY_NAME + '<br>' + item.properties.PRIMARY_PHONE + '<br>'
+                // + `<b><a :href="'mailto:' + item.properties.PRIMARY_EMAIL">`
+                + item.properties.PRIMARY_EMAIL // + '</a></b>'
+            },
+            transforms: [
+              'rcoPrimaryContact'
+            ]
+          }, {
+            label: 'Preferred Method',
+            value: function(state, item) {
+              return item.properties.PREFFERED_CONTACT_METHOD
+            }
+          }, ],
+          externalLink: {
+            forceShow: true,
+            action: function() {
+              return 'See a list of all RCOs in the city [PDF]';
+            },
+            name: '',
+            href: function(state) {
+              // var address = state.geocode.data.properties.street_address;
+              // var addressEncoded = encodeURIComponent(address);
+              return '//www.phila.gov/CityPlanning/projectreviews/RCO%20Related/List_of_RCOs.pdf';
+            }
+          }
+        },
+        slots: {
+          title: 'Registered Community Organizations',
+          items: function(state) {
+            if (state.sources['rco'].data) {
+              var data = state.sources['rco'].data;
+              var rows = data.map(function(row) {
+                var itemRow = row;
+                // var itemRow = Object.assign({}, row);
+                return itemRow;
+              });
+              return rows;
+            }
+          },
+        },
+      }, ],
       basemap: 'dor',
       dynamicMapLayers: [
         'zoning'
       ],
       identifyFeature: 'dor-parcel',
       parcels: 'dor'
-    },
-    {
+    }, {
       key: 'vacancy',
       icon: 'map-marker',
       label: 'Vacancy',
@@ -1854,403 +1765,364 @@ Mapboard.default({
       //     }
       //   }
       // },
-      components: [
-        {
-          type: 'callout',
-          slots: {
-            text: 'The location of properties across Philadelphia that are likely to be a vacant lot or vacant building based on an assessment of City of Philadelphia administrative datasets.'
-          }
-        },
-        {
-          type: 'badge',
-          options: {
-            titleBackground: function(state) {
-              var text = getVacancyText(state);
-              if (text.includes('Land')) {
-                return 'orange';
-              } else if (text.includes('Building')) {
-                return 'purple';
-              } else {
-                return '#58c04d';
-              }
-            }
-          },
-          slots: {
-            title: 'Vacancy',
-            value: function(state) {
-              return getVacancyText(state);
-            },
-            // description: function(state) {
-            //   var code = state.geocode.data.properties.zoning;
-            //   return ZONING_CODE_MAP[code];
-            // },
-          }
-        },
-        {
-          type: 'table-group',
-          options: {
-            filters: [
-              {
-                type: 'data',
-                getValue: function(item) {
-                  return item;
-                },
-                label: 'What nearby activity would you like to see?',
-                values: [
-                  {
-                    label: '311 Requests',
-                    value: '311',
-                  },
-                  {
-                    label: 'Crime Incidents',
-                    value: 'crimeIncidents',
-                  },
-                  {
-                    label: 'Zoning Appeals',
-                    value: 'nearbyZoningAppeals',
-                  }
-                ]
-              },
-            ],
-            // components for the content pane.
-            components: [
-              {
-                type: 'horizontal-table',
-                options: {
-                  topicKey: 'vacancy',
-                  id: '311',
-                  sort: {
-                    select: true,
-                    getValue: function(item, method) {
-                      var val;
-
-                      if (method === 'date') {
-                        val = item.requested_datetime;
-                      } else if (method === 'distance') {
-                        val = item.distance;
-                      }
-
-                      return val;
-                    }
-                  },
-                  filters: [
-                    {
-                      type: 'time',
-                      getValue: function(item) {
-                        return item.requested_datetime;
-                      },
-                      label: 'From the last',
-                      values: [
-                        {
-                          label: '30 days',
-                          value: '30',
-                          unit: 'days',
-                          direction: 'subtract',
-                        },
-                        {
-                          label: '90 days',
-                          value: '90',
-                          unit: 'days',
-                          direction: 'subtract',
-                        },
-                        {
-                          label: 'year',
-                          value: '1',
-                          unit: 'years',
-                          direction: 'subtract',
-                        }
-                      ]
-                    }
-                  ],
-                  filterByText: {
-                    label: 'Filter by',
-                    fields: [
-                      'service_name',
-                      'address'
-                    ]
-                  },
-                  mapOverlay: {
-                    marker: 'circle',
-                    style: {
-                      radius: 6,
-                      fillColor: '#ff3f3f',
-                    	color: '#ff0000',
-                    	weight: 1,
-                    	opacity: 1,
-                    	fillOpacity: 1.0
-                    },
-                    hoverStyle: {
-                      radius: 6,
-                      fillColor: 'yellow',
-                    	color: '#ff0000',
-                    	weight: 1,
-                    	opacity: 1,
-                    	fillOpacity: 1.0
-                    }
-                  },
-                  fields: [
-                    {
-                      label: 'Date',
-                      value: function(state, item) {
-                        return item.requested_datetime;
-                      },
-                      nullValue: 'no date available',
-                      transforms: [
-                        'date'
-                      ]
-                    },
-                    {
-                      label: 'Address',
-                      value: function(state, item) {
-                        return item.address;
-                      }
-                    },
-                    {
-                      label: 'Subject',
-                      value: function(state, item) {
-                        if (item.media_url) {
-                          return '<a target="_blank" href='+item.media_url+'>'+item.service_name+'</a>';
-                        } else {
-                          return item.service_name;
-                        }
-                      }
-                    },
-                    {
-                      label: 'Distance',
-                      value: function(state, item) {
-                        return parseInt(item.distance) + ' ft';
-                      }
-                    }
-                  ]
-                },
-                slots: {
-                  title: 'Nearby Service Requests',
-                  data: '311',
-                  items: function(state) {
-                    var data = state.sources['311Carto'].data || [];
-                    var rows = data.map(function(row){
-                      var itemRow = row;
-                      // var itemRow = Object.assign({}, row);
-                      return itemRow;
-                    });
-                    return rows;
-                  },
-                }
-              },
-              {
-                type: 'horizontal-table',
-                options: {
-                  topicKey: 'vacancy',
-                  id: 'crimeIncidents',
-                  sort: {
-                    select: true,
-                    getValue: function(item, method) {
-                      var val;
-
-                      if (method === 'date') {
-                        val = item.dispatch_date;
-                      } else if (method === 'distance') {
-                        val = item.distance;
-                      }
-
-                      return val;
-                    }
-                  },
-                  filters: [
-                    {
-                      type: 'time',
-                      getValue: function(item) {
-                        return item.dispatch_date;
-                      },
-                      label: 'From the last',
-                      values: [
-                        {
-                          label: '30 days',
-                          value: '30',
-                          unit: 'days',
-                          direction: 'subtract',
-                        },
-                        {
-                          label: '90 days',
-                          value: '90',
-                          unit: 'days',
-                          direction: 'subtract',
-                        },
-                      ]
-                    }
-                  ],
-                  filterByText: {
-                    label: 'Filter by',
-                    fields: [
-                      'text_general_code',
-                    ]
-                  },
-                  mapOverlay: {
-                    marker: 'circle',
-                    style: {
-                      radius: 6,
-                      fillColor: '#6674df',
-                    	color: '#6674df',
-                    	weight: 1,
-                    	opacity: 1,
-                    	fillOpacity: 1.0
-                    },
-                    hoverStyle: {
-                      radius: 6,
-                      fillColor: 'yellow',
-                    	color: '#6674df',
-                    	weight: 1,
-                    	opacity: 1,
-                    	fillOpacity: 1.0
-                    }
-                  },
-                  fields: [
-                    {
-                      label: 'Date',
-                      value: function(state, item) {
-                        return item.dispatch_date;
-                      },
-                      nullValue: 'no date available',
-                      transforms: [
-                        'date'
-                      ]
-                    },
-                    {
-                      label: 'Location',
-                      value: function(state, item) {
-                        return item.location_block;
-                      }
-                    },
-                    {
-                      label: 'Description',
-                      value: function(state, item) {
-                        return item.text_general_code;
-                      }
-                    },
-                    {
-                      label: 'Distance',
-                      value: function(state, item) {
-                        return parseInt(item.distance) + ' ft';
-                      }
-                    }
-                  ]
-                },
-                slots: {
-                  title: 'Crime Incidents',
-                  data: 'crimeIncidents',
-                  items: function(state) {
-                    var data = state.sources['crimeIncidents'].data || [];
-                    var rows = data.map(function(row){
-                      var itemRow = row;
-                      // var itemRow = Object.assign({}, row);
-                      return itemRow;
-                    });
-                    return rows;
-                  },
-                } // end of slots
-              }, // end of horizontal-table
-              {
-                type: 'horizontal-table',
-                options: {
-                  topicKey: 'vacancy',
-                  id: 'nearbyZoningAppeals',
-                  sort: {
-                    select: true,
-                    getValue: function(item, method) {
-                      var val;
-
-                      if (method === 'date') {
-                        val = item.decisiondate;
-                      } else if (method === 'distance') {
-                        val = item.distance;
-                      }
-
-                      return val;
-                    }
-                  },
-                  filterByText: {
-                    label: 'Filter by',
-                    fields: [
-                      'appealgrounds'
-                    ]
-                  },
-                  mapOverlay: {
-                    marker: 'circle',
-                    style: {
-                      radius: 6,
-                      fillColor: '#009900',
-                    	color: '#009900',
-                    	weight: 1,
-                    	opacity: 1,
-                    	fillOpacity: 1.0
-                    },
-                    hoverStyle: {
-                      radius: 6,
-                      fillColor: 'yellow',
-                    	color: '#009900',
-                    	weight: 1,
-                    	opacity: 1,
-                    	fillOpacity: 1.0
-                    }
-                  },
-                  fields: [
-                    {
-                      label: 'Date',
-                      value: function(state, item) {
-                        return item.decisiondate;
-                      },
-                      nullValue: 'no date available',
-                      transforms: [
-                        'date'
-                      ]
-                    },
-                    {
-                      label: 'Location',
-                      value: function(state, item) {
-                        return item.address;
-                      }
-                    },
-                    {
-                      label: 'Description',
-                      value: function(state, item) {
-                        return item.appealgrounds;
-                      }
-                    },
-                    {
-                      label: 'Distance',
-                      value: function(state, item) {
-                        return parseInt(item.distance) + ' ft';
-                      }
-                    }
-                  ]
-                },
-                slots: {
-                  title: 'Zoning Appeals',
-                  data: 'nearbyZoningAppeals',
-                  items: function(state) {
-                    var data = state.sources['nearbyZoningAppeals'].data || [];
-                    var rows = data.map(function(row){
-                      var itemRow = row;
-                      // var itemRow = Object.assign({}, row);
-                      return itemRow;
-                    });
-                    return rows;
-                  },
-                } // end of slots
-              }, // end of horizontal-table
-            ], // end comps
-          }, // end options
-          slots: {
-            // REVIEW should this go in options? maybe not, since it should be
-            // reactive.
-            items: function(state) {
-              return state.pwdParcel;
-            }
-          },
+      components: [{
+        type: 'callout',
+        slots: {
+          text: 'The location of properties across Philadelphia that are likely to be a vacant lot or vacant building based on an assessment of City of Philadelphia administrative datasets.'
         }
-      ]
-    },
-    {
+      }, {
+        type: 'badge',
+        options: {
+          titleBackground: function(state) {
+            var text = getVacancyText(state);
+            if (text.includes('Land')) {
+              return 'orange';
+            } else if (text.includes('Building')) {
+              return 'purple';
+            } else {
+              return '#58c04d';
+            }
+          }
+        },
+        slots: {
+          title: 'Vacancy',
+          value: function(state) {
+            return getVacancyText(state);
+          },
+          // description: function(state) {
+          //   var code = state.geocode.data.properties.zoning;
+          //   return ZONING_CODE_MAP[code];
+          // },
+        }
+      }, {
+        type: 'table-group',
+        options: {
+          filters: [{
+            type: 'data',
+            getValue: function(item) {
+              return item;
+            },
+            label: 'What nearby activity would you like to see?',
+            values: [{
+              label: '311 Requests',
+              value: '311',
+            }, {
+              label: 'Crime Incidents',
+              value: 'crimeIncidents',
+            }, {
+              label: 'Zoning Appeals',
+              value: 'nearbyZoningAppeals',
+            }]
+          }, ],
+          // components for the content pane.
+          components: [{
+              type: 'horizontal-table',
+              options: {
+                topicKey: 'vacancy',
+                id: '311',
+                sort: {
+                  select: true,
+                  getValue: function(item, method) {
+                    var val;
+
+                    if (method === 'date') {
+                      val = item.requested_datetime;
+                    } else if (method === 'distance') {
+                      val = item.distance;
+                    }
+
+                    return val;
+                  }
+                },
+                filters: [{
+                  type: 'time',
+                  getValue: function(item) {
+                    return item.requested_datetime;
+                  },
+                  label: 'From the last',
+                  values: [{
+                    label: '30 days',
+                    value: '30',
+                    unit: 'days',
+                    direction: 'subtract',
+                  }, {
+                    label: '90 days',
+                    value: '90',
+                    unit: 'days',
+                    direction: 'subtract',
+                  }, {
+                    label: 'year',
+                    value: '1',
+                    unit: 'years',
+                    direction: 'subtract',
+                  }]
+                }],
+                filterByText: {
+                  label: 'Filter by',
+                  fields: [
+                    'service_name',
+                    'address'
+                  ]
+                },
+                mapOverlay: {
+                  marker: 'circle',
+                  style: {
+                    radius: 6,
+                    fillColor: '#ff3f3f',
+                    color: '#ff0000',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 1.0
+                  },
+                  hoverStyle: {
+                    radius: 6,
+                    fillColor: 'yellow',
+                    color: '#ff0000',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 1.0
+                  }
+                },
+                fields: [{
+                  label: 'Date',
+                  value: function(state, item) {
+                    return item.requested_datetime;
+                  },
+                  nullValue: 'no date available',
+                  transforms: [
+                    'date'
+                  ]
+                }, {
+                  label: 'Address',
+                  value: function(state, item) {
+                    return item.address;
+                  }
+                }, {
+                  label: 'Subject',
+                  value: function(state, item) {
+                    if (item.media_url) {
+                      return '<a target="_blank" href=' + item.media_url + '>' + item.service_name + '</a>';
+                    } else {
+                      return item.service_name;
+                    }
+                  }
+                }, {
+                  label: 'Distance',
+                  value: function(state, item) {
+                    return parseInt(item.distance) + ' ft';
+                  }
+                }]
+              },
+              slots: {
+                title: 'Nearby Service Requests',
+                data: '311',
+                items: function(state) {
+                  var data = state.sources['311Carto'].data || [];
+                  var rows = data.map(function(row) {
+                    var itemRow = row;
+                    // var itemRow = Object.assign({}, row);
+                    return itemRow;
+                  });
+                  return rows;
+                },
+              }
+            }, {
+              type: 'horizontal-table',
+              options: {
+                topicKey: 'vacancy',
+                id: 'crimeIncidents',
+                sort: {
+                  select: true,
+                  getValue: function(item, method) {
+                    var val;
+
+                    if (method === 'date') {
+                      val = item.dispatch_date;
+                    } else if (method === 'distance') {
+                      val = item.distance;
+                    }
+
+                    return val;
+                  }
+                },
+                filters: [{
+                  type: 'time',
+                  getValue: function(item) {
+                    return item.dispatch_date;
+                  },
+                  label: 'From the last',
+                  values: [{
+                    label: '30 days',
+                    value: '30',
+                    unit: 'days',
+                    direction: 'subtract',
+                  }, {
+                    label: '90 days',
+                    value: '90',
+                    unit: 'days',
+                    direction: 'subtract',
+                  }, ]
+                }],
+                filterByText: {
+                  label: 'Filter by',
+                  fields: [
+                    'text_general_code',
+                  ]
+                },
+                mapOverlay: {
+                  marker: 'circle',
+                  style: {
+                    radius: 6,
+                    fillColor: '#6674df',
+                    color: '#6674df',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 1.0
+                  },
+                  hoverStyle: {
+                    radius: 6,
+                    fillColor: 'yellow',
+                    color: '#6674df',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 1.0
+                  }
+                },
+                fields: [{
+                  label: 'Date',
+                  value: function(state, item) {
+                    return item.dispatch_date;
+                  },
+                  nullValue: 'no date available',
+                  transforms: [
+                    'date'
+                  ]
+                }, {
+                  label: 'Location',
+                  value: function(state, item) {
+                    return item.location_block;
+                  }
+                }, {
+                  label: 'Description',
+                  value: function(state, item) {
+                    return item.text_general_code;
+                  }
+                }, {
+                  label: 'Distance',
+                  value: function(state, item) {
+                    return parseInt(item.distance) + ' ft';
+                  }
+                }]
+              },
+              slots: {
+                title: 'Crime Incidents',
+                data: 'crimeIncidents',
+                items: function(state) {
+                  var data = state.sources['crimeIncidents'].data || [];
+                  var rows = data.map(function(row) {
+                    var itemRow = row;
+                    // var itemRow = Object.assign({}, row);
+                    return itemRow;
+                  });
+                  return rows;
+                },
+              } // end of slots
+            }, // end of horizontal-table
+            {
+              type: 'horizontal-table',
+              options: {
+                topicKey: 'vacancy',
+                id: 'nearbyZoningAppeals',
+                sort: {
+                  select: true,
+                  getValue: function(item, method) {
+                    var val;
+
+                    if (method === 'date') {
+                      val = item.decisiondate;
+                    } else if (method === 'distance') {
+                      val = item.distance;
+                    }
+
+                    return val;
+                  }
+                },
+                filterByText: {
+                  label: 'Filter by',
+                  fields: [
+                    'appealgrounds'
+                  ]
+                },
+                mapOverlay: {
+                  marker: 'circle',
+                  style: {
+                    radius: 6,
+                    fillColor: '#009900',
+                    color: '#009900',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 1.0
+                  },
+                  hoverStyle: {
+                    radius: 6,
+                    fillColor: 'yellow',
+                    color: '#009900',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 1.0
+                  }
+                },
+                fields: [{
+                  label: 'Date',
+                  value: function(state, item) {
+                    return item.decisiondate;
+                  },
+                  nullValue: 'no date available',
+                  transforms: [
+                    'date'
+                  ]
+                }, {
+                  label: 'Location',
+                  value: function(state, item) {
+                    return item.address;
+                  }
+                }, {
+                  label: 'Description',
+                  value: function(state, item) {
+                    return item.appealgrounds;
+                  }
+                }, {
+                  label: 'Distance',
+                  value: function(state, item) {
+                    return parseInt(item.distance) + ' ft';
+                  }
+                }]
+              },
+              slots: {
+                title: 'Zoning Appeals',
+                data: 'nearbyZoningAppeals',
+                items: function(state) {
+                  var data = state.sources['nearbyZoningAppeals'].data || [];
+                  var rows = data.map(function(row) {
+                    var itemRow = row;
+                    // var itemRow = Object.assign({}, row);
+                    return itemRow;
+                  });
+                  return rows;
+                },
+              } // end of slots
+            }, // end of horizontal-table
+          ], // end comps
+        }, // end options
+        slots: {
+          // REVIEW should this go in options? maybe not, since it should be
+          // reactive.
+          items: function(state) {
+            return state.pwdParcel;
+          }
+        },
+      }]
+    }, {
       key: '311',
       icon: 'phone',
       label: '311',
@@ -2258,164 +2130,148 @@ Mapboard.default({
       basemap: 'pwd',
       identifyFeature: 'address-marker',
       parcels: 'pwd',
-      components: [
-        {
-          type: 'callout',
-          slots: {
-            text: 'The information shown includes records marked private by the public, as well as a "Description" field which can not be shared with the public for any record.'
-          }
-        },
-        {
-          type: 'horizontal-table',
-          options: {
-            topicKey: '311',
-            id: '311',
-            sort: {
-              select: true,
-              getValue: function(item, method) {
-                var val;
+      components: [{
+        type: 'callout',
+        slots: {
+          text: 'The information shown includes records marked private by the public, as well as a "Description" field which can not be shared with the public for any record.'
+        }
+      }, {
+        type: 'horizontal-table',
+        options: {
+          topicKey: '311',
+          id: '311',
+          sort: {
+            select: true,
+            getValue: function(item, method) {
+              var val;
 
-                if (method === 'date') {
-                  val = item.properties.REQUESTED_DATETIME;
-                } else if (method === 'distance') {
-                  val = item._distance;
-                }
+              if (method === 'date') {
+                val = item.properties.REQUESTED_DATETIME;
+              } else if (method === 'distance') {
+                val = item._distance;
+              }
 
-                return val;
-              }
+              return val;
+            }
+          },
+          filters: [{
+            type: 'time',
+            getValue: function(item) {
+              return item.properties.REQUESTED_DATETIME;
             },
-            filters: [
-              {
-                type: 'time',
-                getValue: function(item) {
-                  return item.properties.REQUESTED_DATETIME;
-                },
-                label: 'From the last',
-                values: [
-                  {
-                    label: '30 days',
-                    value: '30',
-                    unit: 'days',
-                    direction: 'subtract',
-                  },
-                  {
-                    label: '90 days',
-                    value: '90',
-                    unit: 'days',
-                    direction: 'subtract',
-                  },
-                  {
-                    label: 'year',
-                    value: '1',
-                    unit: 'years',
-                    direction: 'subtract',
-                  }
-                ]
-              }
-            ],
-            filterByText: {
-              label: 'Filter by',
-              fields: [
-                'DESCRIPTION',
-                'SUBJECT',
-                'ADDRESS'
-              ]
-            },
-            mapOverlay: {
-              marker: 'circle',
-              style: {
-                radius: 6,
-                fillColor: '#ff3f3f',
-              	color: '#ff0000',
-              	weight: 1,
-              	opacity: 1,
-              	fillOpacity: 1.0
-              },
-              hoverStyle: {
-                radius: 6,
-                fillColor: 'yellow',
-              	color: '#ff0000',
-              	weight: 1,
-              	opacity: 1,
-              	fillOpacity: 1.0
-              }
-            },
+            label: 'From the last',
+            values: [{
+              label: '30 days',
+              value: '30',
+              unit: 'days',
+              direction: 'subtract',
+            }, {
+              label: '90 days',
+              value: '90',
+              unit: 'days',
+              direction: 'subtract',
+            }, {
+              label: 'year',
+              value: '1',
+              unit: 'years',
+              direction: 'subtract',
+            }]
+          }],
+          filterByText: {
+            label: 'Filter by',
             fields: [
-              {
-                label: 'Date',
-                value: function(state, item) {
-                  return item.properties.REQUESTED_DATETIME;
-                },
-                nullValue: 'no date available',
-                transforms: [
-                  'date'
-                ]
-              },
-              {
-                label: 'Address',
-                value: function(state, item) {
-                  return item.properties.ADDRESS;
-                }
-              },
-              {
-                label: 'Subject',
-                value: function(state, item) {
-                  if (item.properties.MEDIA_URL) {
-                    return '<a target="_blank" href='+item.properties.MEDIA_URL+'>'+item.properties.SUBJECT+'</a>';
-                  } else {
-                    return item.properties.SUBJECT;
-                  }
-                }
-              },
-              {
-                label: 'Description (not shared with the public)',
-                value: function(state, item) {
-                  return item.properties.DESCRIPTION;
-                }
-              },
-              {
-                label: 'Distance',
-                value: function(state, item) {
-                  // return `${item._distance} ft`;
-                  return item._distance + ' ft';
-                }
-              }
+              'DESCRIPTION',
+              'SUBJECT',
+              'ADDRESS'
             ]
           },
-          slots: {
-            title: 'Nearby Service Requests',
-            items: function(state) {
-              var data = state.sources['311'].data;
-              var rows = data.map(function(row){
-                var itemRow = row;
-                // var itemRow = Object.assign({}, row);
-                // itemRow.DISTANCE = 'TODO';
-                return itemRow;
-              });
-              return rows;
+          mapOverlay: {
+            marker: 'circle',
+            style: {
+              radius: 6,
+              fillColor: '#ff3f3f',
+              color: '#ff0000',
+              weight: 1,
+              opacity: 1,
+              fillOpacity: 1.0
             },
-            // filterText() {
-            //   return 'from the last';
-            // },
-            // filterValues: {
-            //   value1: {
-            //     text: '30 days',
-            //     value: '30'
-            //   },
-            //   value2: {
-            //     text: '90 days',
-            //     value: '90'
-            //   },
-            //   value3: {
-            //     text: 'year',
-            //     value: '365'
-            //   }
-            // },
-          }
+            hoverStyle: {
+              radius: 6,
+              fillColor: 'yellow',
+              color: '#ff0000',
+              weight: 1,
+              opacity: 1,
+              fillOpacity: 1.0
+            }
+          },
+          fields: [{
+            label: 'Date',
+            value: function(state, item) {
+              return item.properties.REQUESTED_DATETIME;
+            },
+            nullValue: 'no date available',
+            transforms: [
+              'date'
+            ]
+          }, {
+            label: 'Address',
+            value: function(state, item) {
+              return item.properties.ADDRESS;
+            }
+          }, {
+            label: 'Subject',
+            value: function(state, item) {
+              if (item.properties.MEDIA_URL) {
+                return '<a target="_blank" href=' + item.properties.MEDIA_URL + '>' + item.properties.SUBJECT + '</a>';
+              } else {
+                return item.properties.SUBJECT;
+              }
+            }
+          }, {
+            label: 'Description (not shared with the public)',
+            value: function(state, item) {
+              return item.properties.DESCRIPTION;
+            }
+          }, {
+            label: 'Distance',
+            value: function(state, item) {
+              // return `${item._distance} ft`;
+              return item._distance + ' ft';
+            }
+          }]
+        },
+        slots: {
+          title: 'Nearby Service Requests',
+          items: function(state) {
+            var data = state.sources['311'].data;
+            var rows = data.map(function(row) {
+              var itemRow = row;
+              // var itemRow = Object.assign({}, row);
+              // itemRow.DISTANCE = 'TODO';
+              return itemRow;
+            });
+            return rows;
+          },
+          // filterText() {
+          //   return 'from the last';
+          // },
+          // filterValues: {
+          //   value1: {
+          //     text: '30 days',
+          //     value: '30'
+          //   },
+          //   value2: {
+          //     text: '90 days',
+          //     value: '90'
+          //   },
+          //   value3: {
+          //     text: 'year',
+          //     value: '365'
+          //   }
+          // },
         }
-      ]
-    },
-    {
+      }]
+    }, {
       key: 'water',
       icon: 'tint',
       label: 'Stormwater',
@@ -2426,140 +2282,122 @@ Mapboard.default({
       ],
       identifyFeature: 'pwd-parcel',
       parcels: 'pwd',
-      components: [
-        {
-          type: 'callout',
-          slots: {
-            text: 'The property boundaries displayed on the map for reference only and may not be used in place of recorded deeds or land surveys. Boundaries are generalized for ease of visualization. Source: Philadelphia Water'
+      components: [{
+        type: 'callout',
+        slots: {
+          text: 'The property boundaries displayed on the map for reference only and may not be used in place of recorded deeds or land surveys. Boundaries are generalized for ease of visualization. Source: Philadelphia Water'
+        }
+      }, {
+        type: 'vertical-table',
+        slots: {
+          title: 'Parcel',
+          fields: [{
+            label: 'Parcel ID',
+            value: function(state) {
+              // return state.geocode.data.properties.pwd_parcel_id;
+              return state.sources.stormwater.data.Parcel.ParcelID;
+            }
+          }, {
+            label: 'Address',
+            value: function(state) {
+              return state.sources.stormwater.data.Parcel.Address;
+            }
+          }, {
+            label: 'Building Type',
+            value: function(state) {
+              return state.sources.stormwater.data.Parcel.BldgType;
+            }
+          }, {
+            label: 'Gross Area',
+            value: function(state) {
+              return state.sources.stormwater.data.Parcel.GrossArea + ' sq ft';
+            },
+            transforms: [
+              'thousandsPlace'
+            ]
+          }, {
+            label: 'Impervious Area',
+            value: function(state) {
+              return state.sources.stormwater.data.Parcel.ImpervArea + ' sq ft';
+            },
+            transforms: [
+              'thousandsPlace'
+            ]
+          }, {
+            label: 'CAP Eligible',
+            value: function(state) {
+              return state.sources.stormwater.data.Parcel.CAPEligible;
+            },
+            transforms: [
+              'booleanToYesNo'
+            ]
+          }, ]
+        },
+      }, {
+        type: 'horizontal-table',
+        options: {
+          topicKey: 'water',
+          id: 'stormwater',
+          // limit: 100,
+          // TODO this isn't used yet, but should be for highlighting rows/
+          // map features.
+          // overlay: '311',
+          fields: [{
+            label: 'Account #',
+            value: function(state, item) {
+              return item.AccountNumber;
+            }
+          }, {
+            label: 'Customer',
+            value: function(state, item) {
+              return item.CustomerName;
+            }
+          }, {
+            label: 'Status',
+            value: function(state, item) {
+              return item.AcctStatus;
+            }
+          }, {
+            label: 'Service Type',
+            value: function(state, item) {
+              return item.ServiceTypeLabel;
+            }
+          }, {
+            label: 'Size',
+            value: function(state, item) {
+              return item.MeterSize;
+            }
+          }, {
+            label: 'Stormwater',
+            value: function(state, item) {
+              return item.StormwaterStatus;
+            }
+          }],
+          externalLink: {
+            forceShow: true,
+            action: function(count) {
+              return 'See more at Stormwater Billing';
+            },
+            name: 'Stormwater Billing',
+            href: function(state) {
+              var id = state.sources.stormwater.data.Parcel.ParcelID;
+              return '//www.phila.gov/water/swmap/Parcel.aspx?parcel_id=' + id;
+            }
           }
         },
-        {
-          type: 'vertical-table',
-          slots: {
-            title: 'Parcel',
-            fields: [
-              {
-                label: 'Parcel ID',
-                value: function(state) {
-                  // return state.geocode.data.properties.pwd_parcel_id;
-                  return state.sources.stormwater.data.Parcel.ParcelID;
-                }
-              },
-              {
-                label: 'Address',
-                value: function(state) {
-                  return state.sources.stormwater.data.Parcel.Address;
-                }
-              },
-              {
-                label: 'Building Type',
-                value: function(state) {
-                  return state.sources.stormwater.data.Parcel.BldgType;
-                }
-              },
-              {
-                label: 'Gross Area',
-                value: function(state) {
-                  return state.sources.stormwater.data.Parcel.GrossArea + ' sq ft';
-                },
-                transforms: [
-                  'thousandsPlace'
-                ]
-              },
-              {
-                label: 'Impervious Area',
-                value: function(state) {
-                  return state.sources.stormwater.data.Parcel.ImpervArea + ' sq ft';
-                },
-                transforms: [
-                  'thousandsPlace'
-                ]
-              },
-              {
-                label: 'CAP Eligible',
-                value: function(state) {
-                  return state.sources.stormwater.data.Parcel.CAPEligible;
-                },
-                transforms: [
-                  'booleanToYesNo'
-                ]
-              },
-            ]
-          },
-        },
-        {
-          type: 'horizontal-table',
-          options: {
-            topicKey: 'water',
-            id: 'stormwater',
-            // limit: 100,
-            // TODO this isn't used yet, but should be for highlighting rows/
-            // map features.
-            // overlay: '311',
-            fields: [
-              {
-                label: 'Account #',
-                value: function(state, item) {
-                  return item.AccountNumber;
-                }
-              },
-              {
-                label: 'Customer',
-                value: function(state, item) {
-                  return item.CustomerName;
-                }
-              },
-              {
-                label: 'Status',
-                value: function(state, item) {
-                  return item.AcctStatus;
-                }
-              },
-              {
-                label: 'Service Type',
-                value: function(state, item) {
-                  return item.ServiceTypeLabel;
-                }
-              },
-              {
-                label: 'Size',
-                value: function(state, item) {
-                  return item.MeterSize;
-                }
-              },
-              {
-                label: 'Stormwater',
-                value: function(state, item) {
-                  return item.StormwaterStatus;
-                }
-              }
-            ],
-            externalLink: {
-              forceShow: true,
-              action: function(count) {
-                return 'See more at Stormwater Billing';
-              },
-              name: 'Stormwater Billing',
-              href: function(state) {
-                var id = state.sources.stormwater.data.Parcel.ParcelID;
-                return '//www.phila.gov/water/swmap/Parcel.aspx?parcel_id=' + id;
-              }
-            }
-          },
-          slots: {
-            title: 'Accounts',
-            items: function(state) {
-              var data = state.sources['stormwater'].data
-              var rows = data.Accounts.map(function(row){
-                var itemRow = row;
-                // var itemRow = Object.assign({}, row);
-                return itemRow;
-              });
-              return rows;
-            }
+        slots: {
+          title: 'Accounts',
+          items: function(state) {
+            var data = state.sources['stormwater'].data
+            var rows = data.Accounts.map(function(row) {
+              var itemRow = row;
+              // var itemRow = Object.assign({}, row);
+              return itemRow;
+            });
+            return rows;
           }
         }
-      ]
+      }]
     },
     // {
     //   key: 'related',
