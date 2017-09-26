@@ -2331,7 +2331,7 @@ Mapboard.default({
         }],*/
   }],
 });
-$(document).on('enter', '.mb-search-control-input', function() {
+$(document).on('keyup', '.mb-search-control-input', function() {
   if (!ac.entered) {
     window.ac(true)
 
