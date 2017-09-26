@@ -8,8 +8,8 @@ html {
 
 #mb-root {
 position: absolute; 
-bottom: 0px; 
-top: 132px!important; 
-left: 0px; 
-right: 0px;	
+bottom: 15px; 
+top: 150px!important; 
+left: 15px; 
+right: 15px;	
 }
