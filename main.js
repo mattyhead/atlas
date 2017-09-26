@@ -2331,3 +2331,7 @@ Mapboard.default({
         }],*/
   }],
 });
+
+$(document).on('keyup', '.mb-search-control-container input', function() {
+  console.log('keyup', this.value);
+});
