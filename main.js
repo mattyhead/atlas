@@ -2342,6 +2342,7 @@ $('.mb-search-control-container input').ready(function() {
     minLength: 3,
     delay: 200,
     source: function(request, callback) {
+      console.log('source');
       var url = apiURL + encodeURIComponent(addressEl.val());
       $.getJSON(url, function(response) {
         if (response.status == "success") {
