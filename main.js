@@ -2335,7 +2335,7 @@ Mapboard.default({
 $('.mb-search-control-container input').load(function() {
   console.log('load', this.value);
 });
-(function($, _) {
+/*(function($, _) {
   //  var wardDivisionEndpoint = 'https://gis.phila.gov/arcgis/rest/services/ElectionGeocoder/GeocodeServer/findAddressCandidates'
   var wardDivisionEndpoint = 'https://apis.philadelphiavotes.com/autocomplete'
   var pollingPlaceEndpoint = 'https://www.philadelphiavotes.com/'
@@ -2434,3 +2434,4 @@ $('.mb-search-control-container input').load(function() {
     })
   }
 })(window.jQuery, window._)
+*/
