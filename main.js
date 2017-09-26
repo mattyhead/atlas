@@ -2336,6 +2336,7 @@ $(document).ready(function() {
   var $ = window.jQuery,
     apiURL = "https://apis.philadelphiavotes.com/autocomplete/",
     addressEl = $('.mb-search-control-container input');
+  console.log("testing");
   addressEl.autocomplete({
     autoFocus: true,
     minLength: 3,
