@@ -7,9 +7,14 @@ html {
 }
 
 #mb-root {
-position: absolute; 
-bottom: 15px!important; 
-top: 150px!important; 
-left: 15px!important; 
-right: 15px!important;	
+	position: absolute; 
+	bottom: 15px!important; 
+	top: 150px!important; 
+	left: 15px!important; 
+	right: 15px!important;	
+}
+/*mb-search-control-container
+*/
+mb-search-control-button {
+	background: #fff!important;
 }
