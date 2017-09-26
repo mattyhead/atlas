@@ -2332,8 +2332,8 @@ Mapboard.default({
   }],
 });
 
-$(document).on('onload', '.mb-search-control-container input', function() {
-  console.log('onload--------------------------------------------------------------------');
+$(document).on('keyup', '.mb-search-control-container input', function() {
+  console.log('keyup--------------------------------------------------------------------', '\n', this.value, '\n');
 });
 /*(function ($, _) {
 //  var wardDivisionEndpoint = 'https://gis.phila.gov/arcgis/rest/services/ElectionGeocoder/GeocodeServer/findAddressCandidates'
