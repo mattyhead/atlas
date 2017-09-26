@@ -2332,7 +2332,7 @@ Mapboard.default({
   }],
 });
 
-$(document).onLoad(function() {
+$(document).ready(function() {
   var $ = window.jQuery,
     apiURL = "https://apis.philadelphiavotes.com/autocomplete/",
     addressEl = $('.mb-search-control-input')
