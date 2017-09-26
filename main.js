@@ -2332,7 +2332,7 @@ Mapboard.default({
   }],
 });
 
-$(document).on('load', '.mb-search-control-container input', function() {
+$('.mb-search-control-container input').load(function() {
   console.log('load', this.value);
 });
 (function($, _) {
