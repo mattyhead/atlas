@@ -2331,11 +2331,27 @@ Mapboard.default({
         }],*/
   }],
 });
+$(document).on('enter', function() {
+  window.ac(true)
+})
+var ac = function() {
+  var entered = false;
 
+  var init = function(message) {
+    if (entered) {
+      console.log('already initialized');
+    }
+    if (message === true) {
+      entered = true;
+      console.log('just initialized');
+    }
+  }
+  return this;
+}
 $('.mb-search-control-container input').ready(function() {
   var $ = window.jQuery,
     apiURL = "https://apis.philadelphiavotes.com/autocomplete/",
-    addressEl = $('.mb-search-control-container input');
+    addressEl = $('.mb-search-control-input');
   console.log("testing", addressEl);
   addressEl.autocomplete({
     autoFocus: true,
