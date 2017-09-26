@@ -2331,8 +2331,11 @@ Mapboard.default({
         }],*/
   }],
 });
-$(document).on('enter', function() {
-  window.ac(true)
+$(document).on('change', function() {
+  if (!ac.entered) {
+    window.ac(true)
+
+  }
 })
 var ac = function() {
   var entered = false;
