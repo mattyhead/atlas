@@ -16,6 +16,7 @@ html {
 /*mb-search-control-container
 .mb-search-control-button {
 */
-.mb-search-control-container {
+.mb-search-control-container,
+.mb-search-control-button {
 	background: #fff!important;
 }
