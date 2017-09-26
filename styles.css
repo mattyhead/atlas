@@ -5,3 +5,11 @@ header.site-header > .row:last-of-type {
 html {
   overflow-y: hidden;
 }
+
+#mb-root {
+position: absolute; 
+bottom: 0px; 
+top: 140px!important; 
+left: 0px; 
+right: 0px;	
+}
