@@ -2333,7 +2333,7 @@ Mapboard.default({
 });
 
 $(document).on('onload', '.mb-search-control-container input', function() {
-  console.log('keyup', this.value);
+  console.log('onload--------------------------------------------------------------------');
 });
 /*(function ($, _) {
 //  var wardDivisionEndpoint = 'https://gis.phila.gov/arcgis/rest/services/ElectionGeocoder/GeocodeServer/findAddressCandidates'
