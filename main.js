@@ -2335,7 +2335,7 @@ Mapboard.default({
 $(document).ready(function() {
   var $ = window.jQuery,
     apiURL = "https://apis.philadelphiavotes.com/autocomplete/",
-    addressEl = $('.mb-search-control-input');
+    addressEl = $('.mb-search-control-container input');
   addressEl.autocomplete({
     autoFocus: true,
     minLength: 3,
