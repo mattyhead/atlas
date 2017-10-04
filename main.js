@@ -6,7 +6,7 @@
 
 }(function($, w, d) {
   var GATEKEEPER_KEY = '82fe014b6575b8c38b44235580bc8b11';
-  var CITY_HALL = [39.954, -75.1642];
+  var CITY_HALL = [39.953, -75.1642];
 
   // The $ is now locally scoped 
   $(function() {
