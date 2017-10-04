@@ -12,7 +12,7 @@
   $(function() {
 
     // The DOM is ready!
-    var lmap = L.map('lmap').setView(CITY_HALL, 13);
+    var lmap = L.map('lmap').setView(CITY_HALL, 18);
 
     //L.esri.basemapLayer('//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer').addTo(mymap);
     /*        pwd: {
