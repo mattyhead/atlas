@@ -11,7 +11,9 @@ var lmap = L.map('lmap').setView(CITY_HALL, 13);
           ],
           type: 'featuremap'
         },
+
+        //tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer
 */
 L.esri.tiledMapLayer({
-  url: "//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer"
+  url: "//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer"
 }).addTo(lmap);
