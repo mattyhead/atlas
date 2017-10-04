@@ -1,4 +1,4 @@
-$(function() {
+$(function($, w, d) {
   var GATEKEEPER_KEY = '82fe014b6575b8c38b44235580bc8b11';
   var CITY_HALL = [39.95, -75.1642];
 
@@ -21,4 +21,4 @@ $(function() {
   L.esri.tiledMapLayer({
     url: "//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer"
   }).addTo(lmap);
-})
+})(jQuery, window, document)
