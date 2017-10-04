@@ -11,16 +11,11 @@
     <meta name="generator" content="Joomla! 1.5 - Open Source Content Management" />
     <title>Office of the Philadelphia City Commissioners</title>
     <link href="/templates/citycomm/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <!--<link rel="stylesheet" href="/components/com_k2/css/k2.css" type="text/css" />-->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" type="text/css" />
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
    integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
    crossorigin=""/>
-    <!--<link rel="stylesheet" href="/modules/mod_jflanguageselection/tmpl/mod_jflanguageselection.css" type="text/css" />
-    <script type="text/javascript" src="/plugins/system/mtupgrade/mootools.js"></script>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-  <script type="text/javascript" src="/components/com_k2/js/k2.js?v2.6.6&amp;sitepath=/"></script>
--->
+
     <link rel="stylesheet" href="/templates/system/css/system.css" type="text/css" />
     <link rel="stylesheet" href="/templates/system/css/general.css" type="text/css" />
     <link rel="stylesheet" href="/voterapp2/autocomplete.css" type="text/css" />
@@ -131,13 +126,14 @@
         <div class="cleared reset-box"></div>
         <div class="full" id="application">
             <!-- Mapboard -->
-            <div id="mapboard"></div>
+            <div id="lmap"></div>
         </div>
         <!-- end of application div -->
-        <!-- JS: Patterns -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <!-- JS: Mapboard dependencies -->
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+ 
+        <!-- Make sure you put this AFTER Leaflet's CSS -->
+        <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+   integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+   crossorigin=""></script>
         <script src="/voterapp2/autocomplete.js" async defer></script>
         <script src="/voterapp2/main.js" async defer></script>
     </div>
