@@ -5,10 +5,6 @@
   deferredCode(window.jQuery, window, document);
 
 }(function($, w, d) {
-  var GATEKEEPER_KEY = '82fe014b6575b8c38b44235580bc8b11';
-  var CITY_HALL = [39.95262, -75.164];
-  var ZOOM = 16
-
   // The $ is now locally scoped 
   $(function() {
 
@@ -86,25 +82,12 @@
       url: "//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer"
     }).addTo(lmap);
 
-    // test markers
-    markers.home = L.marker([39.9521, -75.163604], {
-      icon: homeIcon
-    }).addTo(lmap);
-    markers.polling = L.marker([39.9523, -75.1635905], {
-      icon: pollingIcon
-    }).addTo(lmap);
-    markers.congress = L.marker([39.9525, -75.16357], {
-      icon: congressIcon
-    }).addTo(lmap);
-    markers.entrance = L.marker([39.9527, -75.163535], {
-      icon: entranceIcon
-    }).addTo(lmap);
-    markers.handi = L.marker([39.9529, -75.1635], {
-      icon: handiIcon
-    }).addTo(lmap);
+
 
   });
 
   // The rest of your code goes here!
-
+  var GATEKEEPER_KEY = '82fe014b6575b8c38b44235580bc8b11';
+  var CITY_HALL = [39.95262, -75.164];
+  var ZOOM = 16
 }));
