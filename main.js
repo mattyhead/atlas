@@ -4,27 +4,8 @@
   // deferred code:
   $(function() {
     var lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
-      homeIcon = L.icon({
-        iconUrl: 'src/assets/images/home.png',
-        iconSize: [32, 37],
-      }),
-      pollingIcon = L.icon({
-        iconUrl: 'src/assets/images/polling.png',
-        iconSize: [32, 37],
-      }),
-      congressIcon = L.icon({
-        iconUrl: 'src/assets/images/congress.png',
-        iconSize: [32, 37],
-      }),
-      entranceIcon = L.icon({
-        iconUrl: 'src/assets/images/e.png',
-        iconSize: [24, 24],
-      }),
-      handiIcon = L.icon({
-        iconUrl: 'src/assets/images/h.png',
-        iconSize: [24, 24],
-      }),
-      markers = {}
+      icons = MAP_MARKERS(),
+      markers = {};
 
     //L.esri.basemapLayer('//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer').addTo(mymap);
     /*
@@ -76,6 +57,9 @@
       url: BASEMAP_LABELS
     }).addTo(lmap);
 
+    markers.polling = L.marker(CITY_HALL, {
+      icon: icons.polling
+    }).addTo(lmap);
   });
 
   // immediately executed:
@@ -83,5 +67,29 @@
     CITY_HALL = [39.95262, -75.16365],
     ZOOM = 16,
     BASEMAP = '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer',
-    BASEMAP_LABELS = '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer'
+    BASEMAP_LABELS = '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer',
+    MAP_MARKERS = function() {
+      return {
+        home: L.icon({
+          iconUrl: 'src/assets/images/home.png',
+          iconSize: [32, 37],
+        }),
+        polling: L.icon({
+          iconUrl: 'src/assets/images/polling.png',
+          iconSize: [32, 37],
+        }),
+        congress: L.icon({
+          iconUrl: 'src/assets/images/congress.png',
+          iconSize: [32, 37],
+        }),
+        entrance: L.icon({
+          iconUrl: 'src/assets/images/e.png',
+          iconSize: [24, 24],
+        }),
+        handi: L.icon({
+          iconUrl: 'src/assets/images/h.png',
+          iconSize: [24, 24],
+        }),
+      }
+    }
 }));
