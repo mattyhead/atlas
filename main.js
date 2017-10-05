@@ -1,53 +1,11 @@
 (function(scoped) {
-  scoped(window.jQuery, window, document);
+scoped(window.jQuery, window, document);
 }(function($, w, d) {
   // deferred code:
   $(function() {
     var lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
       icons = MAP_MARKERS(),
       markers = {};
-
-    //L.esri.basemapLayer('//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer').addTo(mymap);
-    /*
-
-    var marker = L.marker([39.95262, -75.16422], {icon: firefoxIcon}).addTo(map);
-
-            pwd: {
-                     url: '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer',
-                     tiledLayers: [
-                       'cityBasemapLabels'
-                     ],
-                     type: 'featuremap'
-                   },
-
-                   //tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer
-    geocoder: {
-      // methods: {
-      forward: {
-        url(input) {
-          const inputEncoded = encodeURIComponent(input);
-          return `//api.phila.gov/ais/v1/search/${inputEncoded}`
-        },
-        params: {
-          gatekeeperKey: GATEKEEPER_KEY
-        }
-      },
-      reverse: {
-        // TODO uri encode
-        url: (input) => `//api.phila.gov/ais/v1/reverse_geocode/${input}`,
-        params: {
-          gatekeeperKey: GATEKEEPER_KEY
-        }
-      }
-      // }
-    },
-        cityBasemapLabels: {
-          // type: 'labels',
-          url: '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer',
-          zIndex: '3',
-        },
-
-    */
 
     // set up layers
     L.esri.tiledMapLayer({
@@ -68,28 +26,69 @@
     ZOOM = 16,
     BASEMAP = '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer',
     BASEMAP_LABELS = '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer',
-    MAP_MARKERS = function() {
-      return {
-        home: L.icon({
-          iconUrl: 'src/assets/images/home.png',
-          iconSize: [32, 37],
-        }),
-        polling: L.icon({
-          iconUrl: 'src/assets/images/polling.png',
-          iconSize: [32, 37],
-        }),
-        congress: L.icon({
-          iconUrl: 'src/assets/images/congress.png',
-          iconSize: [32, 37],
-        }),
-        entrance: L.icon({
-          iconUrl: 'src/assets/images/e.png',
-          iconSize: [24, 24],
-        }),
-        handi: L.icon({
-          iconUrl: 'src/assets/images/h.png',
-          iconSize: [24, 24],
-        }),
-      }
+    MAP_MARKERS = {
+      home: L.icon({
+        iconUrl: 'src/assets/images/home.png',
+        iconSize: [32, 37],
+      }),
+      polling: L.icon({
+        iconUrl: 'src/assets/images/polling.png',
+        iconSize: [32, 37],
+      }),
+      congress: L.icon({
+        iconUrl: 'src/assets/images/congress.png',
+        iconSize: [32, 37],
+      }),
+      entrance: L.icon({
+        iconUrl: 'src/assets/images/e.png',
+        iconSize: [24, 24],
+      }),
+      handi: L.icon({
+        iconUrl: 'src/assets/images/h.png',
+        iconSize: [24, 24],
+      }),
     }
+}
 }));
+
+//L.esri.basemapLayer('//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer').addTo(mymap);
+/*
+
+var marker = L.marker([39.95262, -75.16422], {icon: firefoxIcon}).addTo(map);
+
+        pwd: {
+                 url: '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer',
+                 tiledLayers: [
+                   'cityBasemapLabels'
+                 ],
+                 type: 'featuremap'
+               },
+
+               //tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer
+geocoder: {
+  // methods: {
+  forward: {
+    url(input) {
+      const inputEncoded = encodeURIComponent(input);
+      return `//api.phila.gov/ais/v1/search/${inputEncoded}`
+    },
+    params: {
+      gatekeeperKey: GATEKEEPER_KEY
+    }
+  },
+  reverse: {
+    // TODO uri encode
+    url: (input) => `//api.phila.gov/ais/v1/reverse_geocode/${input}`,
+    params: {
+      gatekeeperKey: GATEKEEPER_KEY
+    }
+  }
+  // }
+},
+    cityBasemapLabels: {
+      // type: 'labels',
+      url: '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer',
+      zIndex: '3',
+    },
+
+*/
