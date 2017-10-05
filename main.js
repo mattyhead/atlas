@@ -1,8 +1,10 @@
 (function(scoped) {
   scoped(window.jQuery, window, document);
 }(function($, w, d) {
-  // deferred code:
+
+  // deferred 
   $(function() {
+    var L = w.L;
     var lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
       markers = {};
 
@@ -14,12 +16,12 @@
       url: BASEMAP_LABELS
     }).addTo(lmap);
 
-    markers.polling = L.marker(CITY_HALL, {
-      icon: ICONS.polling
-    }).addTo(lmap);
+    /*    markers.polling = L.marker(CITY_HALL, {
+          icon: ICONS.polling
+        }).addTo(lmap);*/
   });
 
-  // immediately executed:
+  // immediate 
   var GATEKEEPER_KEY = '82fe014b6575b8c38b44235580bc8b11',
     CITY_HALL = [39.95262, -75.16365],
     ZOOM = 16,
