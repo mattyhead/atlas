@@ -80,6 +80,6 @@
 
   // immediately executed:
   var GATEKEEPER_KEY = '82fe014b6575b8c38b44235580bc8b11';
-  var CITY_HALL = [39.95262, -75.164];
+  var CITY_HALL = [39.95262, -75.1635];
   var ZOOM = 16
 }));
