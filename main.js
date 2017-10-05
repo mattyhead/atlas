@@ -70,16 +70,18 @@
 
     // set up layers
     L.esri.tiledMapLayer({
-      url: "//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer"
+      url: BASEMAP
     }).addTo(lmap);
     L.esri.tiledMapLayer({
-      url: "//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer"
+      url: BASEMAP_LABELS
     }).addTo(lmap);
 
   });
 
   // immediately executed:
-  var GATEKEEPER_KEY = '82fe014b6575b8c38b44235580bc8b11';
-  var CITY_HALL = [39.95262, -75.1635];
-  var ZOOM = 16
+  var GATEKEEPER_KEY = '82fe014b6575b8c38b44235580bc8b11',
+    CITY_HALL = [39.95262, -75.16365],
+    ZOOM = 16,
+    BASEMAP = '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer',
+    BASEMAP_LABELS = '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer'
 }));
