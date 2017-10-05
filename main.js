@@ -1,5 +1,5 @@
 (function(scoped) {
-scoped(window.jQuery, window, document);
+  scoped(window.jQuery, window, document);
 }(function($, w, d) {
   // deferred code:
   $(function() {
@@ -48,7 +48,6 @@ scoped(window.jQuery, window, document);
         iconSize: [24, 24],
       }),
     }
-}
 }));
 
 //L.esri.basemapLayer('//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer').addTo(mymap);
