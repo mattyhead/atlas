@@ -1,8 +1,8 @@
 // IIFE - Immediately Invoked Function Expression
-(function(yourcode) {
+(function(deferredCode) {
 
   // The global jQuery object is passed as a parameter
-  yourcode(window.jQuery, window, document);
+  deferredCode(window.jQuery, window, document);
 
 }(function($, w, d) {
   var GATEKEEPER_KEY = '82fe014b6575b8c38b44235580bc8b11';
@@ -12,11 +12,36 @@
   // The $ is now locally scoped 
   $(function() {
 
-    // The DOM is ready!
-    var lmap = L.map('lmap').setView(CITY_HALL, ZOOM);
+    // declarations
+    var lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
+      homeIcon = L.icon({
+        iconUrl: 'src/assets/images/home.png',
+        iconSize: [32, 37],
+      }),
+      pollingIcon = L.icon({
+        iconUrl: 'src/assets/images/polling.png',
+        iconSize: [32, 37],
+      }),
+      congressIcon = L.icon({
+        iconUrl: 'src/assets/images/congress.png',
+        iconSize: [32, 37],
+      }),
+      entranceIcon = L.icon({
+        iconUrl: 'src/assets/images/e.png',
+        iconSize: [24, 24],
+      }),
+      handiIcon = L.icon({
+        iconUrl: 'src/assets/images/h.png',
+        iconSize: [24, 24],
+      }),
+      markers = {}
 
     //L.esri.basemapLayer('//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer').addTo(mymap);
-    /*        pwd: {
+    /*
+
+    var marker = L.marker([39.95262, -75.16422], {icon: firefoxIcon}).addTo(map);
+
+            pwd: {
                      url: '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer',
                      tiledLayers: [
                        'cityBasemapLabels'
@@ -25,13 +50,59 @@
                    },
 
                    //tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer
+    geocoder: {
+      // methods: {
+      forward: {
+        url(input) {
+          const inputEncoded = encodeURIComponent(input);
+          return `//api.phila.gov/ais/v1/search/${inputEncoded}`
+        },
+        params: {
+          gatekeeperKey: GATEKEEPER_KEY
+        }
+      },
+      reverse: {
+        // TODO uri encode
+        url: (input) => `//api.phila.gov/ais/v1/reverse_geocode/${input}`,
+        params: {
+          gatekeeperKey: GATEKEEPER_KEY
+        }
+      }
+      // }
+    },
+        cityBasemapLabels: {
+          // type: 'labels',
+          url: '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer',
+          zIndex: '3',
+        },
+
     */
+
+    // set up layers
     L.esri.tiledMapLayer({
       url: "//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer"
     }).addTo(lmap);
     L.esri.tiledMapLayer({
       url: "//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer"
     }).addTo(lmap);
+
+    // test markers
+    markers.home = L.marker([39.952621, -75.16422], {
+      icon: homeIcon
+    }).addTo(lmap);
+    markers.polling = L.marker([39.952623, -75.16422], {
+      icon: pollingIcon
+    }).addTo(lmap);
+    markers.congress = L.marker([39.952625, -75.16422], {
+      icon: congressIcon
+    }).addTo(lmap);
+    markers.entrance = L.marker([39.952627, -75.16422], {
+      icon: entranceIcon
+    }).addTo(lmap);
+    markers.handi = L.marker([39.952629, -75.16422], {
+      icon: handiIcon
+    }).addTo(lmap);
+
   });
 
   // The rest of your code goes here!
