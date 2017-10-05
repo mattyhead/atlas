@@ -4,7 +4,7 @@
   // deferred code:
   $(function() {
     var lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
-      icons = MAP_MARKERS(),
+      icons = MAP_MARKERS,
       markers = {};
 
     // set up layers
