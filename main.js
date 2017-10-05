@@ -1,10 +1,9 @@
 (function(scoped) {
-  scoped(window.jQuery, window, document);
-}(function($, w, d) {
+  scoped(window.jQuery, window.L, window, document);
+}(function($, l, w, d) {
 
   // deferred 
   $(function() {
-    var L = w.L;
     var lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
       markers = {};
 
