@@ -4,7 +4,6 @@
   // deferred code:
   $(function() {
     var lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
-      icons = MAP_MARKERS,
       markers = {};
 
     // set up layers
@@ -16,7 +15,7 @@
     }).addTo(lmap);
 
     markers.polling = L.marker(CITY_HALL, {
-      icon: icons.polling
+      icon: ICONS.polling
     }).addTo(lmap);
   });
 
@@ -26,7 +25,7 @@
     ZOOM = 16,
     BASEMAP = '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer',
     BASEMAP_LABELS = '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer',
-    MAP_MARKERS = {
+    ICONS = {
       home: L.icon({
         iconUrl: 'src/assets/images/home.png',
         iconSize: [32, 37],
