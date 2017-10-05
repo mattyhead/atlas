@@ -1,14 +1,8 @@
-// IIFE - Immediately Invoked Function Expression
-(function(deferredCode) {
-
-  // The global jQuery object is passed as a parameter
-  deferredCode(window.jQuery, window, document);
-
+(function(scoped) {
+  scoped(window.jQuery, window, document);
 }(function($, w, d) {
-  // The $ is now locally scoped 
+  // deferred code:
   $(function() {
-
-    // declarations
     var lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
       homeIcon = L.icon({
         iconUrl: 'src/assets/images/home.png',
@@ -82,11 +76,9 @@
       url: "//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer"
     }).addTo(lmap);
 
-
-
   });
 
-  // The rest of your code goes here!
+  // immediately executed:
   var GATEKEEPER_KEY = '82fe014b6575b8c38b44235580bc8b11';
   var CITY_HALL = [39.95262, -75.164];
   var ZOOM = 16
