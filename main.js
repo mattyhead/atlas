@@ -1,6 +1,6 @@
 (function(scoped) {
   scoped(window.jQuery, window.L, window, document);
-}(function($, l, w, d) {
+}(function($, L, W, D) {
 
   // deferred 
   $(function() {
