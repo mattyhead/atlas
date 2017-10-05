@@ -87,19 +87,19 @@
     }).addTo(lmap);
 
     // test markers
-    markers.home = L.marker([39.952621, -75.16422], {
+    markers.home = L.marker([39.95261, -75.16422], {
       icon: homeIcon
     }).addTo(lmap);
-    markers.polling = L.marker([39.952623, -75.16422], {
+    markers.polling = L.marker([39.95263, -75.16422], {
       icon: pollingIcon
     }).addTo(lmap);
-    markers.congress = L.marker([39.952625, -75.16422], {
+    markers.congress = L.marker([39.95265, -75.16422], {
       icon: congressIcon
     }).addTo(lmap);
-    markers.entrance = L.marker([39.952627, -75.16422], {
+    markers.entrance = L.marker([39.95267, -75.16422], {
       icon: entranceIcon
     }).addTo(lmap);
-    markers.handi = L.marker([39.952629, -75.16422], {
+    markers.handi = L.marker([39.95269, -75.16422], {
       icon: handiIcon
     }).addTo(lmap);
 
