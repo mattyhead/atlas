@@ -2,7 +2,7 @@
   scoped(window.jQuery, window.L, window, document);
 }(function($, L, W, D) {
 
-  // deferred 
+  // later 
   $(function() {
     var lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
       markers = {};
@@ -20,7 +20,7 @@
         }).addTo(lmap);*/
   });
 
-  // immediate 
+  // now 
   var GATEKEEPER_KEY = '82fe014b6575b8c38b44235580bc8b11',
     CITY_HALL = [39.95262, -75.16365],
     ZOOM = 16,
