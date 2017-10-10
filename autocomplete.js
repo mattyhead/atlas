@@ -1,7 +1,8 @@
 (function() {
-  L.GPlaceAutocomplete = {};
+  var service = "https://apis.philadelphiavotes.com/autocomplete/{address}"
+  L.Autocomplete = {};
 
-  L.Control.GPlaceAutocomplete = L.Control.extend({
+  L.Control.Autocomplete = L.Control.extend({
     options: {
       position: "topright",
       prepend: true,
@@ -31,7 +32,7 @@
       this.container = L.DomUtil.create("div", "leaflet-gac-container leaflet-bar");
       var searchWrapper = L.DomUtil.create("div", "leaflet-gac-wrapper");
       this.searchBox = L.DomUtil.create("input", "leaflet-gac-control");
-      this.autocomplete = new google.maps.places.Autocomplete(this.searchBox, this.options.autocomplete_options);
+//      this.autocomplete = new google.maps.places.Autocomplete(this.searchBox, this.options.autocomplete_options);
 
       // if collapse mode set - create icon and register events
       if (this.options.collapsed_mode) {
@@ -132,13 +133,15 @@
 
       var callback = this.options.callback;
       var _this = this;
-      google.maps.event.addListener(this.autocomplete, "place_changed", function() {
-        callback(_this.autocomplete.getPlace(), map);
-      });
+
+      L.DomEvent.addListener(this.searchBox, 'keyup', function () {console.log('keyup')})
+
+//      google.maps.event.addListener(this.autocomplete, "place_changed", function() {
+//        callback(_this.autocomplete.getPlace(), map);
+//      });
 
       return this;
     }
-
 
   });
 })();
