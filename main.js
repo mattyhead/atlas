@@ -6,6 +6,16 @@
   $(function() {
     var lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
       markers = {};
+/*    new L.Control.Autocomplete({
+      position: "topleft",
+      callback: function(location){
+        // object of google place is given
+        map.panTo(location);
+      }
+    })
+    .addTo(map);*/
+
+new L.Control.GPlaceAutocomplete().addTo(lmap);
 
     // set up layers
     L.esri.tiledMapLayer({
