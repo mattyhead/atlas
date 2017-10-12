@@ -5,8 +5,7 @@
     options: {
       position: "topright",
       prepend: true,
-      collapsed_mode: false,
-      autocomplete_options: {}
+      collapsed_mode: false
     },
     collapsedModeIsExpanded: true,
     icon: null,
@@ -16,15 +15,6 @@
       if (options) {
         L.Util.setOptions(this, options)
       }
-      if (!this.options.autocomplete_options.callback) {
-        this.options.autocomplete_options.callback = this.onLocationComplete
-      }
-      if (!this.options.autocomplete_options.minchars) {
-        this.options.autocomplete_options.minchars = 3
-      }
-      if (!this.options.autocomplete_options.url) {
-        this.options.autocomplete_options.url = 'https://apis.philadelphiavotes.com/autocomplete/{address}'
-      }
       this._buildContainer()
     },
 
@@ -33,7 +23,6 @@
       this.container = L.DomUtil.create("div", "leaflet-gac-container leaflet-bar")
       var searchWrapper = L.DomUtil.create("div", "leaflet-gac-wrapper")
       this.searchBox = L.DomUtil.create("input", "leaflet-gac-control")
-        // this.autocomplete = new google.maps.places.Autocomplete(this.searchBox, this.options.autocomplete_options)
 
       // if collapse mode set - create icon and register events
       if (this.options.collapsed_mode) {
@@ -124,8 +113,8 @@
 
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
         if (entered) return
-        entered = true;
-        AC();
+        entered = true
+        this.options.callback
       })
 
       return this
@@ -134,9 +123,22 @@
 
   function showResults(data, _this) {
     console.log(data, _this.container)
-
   }
 
+  var buildingCodes = {
+    'F': 'BUILDING FULLY ACCESSIBLE',
+    'A': 'ALTERNATE ENTRANCE',
+    'B': 'BUILDING SUBSTANTIALLY ACCESSIBLE',
+    'R': 'ACCESSIBLE WITH RAMP',
+    'M': 'BUILDING ACCESSIBLITY MODIFIED',
+    'N': 'BUILDING NOT ACCESSIBLE'
+  }
+  var parkingCodes = {
+    'N': 'NO PARKING',
+    'L': 'LOADING ZONE',
+    'H': 'HANDICAP PARKING',
+    'G': 'GENERAL PARKING'
+  }
 
   function AC() {
     var addressEl = $('input.leaflet-gac-control')
@@ -176,7 +178,7 @@
             selected = response.features[0].attributes;
             selected.building = buildingCodes[selected.building];
             selected.parking = parkingCodes[selected.parking];
-            resultContainer.html(templates.result(response.features[0].attributes))
+            console.log(response.features[0].attributes)
           }
         }).fail(function() {
           resultContainer.html(templates.error())
