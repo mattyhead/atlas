@@ -147,10 +147,10 @@
       source: function(request, callback) {
         var url = ('https://apis.philadelphiavotes.com/autocomplete/{address}').replace('{address}', request.term)
         $.getJSON(url, function(response) {
-          console.log(response)
 
           if (response.status == "success") {
             var addresses = $.map(response.data, function(candidate) {
+              console.log(candidate)
               return {
                 label: candidate.label,
                 division: candidate.value
