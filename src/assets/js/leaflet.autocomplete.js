@@ -1,9 +1,9 @@
 (function(options) {
   // default options
-  var Options = new Map({
+  var Options = new Map([
     service: 'https://apis.philadelphiavotes.com/autocomplete/{address}',
     minchars: 3
-  })
+  ])
 
   // option overrides
   Options.forEach(function(value, key) {
