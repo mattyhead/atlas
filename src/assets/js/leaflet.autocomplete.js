@@ -26,12 +26,6 @@
       if (!this.options.callback) {
         this.options.callback = this.onLocationComplete
       }
-      if (!this.options.service) {
-        this.options.service = 'https://apis.philadelphiavotes.com/autocomplete/{address}'
-      }
-      if (!this.options.minchars) {
-        this.options.minchars = 3
-      }
       this._buildContainer()
     },
 
