@@ -101,8 +101,6 @@
           Options.set(key, options[key])
         }
       })
-
-      console.log(Options)
     },
 
     //***
@@ -154,6 +152,8 @@
 
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
         console.log('keyup')
+        console.log(Options)
+
       })
 
       //      google.maps.event.addListener(this.autocomplete, "place_changed", function() {
