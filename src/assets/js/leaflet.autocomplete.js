@@ -130,47 +130,50 @@
 
   }
 
-  var addressEl = $('input .leaflet-gac-control')
 
-  addressEl.autocomplete({
-    minLength: 3,
-    source: function(request, callback) {
-      var url = ('https://apis.philadelphiavotes.com/autocomplete/{address}').replace('{address}', request.term)
-      $.getJSON(url, function(response) {
+  $(function() {
+    var addressEl = $('input .leaflet-gac-control')
 
-        if (response.status == "success") {
-          var addresses = $.map(response.data, function(candidate) {
-            return {
-              label: candidate.label,
-              division: candidate.value
-            }
-          })
-          callback(addresses)
-        } else {
-          callback([])
-        }
-      })
-    },
-    select: function(evt, ui) {
-      sendEvent('Autocomplete', 'Select', ui.item.label)
-      var wardDivision = ui.item.division
-      var pollingPlaceUrl = constructPollingPlaceUrl(wardDivision)
-      resultContainer.html(templates.loading)
-      $.getJSON(pollingPlaceUrl, function(response) {
-        var selected = {};
-        if (response.features.length < 1) {
-          // if there's no features returned, indicate an error
+    addressEl.autocomplete({
+      minLength: 3,
+      source: function(request, callback) {
+        var url = ('https://apis.philadelphiavotes.com/autocomplete/{address}').replace('{address}', request.term)
+        $.getJSON(url, function(response) {
+
+          if (response.status == "success") {
+            var addresses = $.map(response.data, function(candidate) {
+              return {
+                label: candidate.label,
+                division: candidate.value
+              }
+            })
+            callback(addresses)
+          } else {
+            callback([])
+          }
+        })
+      },
+      select: function(evt, ui) {
+        sendEvent('Autocomplete', 'Select', ui.item.label)
+        var wardDivision = ui.item.division
+        var pollingPlaceUrl = constructPollingPlaceUrl(wardDivision)
+        resultContainer.html(templates.loading)
+        $.getJSON(pollingPlaceUrl, function(response) {
+          var selected = {};
+          if (response.features.length < 1) {
+            // if there's no features returned, indicate an error
+            resultContainer.html(templates.error())
+          } else {
+            // Otherwise show the result
+            selected = response.features[0].attributes;
+            selected.building = buildingCodes[selected.building];
+            selected.parking = parkingCodes[selected.parking];
+            resultContainer.html(templates.result(response.features[0].attributes))
+          }
+        }).fail(function() {
           resultContainer.html(templates.error())
-        } else {
-          // Otherwise show the result
-          selected = response.features[0].attributes;
-          selected.building = buildingCodes[selected.building];
-          selected.parking = parkingCodes[selected.parking];
-          resultContainer.html(templates.result(response.features[0].attributes))
-        }
-      }).fail(function() {
-        resultContainer.html(templates.error())
-      })
-    }
+        })
+      }
+    })
   })
 })(window.jQuery)
