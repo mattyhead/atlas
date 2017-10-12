@@ -120,7 +120,7 @@
       } else {
         corner.appendChild(container)
       }
-
+      AC()
       return this
     }
   })
@@ -131,7 +131,7 @@
   }
 
 
-  $(function() {
+  function AC() {
     var addressEl = $('input .leaflet-gac-control')
 
     addressEl.autocomplete({
@@ -174,5 +174,5 @@
         })
       }
     })
-  })
+  }
 })(window.jQuery)
