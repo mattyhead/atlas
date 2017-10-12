@@ -93,6 +93,18 @@
       this.collapsedModeIsExpanded = shouldDisplaySearch
     },
 
+    configure: function(options) {
+      //      if (typeof options == 'Undefined') return
+      // option overrides
+      Options.forEach(function(value, key) {
+        if (typeof options[key] != 'Undefined') {
+          value = options[key]
+        }
+      })
+
+      console.log(Options)
+    },
+
     //***
     // Default success callback
     //***
@@ -111,15 +123,6 @@
     },
 
     onAdd: function() {
-      // option overrides
-      Options.forEach(function(value, key) {
-        if (typeof options[key] != 'Undefined') {
-          value = options[key]
-        }
-      })
-
-      console.log(Options)
-
       // stop propagation of click events
       L.DomEvent.addListener(this.container, 'click', L.DomEvent.stop)
       L.DomEvent.disableClickPropagation(this.container)

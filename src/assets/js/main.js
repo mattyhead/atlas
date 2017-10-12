@@ -15,7 +15,7 @@
         })
         .addTo(map);*/
 
-    new L.Control.Autocomplete({
+    new L.Control.Autocomplete().configure({
       service: 'what?  service?'
     }).addTo(lmap);
 
