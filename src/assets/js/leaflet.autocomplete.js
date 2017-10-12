@@ -122,7 +122,9 @@
         corner.appendChild(container)
       }
 
-      L.DomEvent.addListener(this.searchBox, 'onfocus', function() {
+      L.DomEvent.addListener(this.searchBox, 'keyup', function() {
+        if (entered) return
+        entered = true;
         AC();
       })
 
