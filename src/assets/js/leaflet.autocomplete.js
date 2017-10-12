@@ -98,7 +98,7 @@
       // option overrides
       Options.forEach(function(value, key) {
         if (typeof options[key] != 'Undefined') {
-          value = options[key]
+          Options.set(key, options[key])
         }
       })
 
