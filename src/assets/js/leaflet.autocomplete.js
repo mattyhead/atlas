@@ -56,12 +56,12 @@
 
     _showResults: function(_this, data) {
 
-      }
-      //***
-      // Collapse mode callbacks
-      //***
+    },
+    //***
+    // Collapse mode callbacks
+    //***
 
-      _showSearchBar: function() {
+    _showSearchBar: function() {
       this._toggleSearch(true)
     },
 
