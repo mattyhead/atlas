@@ -1,16 +1,20 @@
 (function(options) {
-  var service = "https://apis.philadelphiavotes.com/autocomplete/{address}",
-    minchars = 3
+  // default options
+  var Options = new Map({
+    service: 'https://apis.philadelphiavotes.com/autocomplete/{address}',
+    minchars: 3
+  })
 
-  if (typeof options == "Object") {
-    console.log('options is an object')
-    console.log(options)
-  } else {
-    console.log('options is something else')
-    console.log(options)
-  }
+  // option overrides
+  Options.forEach(function(value, key) {
+    if (typeof options[key] != 'Undefined') {
+      value = options[key]
+    }
+  })
 
-  L.Autocomplete = {};
+  console.log(options)
+
+  L.Autocomplete = {}
 
   L.Control.Autocomplete = L.Control.extend({
     options: {
@@ -28,47 +32,47 @@
 
     initialize: function(options) {
       if (options) {
-        L.Util.setOptions(this, options);
+        L.Util.setOptions(this, options)
       }
       if (!this.options.callback) {
-        this.options.callback = this.onLocationComplete;
+        this.options.callback = this.onLocationComplete
       }
-      this._buildContainer();
+      this._buildContainer()
     },
 
     _buildContainer: function() {
 
       // build structure
-      this.container = L.DomUtil.create("div", "leaflet-gac-container leaflet-bar");
-      var searchWrapper = L.DomUtil.create("div", "leaflet-gac-wrapper");
-      this.searchBox = L.DomUtil.create("input", "leaflet-gac-control");
-      //      this.autocomplete = new google.maps.places.Autocomplete(this.searchBox, this.options.autocomplete_options);
+      this.container = L.DomUtil.create("div", "leaflet-gac-container leaflet-bar")
+      var searchWrapper = L.DomUtil.create("div", "leaflet-gac-wrapper")
+      this.searchBox = L.DomUtil.create("input", "leaflet-gac-control")
+        //      this.autocomplete = new google.maps.places.Autocomplete(this.searchBox, this.options.autocomplete_options)
 
       // if collapse mode set - create icon and register events
       if (this.options.collapsed_mode) {
-        this.collapsedModeIsExpanded = false;
+        this.collapsedModeIsExpanded = false
 
-        this.icon = L.DomUtil.create("div", "leaflet-gac-search-btn");
+        this.icon = L.DomUtil.create("div", "leaflet-gac-search-btn")
         L.DomEvent
-          .on(this.icon, "click", this._showSearchBar, this);
+          .on(this.icon, "click", this._showSearchBar, this)
 
         this.icon.appendChild(
           L.DomUtil.create("div", "leaflet-gac-search-icon")
-        );
+        )
 
         searchWrapper.appendChild(
           this.icon
-        );
-        L.DomUtil.addClass(this.searchBox, "leaflet-gac-hidden");
+        )
+        L.DomUtil.addClass(this.searchBox, "leaflet-gac-hidden")
       }
 
       searchWrapper.appendChild(
-        this.searchBox
-      );
-      // create and bind autocomplete
+          this.searchBox
+        )
+        // create and bind autocomplete
       this.container.appendChild(
         searchWrapper
-      );
+      )
 
     },
 
@@ -77,26 +81,26 @@
     //***
 
     _showSearchBar: function() {
-      this._toggleSearch(true);
+      this._toggleSearch(true)
     },
 
     _hideSearchBar: function() {
       // if element is expanded, we need to change expanded flag and call collapse handler
       if (this.collapsedModeIsExpanded) {
-        this._toggleSearch(false);
+        this._toggleSearch(false)
       }
     },
 
     _toggleSearch: function(shouldDisplaySearch) {
       if (shouldDisplaySearch) {
-        L.DomUtil.removeClass(this.searchBox, "leaflet-gac-hidden");
-        L.DomUtil.addClass(this.icon, "leaflet-gac-hidden");
-        this.searchBox.focus();
+        L.DomUtil.removeClass(this.searchBox, "leaflet-gac-hidden")
+        L.DomUtil.addClass(this.icon, "leaflet-gac-hidden")
+        this.searchBox.focus()
       } else {
-        L.DomUtil.addClass(this.searchBox, "leaflet-gac-hidden");
-        L.DomUtil.removeClass(this.icon, "leaflet-gac-hidden");
+        L.DomUtil.addClass(this.searchBox, "leaflet-gac-hidden")
+        L.DomUtil.removeClass(this.icon, "leaflet-gac-hidden")
       }
-      this.collapsedModeIsExpanded = shouldDisplaySearch;
+      this.collapsedModeIsExpanded = shouldDisplaySearch
     },
 
     //***
@@ -106,54 +110,54 @@
     onLocationComplete: function(place, map) {
       // default callback
       if (!place.geometry) {
-        alert("Location not found");
-        return;
+        alert("Location not found")
+        return
       }
       map.panTo([
         place.geometry.location.lat(),
         place.geometry.location.lng()
-      ]);
+      ])
 
     },
 
     onAdd: function() {
       // stop propagation of click events
-      L.DomEvent.addListener(this.container, 'click', L.DomEvent.stop);
-      L.DomEvent.disableClickPropagation(this.container);
+      L.DomEvent.addListener(this.container, 'click', L.DomEvent.stop)
+      L.DomEvent.disableClickPropagation(this.container)
       if (this.options.collapsed_mode) {
         // if collapse mode - register handler
-        this._map.on('dragstart click', this._hideSearchBar, this);
+        this._map.on('dragstart click', this._hideSearchBar, this)
       }
-      return this.container;
+      return this.container
     },
 
     addTo: function(map) {
-      this._map = map;
+      this._map = map
 
       var container = this._container = this.onAdd(map),
         pos = this.options.position,
-        corner = map._controlCorners[pos];
+        corner = map._controlCorners[pos]
 
-      L.DomUtil.addClass(container, 'leaflet-control');
+      L.DomUtil.addClass(container, 'leaflet-control')
       if (this.options.prepend) {
-        corner.insertBefore(container, corner.firstChild);
+        corner.insertBefore(container, corner.firstChild)
       } else {
         corner.appendChild(container)
       }
 
-      var callback = this.options.callback;
-      var _this = this;
+      var callback = this.options.callback
+      var _this = this
 
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
         console.log('keyup')
       })
 
       //      google.maps.event.addListener(this.autocomplete, "place_changed", function() {
-      //        callback(_this.autocomplete.getPlace(), map);
-      //      });
+      //        callback(_this.autocomplete.getPlace(), map)
+      //      })
 
-      return this;
+      return this
     }
 
-  });
-})();
+  })
+})()
