@@ -152,8 +152,8 @@
             var addresses = $.map(response.data, function(candidate) {
               console.log(candidate)
               return {
-                label: candidate.label,
-                division: candidate.value
+                label: candidate.address,
+                value: candidate.address
               }
             })
             callback(addresses)
