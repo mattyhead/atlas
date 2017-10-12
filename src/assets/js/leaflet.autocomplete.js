@@ -154,7 +154,6 @@
         })
       },
       select: function(evt, ui) {
-        sendEvent('Autocomplete', 'Select', ui.item.label)
         var wardDivision = ui.item.division
         var pollingPlaceUrl = constructPollingPlaceUrl(wardDivision)
         resultContainer.html(templates.loading)
