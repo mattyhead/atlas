@@ -1,8 +1,4 @@
-(function(options) {
-  // default options
-  var Options = new Map()
-  Options.set('service', 'https://apis.philadelphiavotes.com/autocomplete/{address}')
-  Options.set('minchars', 3)
+(function() {
 
   L.Autocomplete = {}
 
@@ -13,10 +9,8 @@
       collapsed_mode: false,
       autocomplete_options: {}
     },
-
     collapsedModeIsExpanded: true,
 
-    autocomplete: null,
     icon: null,
     searchBox: null,
 
@@ -27,6 +21,12 @@
       if (!this.options.callback) {
         this.options.callback = this.onLocationComplete
       }
+      if (!this.options.service) {
+        this.options.service = 'https://apis.philadelphiavotes.com/autocomplete/{address}'
+      }
+      if (!this.options.minchars) {
+        this.options.minchars = 3
+      }
       this._buildContainer()
     },
 
@@ -36,15 +36,14 @@
       this.container = L.DomUtil.create("div", "leaflet-gac-container leaflet-bar")
       var searchWrapper = L.DomUtil.create("div", "leaflet-gac-wrapper")
       this.searchBox = L.DomUtil.create("input", "leaflet-gac-control")
-        //      this.autocomplete = new google.maps.places.Autocomplete(this.searchBox, this.options.autocomplete_options)
+        // this.autocomplete = new google.maps.places.Autocomplete(this.searchBox, this.options.autocomplete_options)
 
       // if collapse mode set - create icon and register events
       if (this.options.collapsed_mode) {
         this.collapsedModeIsExpanded = false
 
         this.icon = L.DomUtil.create("div", "leaflet-gac-search-btn")
-        L.DomEvent
-          .on(this.icon, "click", this._showSearchBar, this)
+        L.DomEvent.on(this.icon, "click", this._showSearchBar, this)
 
         this.icon.appendChild(
           L.DomUtil.create("div", "leaflet-gac-search-icon")
@@ -56,13 +55,10 @@
         L.DomUtil.addClass(this.searchBox, "leaflet-gac-hidden")
       }
 
-      searchWrapper.appendChild(
-          this.searchBox
-        )
-        // create and bind autocomplete
-      this.container.appendChild(
-        searchWrapper
-      )
+      searchWrapper.appendChild(this.searchBox)
+
+      // create and bind autocomplete
+      this.container.appendChild(searchWrapper)
 
     },
 
@@ -93,20 +89,9 @@
       this.collapsedModeIsExpanded = shouldDisplaySearch
     },
 
-    configure: function(options) {
-      //      if (typeof options == 'Undefined') return
-      // option overrides
-      Options.forEach(function(value, key) {
-        if (typeof options[key] != 'Undefined') {
-          Options.set(key, options[key])
-        }
-      })
-    },
-
     //***
     // Default success callback
     //***
-
     onLocationComplete: function(place, map) {
       // default callback
       if (!place.geometry) {
@@ -117,7 +102,6 @@
         place.geometry.location.lat(),
         place.geometry.location.lng()
       ])
-
     },
 
     onAdd: function() {
@@ -131,7 +115,7 @@
       return this.container
     },
 
-    addTo: function(map, options) {
+    addTo: function(map) {
       this.configure(options)
 
       this._map = map
@@ -150,18 +134,9 @@
       var callback = this.options.callback
       var _this = this
 
-      L.DomEvent.addListener(this.searchBox, 'keyup', function() {
-        console.log('keyup')
-        console.log(Options)
-
-      })
-
-      //      google.maps.event.addListener(this.autocomplete, "place_changed", function() {
-      //        callback(_this.autocomplete.getPlace(), map)
-      //      })
+      L.DomEvent.addListener(this.searchBox, 'keyup', this.autocomplete)
 
       return this
     }
-
   })
 })()
