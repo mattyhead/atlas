@@ -6,22 +6,24 @@
       position: "topright",
       prepend: true,
       collapsed_mode: false,
-      autocomplete_options: {
-        url: 'https://apis.philadelphiavotes.com/autocomplete/{address}',
-        minchars: 3
-      }
+      autocomplete_options: {}
     },
     collapsedModeIsExpanded: true,
     icon: null,
     searchBox: null,
 
     initialize: function(options) {
-      console.log('initialize');
       if (options) {
         L.Util.setOptions(this, options)
       }
       if (!this.options.autocomplete_options.callback) {
         this.options.autocomplete_options.callback = this.onLocationComplete
+      }
+      if (!this.options.autocomplete_options.minchars) {
+        this.options.autocomplete_options.minchars = 3
+      }
+      if (!this.options.autocomplete_options.url) {
+        this.options.autocomplete_options.url = 'https://apis.philadelphiavotes.com/autocomplete/{address}'
       }
       this._buildContainer()
     },
@@ -119,7 +121,6 @@
         corner.appendChild(container)
       }
 
-      acOptions.callback = this.options.autocomplete_options.callback
       var _this = this
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
         var options = _this.options.autocomplete_options
