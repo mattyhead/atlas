@@ -127,7 +127,7 @@
 
   function showResults(data, _this) {
     console.log(data, _this.container)
-    document.getElementsByClassName(classNames: DOMString)
+
   }
 
   var addressEl = $('input .leaflet-gac-control')
