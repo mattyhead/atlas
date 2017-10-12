@@ -113,8 +113,8 @@
 
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
         if (entered) return
-        entered = true
-        this.options.callback
+        entered = true;
+        AC();
       })
 
       return this
