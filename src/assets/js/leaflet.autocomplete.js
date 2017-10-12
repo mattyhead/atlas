@@ -54,11 +54,14 @@
 
     },
 
-    //***
-    // Collapse mode callbacks
-    //***
+    _showResults: function(_this, data) {
 
-    _showSearchBar: function() {
+      }
+      //***
+      // Collapse mode callbacks
+      //***
+
+      _showSearchBar: function() {
       this._toggleSearch(true)
     },
 
@@ -124,15 +127,12 @@
       var _this = this
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
         var options = _this.options.autocomplete_options
-        var callback = options.callback,
-          url = options.url,
-          minchars = options.minchars
 
         // leave if minchars not met
-        if (minchars > this.value.length) return
+        if (options.minchars > this.value.length) return
 
-        L.Util.ajax(url.replace('{address}', encodeURIComponent(this.value))).then(function(data) {
-          console.log(data);
+        L.Util.ajax(options.url.replace('{address}', encodeURIComponent(this.value))).then(function(data) {
+          console.log(data, _this.searchWrapper);
         });
       })
       return this
