@@ -122,13 +122,13 @@
         corner.appendChild(container)
       }
 
-      L.DomEvent.addListener(this.searchBox, 'keyup', function() {
+/*      L.DomEvent.addListener(this.searchBox, 'keyup', function() {
         if (!entered) {
-          entered = true;
+          entered = true;*/
           AC();
-        }
-      })
-
+      /*        }
+            })
+      */
       return this
     }
   })
