@@ -65,8 +65,19 @@
     //***
     // Collapse mode callbacks
     //***
+    _autocomplete: function() {
+      var callback = this.options.callback,
+        service = this.options.service,
+        minchars = this.options.minchars
 
-    _showSearchBar: function() {
+      if (minchars > this.searchBox.value.length) {
+        return
+      }
+
+      console.log(this.searchBox.value)
+    }
+
+      _showSearchBar: function() {
       this._toggleSearch(true)
     },
 
@@ -132,7 +143,7 @@
       var callback = this.options.callback
       var _this = this
 
-      L.DomEvent.addListener(this.searchBox, 'keyup', this.autocomplete)
+      L.DomEvent.addListener(this.searchBox, 'keyup', this._autocomplete)
 
       return this
     }
