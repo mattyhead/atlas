@@ -131,7 +131,7 @@
         // leave if minchars not met
         if (minchars > this.value.length) return
 
-        L.Util.ajax(service.replace('{address}', encodeURIComponent(this.value))).then(function(data) {
+        L.Util.ajax(url.replace('{address}', encodeURIComponent(this.value))).then(function(data) {
           console.log(data);
         });
       })
