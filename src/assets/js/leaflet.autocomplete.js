@@ -147,6 +147,7 @@
       source: function(request, callback) {
         var url = ('https://apis.philadelphiavotes.com/autocomplete/{address}').replace('{address}', request.term)
         $.getJSON(url, function(response) {
+          console.log(response)
 
           if (response.status == "success") {
             var addresses = $.map(response.data, function(candidate) {
@@ -166,7 +167,6 @@
         var pollingPlaceUrl = constructPollingPlaceUrl(wardDivision)
         resultContainer.html(templates.loading)
         $.getJSON(pollingPlaceUrl, function(response) {
-          console.log(response)
           var selected = {};
           if (response.features.length < 1) {
             // if there's no features returned, indicate an error
