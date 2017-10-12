@@ -118,7 +118,7 @@
         }
       })
 
-      console.log(options)
+      console.log(Options)
 
       // stop propagation of click events
       L.DomEvent.addListener(this.container, 'click', L.DomEvent.stop)
