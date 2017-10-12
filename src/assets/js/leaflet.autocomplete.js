@@ -1,5 +1,5 @@
 (function() {
-  var options = {};
+  this.options = {};
 
   L.Autocomplete = {}
 
