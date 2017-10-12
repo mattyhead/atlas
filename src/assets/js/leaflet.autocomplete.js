@@ -1,5 +1,8 @@
 (function() {
-  var Options = {};
+  var acOptions = {
+    service: 'https://apis.philadelphiavotes.com/autocomplete/{address}',
+    minchars: 3
+  };
 
   L.Autocomplete = {}
 
@@ -20,14 +23,14 @@
       if (options) {
         L.Util.setOptions(this, options)
       }
-      if (!Options.callback) {
-        Options.callback = this.onLocationComplete
+      if (!this.options.callback) {
+        this.options.callback = this.onLocationComplete
       }
-      if (!Options.service) {
-        Options.service = 'https://apis.philadelphiavotes.com/autocomplete/{address}'
+      if (!this.options.service) {
+        this.options.service = 'https://apis.philadelphiavotes.com/autocomplete/{address}'
       }
-      if (!Options.minchars) {
-        Options.minchars = 3
+      if (!this.options.minchars) {
+        this.options.minchars = 3
       }
       this._buildContainer()
     },
@@ -38,10 +41,10 @@
       this.container = L.DomUtil.create("div", "leaflet-gac-container leaflet-bar")
       var searchWrapper = L.DomUtil.create("div", "leaflet-gac-wrapper")
       this.searchBox = L.DomUtil.create("input", "leaflet-gac-control")
-        // this.autocomplete = new google.maps.places.Autocomplete(this.searchBox, Options.autocomplete_options)
+        // this.autocomplete = new google.maps.places.Autocomplete(this.searchBox, this.options.autocomplete_options)
 
       // if collapse mode set - create icon and register events
-      if (Options.collapsed_mode) {
+      if (this.options.collapsed_mode) {
         this.collapsedModeIsExpanded = false
 
         this.icon = L.DomUtil.create("div", "leaflet-gac-search-btn")
@@ -68,9 +71,9 @@
     // Collapse mode callbacks
     //***
     _autocomplete: function() {
-      var callback = Options.callback,
-        service = Options.service,
-        minchars = Options.minchars
+      var callback = this.options.callback,
+        service = acOptions.service,
+        minchars = acOptions.minchars
 
       if (minchars > this.searchBox.value.length) {
         return
@@ -121,7 +124,7 @@
       // stop propagation of click events
       L.DomEvent.addListener(this.container, 'click', L.DomEvent.stop)
       L.DomEvent.disableClickPropagation(this.container)
-      if (Options.collapsed_mode) {
+      if (this.options.collapsed_mode) {
         // if collapse mode - register handler
         this._map.on('dragstart click', this._hideSearchBar, this)
       }
@@ -132,17 +135,17 @@
       this._map = map
 
       var container = this._container = this.onAdd(map),
-        pos = Options.position,
+        pos = this.options.position,
         corner = map._controlCorners[pos]
 
       L.DomUtil.addClass(container, 'leaflet-control')
-      if (Options.prepend) {
+      if (this.options.prepend) {
         corner.insertBefore(container, corner.firstChild)
       } else {
         corner.appendChild(container)
       }
 
-      var callback = Options.callback
+      var callback = this.options.callback
       var _this = this
 
       L.DomEvent.addListener(this.searchBox, 'keyup', this._autocomplete)
