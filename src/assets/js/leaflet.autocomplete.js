@@ -1,4 +1,4 @@
-(function() {
+(function($) {
   L.Autocomplete = {}
 
   L.Control.Autocomplete = L.Control.extend({
@@ -121,22 +121,56 @@
         corner.appendChild(container)
       }
 
-      var _this = this
-      L.DomEvent.addListener(this.searchBox, 'keyup', function() {
-        var options = _this.options.autocomplete_options
-
-        // leave if minchars not met
-        if (options.minchars > this.value.length) return
-
-        L.Util.ajax(options.url.replace('{address}', encodeURIComponent(this.value))).then(function(data) {
-          showResults(data, _this);
-        });
-      })
       return this
     }
   })
 
   function showResults(data, _this) {
     console.log(data, _this.container)
+    document.getElementsByClassName(classNames: DOMString)
   }
-})()
+
+  var addressEl = $('input .leaflet-gac-control')
+
+  addressEl.autocomplete({
+    minLength: 3,
+    source: function(request, callback) {
+      var url = ('https://apis.philadelphiavotes.com/autocomplete/{address}').replace('{address}', request.term)
+      $.getJSON(url, function(response) {
+
+        if (response.status == "success") {
+          var addresses = $.map(response.data, function(candidate) {
+            return {
+              label: candidate.label,
+              division: candidate.value
+            }
+          })
+          callback(addresses)
+        } else {
+          callback([])
+        }
+      })
+    },
+    select: function(evt, ui) {
+      sendEvent('Autocomplete', 'Select', ui.item.label)
+      var wardDivision = ui.item.division
+      var pollingPlaceUrl = constructPollingPlaceUrl(wardDivision)
+      resultContainer.html(templates.loading)
+      $.getJSON(pollingPlaceUrl, function(response) {
+        var selected = {};
+        if (response.features.length < 1) {
+          // if there's no features returned, indicate an error
+          resultContainer.html(templates.error())
+        } else {
+          // Otherwise show the result
+          selected = response.features[0].attributes;
+          selected.building = buildingCodes[selected.building];
+          selected.parking = parkingCodes[selected.parking];
+          resultContainer.html(templates.result(response.features[0].attributes))
+        }
+      }).fail(function() {
+        resultContainer.html(templates.error())
+      })
+    }
+  })
+})(window.JQuery)
