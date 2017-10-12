@@ -122,7 +122,7 @@
         corner.appendChild(container)
       }
 
-      L.DomEvent.addListener(this.searchBox, 'onload', function() {
+      L.DomEvent.addListener(this.searchBox, 'onLoad', function() {
         AC();
       })
 
