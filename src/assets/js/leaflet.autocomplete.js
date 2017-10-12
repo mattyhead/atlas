@@ -116,8 +116,6 @@
     },
 
     addTo: function(map) {
-      this.configure(options)
-
       this._map = map
 
       var container = this._container = this.onAdd(map),
