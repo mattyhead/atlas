@@ -108,6 +108,7 @@
     },
 
     addTo: function(map) {
+      var entered = false;
       this._map = map
 
       var container = this._container = this.onAdd(map),
@@ -120,6 +121,13 @@
       } else {
         corner.appendChild(container)
       }
+
+      L.DomEvent.addListener(this.searchBox, 'enter', function() {
+        if (!entered) {
+          entered = true;
+          AC();
+        }
+      })
       AC()
       return this
     }
