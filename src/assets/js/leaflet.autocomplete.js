@@ -1,9 +1,4 @@
 (function() {
-  var acOptions = {
-    service: 'https://apis.philadelphiavotes.com/autocomplete/{address}',
-    minchars: 3
-  };
-
   L.Autocomplete = {}
 
   L.Control.Autocomplete = L.Control.extend({
@@ -11,7 +6,10 @@
       position: "topright",
       prepend: true,
       collapsed_mode: false,
-      autocomplete_options: {}
+      autocomplete_options: {
+        url: 'https://apis.philadelphiavotes.com/autocomplete/{address}',
+        minchars: 3
+      }
     },
     collapsedModeIsExpanded: true,
     icon: null,
@@ -22,8 +20,8 @@
       if (options) {
         L.Util.setOptions(this, options)
       }
-      if (!this.options.callback) {
-        this.options.callback = this.onLocationComplete
+      if (!this.options.autocomplete_options.callback) {
+        this.options.autocomplete_options.callback = this.onLocationComplete
       }
       this._buildContainer()
     },
@@ -121,18 +119,19 @@
         corner.appendChild(container)
       }
 
-      acOptions.callback = this.options.callback
+      acOptions.callback = this.options.autocomplete_options.callback
       var _this = this
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
-        var callback = acOptions.callback,
-          service = acOptions.service,
-          minchars = acOptions.minchars
+        var options = _this.options.autocomplete_options
+        var callback = options.callback,
+          service = options.service,
+          minchars = options.minchars
 
         if (minchars > this.value.length) {
           return
         }
 
-        console.log(this.value, _this)
+        console.log(this.value, options)
       })
       return this
     }
