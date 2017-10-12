@@ -166,6 +166,7 @@
         var pollingPlaceUrl = constructPollingPlaceUrl(wardDivision)
         resultContainer.html(templates.loading)
         $.getJSON(pollingPlaceUrl, function(response) {
+          console.log(response)
           var selected = {};
           if (response.features.length < 1) {
             // if there's no features returned, indicate an error
