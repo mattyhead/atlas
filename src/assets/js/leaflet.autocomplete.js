@@ -28,19 +28,6 @@
       this._buildContainer()
     },
 
-    _autocomplete: function() {
-      var options = _this.options.autocomplete_options
-      var callback = options.callback,
-        service = options.service,
-        minchars = options.minchars
-
-      if (minchars > this.value.length) {
-        return
-      }
-
-      console.log(this.value, options)
-    },
-
     _buildContainer: function() {
       // build structure
       this.container = L.DomUtil.create("div", "leaflet-gac-container leaflet-bar")
@@ -135,7 +122,19 @@
       }
 
       var _this = this
-      L.DomEvent.addListener(this.searchBox, 'keyup', this._autocomplete)
+      L.DomEvent.addListener(this.searchBox, 'keyup', function() {
+        var options = _this.options.autocomplete_options
+        var callback = options.callback,
+          service = options.service,
+          minchars = options.minchars
+
+        // leave if minchars not met
+        if (minchars > this.value.length) return
+
+        L.Util.ajax(service.replace('{address}', encodeURIComponent(this.value))).then(function(data) {
+          console.log(data);
+        });
+      })
       return this
     }
   })
