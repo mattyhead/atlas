@@ -15,7 +15,9 @@
         })
         .addTo(map);*/
 
-    new L.Control.Autocomplete().addTo(lmap);
+    new L.Control.Autocomplete({
+      service: 'what?  service?'
+    }).addTo(lmap);
 
     // set up layers
     L.esri.tiledMapLayer({
