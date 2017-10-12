@@ -15,6 +15,7 @@
     searchBox: null,
 
     initialize: function(options) {
+      console.log('initialize');
       if (options) {
         L.Util.setOptions(this, options)
       }
