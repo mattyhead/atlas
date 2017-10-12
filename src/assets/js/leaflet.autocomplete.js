@@ -133,7 +133,7 @@
 
   function AC() {
     console.log('in AC()')
-    var addressEl = $('input .leaflet-gac-control')
+    var addressEl = $('[input] .leaflet-gac-control')
 
     addressEl.autocomplete({
       minLength: 3,
