@@ -173,4 +173,4 @@
       })
     }
   })
-})(window.JQuery)
+})(window.jQuery)
