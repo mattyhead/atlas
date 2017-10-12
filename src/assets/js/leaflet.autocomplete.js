@@ -97,6 +97,7 @@
     },
 
     onAdd: function() {
+      AC();
       // stop propagation of click events
       L.DomEvent.addListener(this.container, 'click', L.DomEvent.stop)
       L.DomEvent.disableClickPropagation(this.container)
@@ -122,10 +123,10 @@
         corner.appendChild(container)
       }
 
-/*      L.DomEvent.addListener(this.searchBox, 'keyup', function() {
-        if (!entered) {
-          entered = true;*/
-          AC();
+      /*      L.DomEvent.addListener(this.searchBox, 'keyup', function() {
+              if (!entered) {
+                entered = true;*/
+
       /*        }
             })
       */
