@@ -2,7 +2,7 @@
   var service = "https://apis.philadelphiavotes.com/autocomplete/{address}",
     minchars = 3
 
-  if (typeof options = "Object") {
+  if (typeof options == "Object") {
     console.log('options is an object')
     console.log(options)
   } else {
