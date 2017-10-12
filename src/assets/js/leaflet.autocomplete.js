@@ -65,7 +65,7 @@
     // Collapse mode callbacks
     //***
     _autocomplete: function() {
-      var callback = this.options.callback,
+      var callback = acOptions.callback,
         service = acOptions.service,
         minchars = acOptions.minchars
 
@@ -139,7 +139,7 @@
         corner.appendChild(container)
       }
 
-      var callback = this.options.callback
+      acOptions.callback = this.options.callback
       var _this = this
 
       L.DomEvent.addListener(this.searchBox, 'keyup', this._autocomplete)
