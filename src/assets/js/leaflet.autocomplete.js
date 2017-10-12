@@ -132,8 +132,8 @@
 
 
   function AC() {
-    console.log('in AC()')
     var addressEl = $('[input] .leaflet-gac-control')
+    console.log('in AC()', addressEl)
 
     addressEl.autocomplete({
       minLength: 3,
