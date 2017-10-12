@@ -4,15 +4,6 @@
   Options.set('service', 'https://apis.philadelphiavotes.com/autocomplete/{address}')
   Options.set('minchars', 3)
 
-  // option overrides
-  Options.forEach(function(value, key) {
-    if (typeof options[key] != 'Undefined') {
-      value = options[key]
-    }
-  })
-
-  console.log(options)
-
   L.Autocomplete = {}
 
   L.Control.Autocomplete = L.Control.extend({
@@ -120,6 +111,15 @@
     },
 
     onAdd: function() {
+      // option overrides
+      Options.forEach(function(value, key) {
+        if (typeof options[key] != 'Undefined') {
+          value = options[key]
+        }
+      })
+
+      console.log(options)
+
       // stop propagation of click events
       L.DomEvent.addListener(this.container, 'click', L.DomEvent.stop)
       L.DomEvent.disableClickPropagation(this.container)
