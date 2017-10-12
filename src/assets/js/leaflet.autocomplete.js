@@ -1,8 +1,8 @@
 (function(options) {
   // default options
   var Options = new Map([
-    service: 'https://apis.philadelphiavotes.com/autocomplete/{address}',
-    minchars: 3
+    'service': 'https://apis.philadelphiavotes.com/autocomplete/{address}',
+  'minchars': 3
   ])
 
   // option overrides
