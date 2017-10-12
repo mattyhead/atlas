@@ -2,7 +2,7 @@
   // default options
   var Options = new Map()
   Options.set('service', 'https://apis.philadelphiavotes.com/autocomplete/{address}')
-  Options.set('minchars': 3)
+  Options.set('minchars', 3)
 
   // option overrides
   Options.forEach(function(value, key) {
