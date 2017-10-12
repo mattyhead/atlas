@@ -132,7 +132,7 @@
         if (options.minchars > this.value.length) return
 
         L.Util.ajax(options.url.replace('{address}', encodeURIComponent(this.value))).then(function(data) {
-          console.log(data, _this.searchWrapper);
+          console.log(data, _this.container);
         });
       })
       return this
