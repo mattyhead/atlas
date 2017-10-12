@@ -1,5 +1,15 @@
-(function() {
-  var service = "https://apis.philadelphiavotes.com/autocomplete/{address}"
+(function(options) {
+  var service = "https://apis.philadelphiavotes.com/autocomplete/{address}",
+    minchars = 3
+
+  if (typeof options = "Object") {
+    console.log('options is an object')
+    console.log(options)
+  } else {
+    console.log('options is something else')
+    console.log(options)
+  }
+
   L.Autocomplete = {};
 
   L.Control.Autocomplete = L.Control.extend({
@@ -32,7 +42,7 @@
       this.container = L.DomUtil.create("div", "leaflet-gac-container leaflet-bar");
       var searchWrapper = L.DomUtil.create("div", "leaflet-gac-wrapper");
       this.searchBox = L.DomUtil.create("input", "leaflet-gac-control");
-//      this.autocomplete = new google.maps.places.Autocomplete(this.searchBox, this.options.autocomplete_options);
+      //      this.autocomplete = new google.maps.places.Autocomplete(this.searchBox, this.options.autocomplete_options);
 
       // if collapse mode set - create icon and register events
       if (this.options.collapsed_mode) {
@@ -134,11 +144,13 @@
       var callback = this.options.callback;
       var _this = this;
 
-      L.DomEvent.addListener(this.searchBox, 'keyup', function () {console.log('keyup')})
+      L.DomEvent.addListener(this.searchBox, 'keyup', function() {
+        console.log('keyup')
+      })
 
-//      google.maps.event.addListener(this.autocomplete, "place_changed", function() {
-//        callback(_this.autocomplete.getPlace(), map);
-//      });
+      //      google.maps.event.addListener(this.autocomplete, "place_changed", function() {
+      //        callback(_this.autocomplete.getPlace(), map);
+      //      });
 
       return this;
     }
