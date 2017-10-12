@@ -75,9 +75,9 @@
       }
 
       console.log(this.searchBox.value)
-    }
+    },
 
-      _showSearchBar: function() {
+    _showSearchBar: function() {
       this._toggleSearch(true)
     },
 
