@@ -125,7 +125,7 @@
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
         var options = _this.options.autocomplete_options
         var callback = options.callback,
-          service = options.service,
+          url = options.url,
           minchars = options.minchars
 
         // leave if minchars not met
