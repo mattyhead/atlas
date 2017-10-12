@@ -54,9 +54,6 @@
 
     },
 
-    _showResults: function(data, _this) {
-      console.log(data, _this.container)
-    },
     //***
     // Collapse mode callbacks
     //***
@@ -132,10 +129,14 @@
         if (options.minchars > this.value.length) return
 
         L.Util.ajax(options.url.replace('{address}', encodeURIComponent(this.value))).then(function(data) {
-          _this.showResults(data, _this);
+          showResults(data, _this);
         });
       })
       return this
     }
   })
+
+  function showResults(data, _this) {
+    console.log(data, _this.container)
+  }
 })()
