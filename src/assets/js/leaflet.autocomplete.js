@@ -149,7 +149,7 @@
         var address = encodeURIComponent(request.term),
           url = ('//apis.philadelphiavotes.com/autocomplete/{address}').replace('{address}', address)
         $.getJSON(url, function(response) {
-
+          console.log(response)
           if (response.status == "success") {
             var addresses = $.map(response.data, function(candidate) {
               return {
