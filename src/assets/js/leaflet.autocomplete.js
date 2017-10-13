@@ -172,7 +172,7 @@
           geocodeUrl = ('//api.phila.gov/ais/v1/search/{address}/?gatekeeperKey={key}').replace('{address}', address).replace('{key}', 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d')
           // Get the address details
         $.when($.getJSON(geocodeUrl), $.getJSON(pollingPlaceUrl)).done(function(addressData, pollingplaceData) {
-            console.log(addressData, polligplaceData)
+            console.log(addressData, pollingplaceData)
           })
           /*        , function(response) {
                       if (response.features.length < 1) {
