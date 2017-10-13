@@ -141,11 +141,11 @@
   }
 
   function AC() {
-    var addressEl = $('input.leaflet-gac-control')
-
-    addressEl.autocomplete({
+    console.log("AC()")
+    $('input.leaflet-gac-control').autocomplete({
       minLength: 3,
       source: function(request, callback) {
+        console.log("source")
         var address = encodeURIComponent(request.term),
           url = ('//apis.philadelphiavotes.com/autocomplete/{address}').replace('{address}', address)
         $.getJSON(url, function(response) {
@@ -166,6 +166,7 @@
         })
       },
       select: function(evt, ui) {
+        console.log("select")
         var precinct = encodeURIComponent(ui.item.precinct),
           pollingPlaceUrl = ('//apis.philadelphiavotes.com/pollingplaces/{precinct}').replace('{precinct}', precinct),
           address = encodeURIComponent(ui.item.label),
