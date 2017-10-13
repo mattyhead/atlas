@@ -156,7 +156,8 @@
               console.log(candidate)
               return {
                 label: candidate.address,
-                value: candidate.zip,
+                value: candidate.address,
+                zip: candidate.zip
               }
             })
             callback(addresses)
