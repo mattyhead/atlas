@@ -147,7 +147,8 @@
     addressEl.autocomplete({
       minLength: 3,
       source: function(request, callback) {
-        var url = ('https://apis.philadelphiavotes.com/autocomplete/{address}').replace('{address}', request.term)
+        var address = encodeURIComponent(request.term),
+          url = ('//apis.philadelphiavotes.com/autocomplete/{address}').replace('{address}', address)
         $.getJSON(url, function(response) {
 
           if (response.status == "success") {
@@ -155,7 +156,7 @@
               console.log(candidate)
               return {
                 label: candidate.address,
-                value: candidate.address
+                value: candidate.zip,
               }
             })
             callback(addresses)
@@ -165,14 +166,13 @@
         })
       },
       select: function(evt, ui) {
-        var wardDivision = ui.item.division
-        var pollingPlaceUrl = constructPollingPlaceUrl(wardDivision)
-        resultContainer.html(templates.loading)
-        $.getJSON(pollingPlaceUrl, function(response) {
+        var address = encodeURIComponent(ui.item.label),
+          url = ('//api.phila.gov/ais/v1/search/{address}/?gatekeeperKey={key}').replace('{address}', address).replace('{key}', 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d')
+        $.getJSON(url, function(response) {
           var selected = {};
           if (response.features.length < 1) {
             // if there's no features returned, indicate an error
-            resultContainer.html(templates.error())
+            console.log('ERROR', response)
           } else {
             // Otherwise show the result
             selected = response.features[0].attributes;
@@ -181,9 +181,23 @@
             console.log(response.features[0].attributes)
           }
         }).fail(function() {
-          resultContainer.html(templates.error())
+          console.log('ERROR', this)
         })
       }
     })
   }
 })(window.jQuery)
+
+
+/*   geocoder: {
+      // forward: {
+        // direction: 'forward',
+      url: function (input) {
+        var inputEncoded = encodeURIComponent(input);
+        return '//api.phila.gov/ais/v1/search/' + inputEncoded;
+      },
+      params: {
+        gatekeeperKey: GATEKEEPER_KEY,
+        include_units: true
+      }
+*/
