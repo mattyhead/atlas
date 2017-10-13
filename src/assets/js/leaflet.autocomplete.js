@@ -170,7 +170,8 @@
           // Get everything
         $.when($.getJSON(geocodeUrl), $.getJSON(pollingPlaceUrl)).done(function(addressResult, pollingplaceResult) {
           // render everything
-          console.log(addressResult[0].features[0].geometry.coordinates, [pollingplaceResult[0].features.attributes[0].lng, pollingplaceResult[0].features.attributes[0].lat])
+          var address = addressResult[0].features[0].geometry.coordinates,
+            pollingPlace = [pollingplaceResult[0].features.attributes[0].lng, pollingplaceResult[0].features.attributes[0].lat]
 
         })
       }
