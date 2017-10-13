@@ -145,9 +145,9 @@
     $('input.leaflet-gac-control').autocomplete({
       minLength: 3,
       source: function(request, callback) {
-        console.log("source")
         var address = encodeURIComponent(request.term),
           url = ('//apis.philadelphiavotes.com/autocomplete/{address}').replace('{address}', address)
+        console.log("source", url)
         $.getJSON(url, function(response) {
           console.log(response)
           if (response.status == "success") {
