@@ -157,6 +157,7 @@
               return {
                 label: candidate.address,
                 value: candidate.address,
+                precinct: candidate.precinct,
                 zip: candidate.zip
               }
             })
@@ -167,24 +168,39 @@
         })
       },
       select: function(evt, ui) {
-        var address = encodeURIComponent(ui.item.label),
-          url = ('//api.phila.gov/ais/v1/search/{address}/?gatekeeperKey={key}').replace('{address}', address).replace('{key}', 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d')
-        $.getJSON(url, function(response) {
-          var selected = {}
-          if (response.features.length < 1) {
-            // if there's no features returned, indicate an error
-            console.log('ERROR', response)
-          } else {
-            // Otherwise show the result
-            console.log('SUCCESS', response)
-            selected = response.features[0].attributes;
-            selected.building = buildingCodes[selected.building];
-            selected.parking = parkingCodes[selected.parking];
-            console.log(response.features[0].attributes)
-          }
-        }).fail(function() {
-          console.log('ERROR', this)
-        })
+        var precinct = encodeURIComponent(ui.item.precinct),
+          pollingPlaceUrl = ('//apis.philadelphiavotes.com/pollingplaces/{precinct}').replace('{precinct}', address)
+        address = encodeURIComponent(ui.item.label),
+          geocodeUrl = ('//api.phila.gov/ais/v1/search/{address}/?gatekeeperKey={key}').replace('{address}', address).replace('{key}', 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d')
+          // Get the address details
+        $.when($.getJSON(geocodeUrl), $.getJSON(pollingPlaceUrl)).done(function(addressData, pollingplaceData) {
+            console.log(addressData, polligplaceData)
+          })
+          /*        , function(response) {
+                      if (response.features.length < 1) {
+                        // if there's no features returned, indicate an error
+                        console.log('ERROR', response)
+                      } else {
+                        // Otherwise show the result
+                        console.log('SUCCESS', response, response.features[0].geometry[0])
+
+                      }
+                    // Get the polling place
+                    var selected = {}
+                    if (response.features.length < 1) {
+                      // if there's no features returned, indicate an error
+                      console.log('ERROR', response)
+                    } else {
+                      // Otherwise show the result
+
+                      selected = response.features[0].attributes;
+                      selected.building = buildingCodes[selected.building];
+                      selected.parking = parkingCodes[selected.parking];
+                      console.log(response.features[0].attributes, selected)
+                    }
+                  }).fail(function() {
+                    console.log('ERROR', this)*/
+
       }
     })
   }
