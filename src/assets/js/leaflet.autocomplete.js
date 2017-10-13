@@ -141,15 +141,12 @@
   }
 
   function AC() {
-    console.log("AC()")
     $('input.leaflet-gac-control').autocomplete({
       minLength: 3,
       source: function(request, callback) {
         var address = encodeURIComponent(request.term),
           url = ('//apis.philadelphiavotes.com/autocomplete/{address}').replace('{address}', address)
-        console.log("source", url)
         $.getJSON(url, function(response) {
-          console.log(response)
           if (response.status == "success") {
             var addresses = $.map(response.data, function(candidate) {
               return {
@@ -166,14 +163,14 @@
         })
       },
       select: function(evt, ui) {
-        console.log("select")
         var precinct = encodeURIComponent(ui.item.precinct),
           pollingPlaceUrl = ('//apis.philadelphiavotes.com/pollingplaces/{precinct}').replace('{precinct}', precinct),
           address = encodeURIComponent(ui.item.label),
           geocodeUrl = ('//api.phila.gov/ais/v1/search/{address}/?gatekeeperKey={key}').replace('{address}', address).replace('{key}', 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d')
-          // Get the address details
+          // Get everything
         $.when($.getJSON(geocodeUrl), $.getJSON(pollingPlaceUrl)).done(function(addressData, pollingplaceData) {
-          console.log(addressData, pollingplaceData)
+          // render everything
+          console.log(addressResult, pollingplaceResult)
         })
       }
     })
@@ -192,4 +189,10 @@
         gatekeeperKey: GATEKEEPER_KEY,
         include_units: true
       }
+
+            selected = response.features[0].attributes;
+            selected.building = buildingCodes[selected.building];
+            selected.parking = parkingCodes[selected.parking];
+            console.log(response.features[0].attributes)
+
 */
