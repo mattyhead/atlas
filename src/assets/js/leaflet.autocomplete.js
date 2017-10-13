@@ -142,7 +142,6 @@
 
   function AC() {
     var addressEl = $('input.leaflet-gac-control')
-    console.log('in AC()', addressEl)
 
     addressEl.autocomplete({
       minLength: 3,
@@ -153,7 +152,6 @@
 
           if (response.status == "success") {
             var addresses = $.map(response.data, function(candidate) {
-              console.log(candidate)
               return {
                 label: candidate.address,
                 value: candidate.address,
@@ -169,7 +167,7 @@
       },
       select: function(evt, ui) {
         var precinct = encodeURIComponent(ui.item.precinct),
-          pollingPlaceUrl = ('//apis.philadelphiavotes.com/pollingplaces/{precinct}').replace('{precinct}', address),
+          pollingPlaceUrl = ('//apis.philadelphiavotes.com/pollingplaces/{precinct}').replace('{precinct}', precinct),
           address = encodeURIComponent(ui.item.label),
           geocodeUrl = ('//api.phila.gov/ais/v1/search/{address}/?gatekeeperKey={key}').replace('{address}', address).replace('{key}', 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d')
           // Get the address details
