@@ -1,7 +1,7 @@
 (function($) {
-  L.Autocomplete = {}
+  L.SearchBox = {}
 
-  L.Control.Autocomplete = L.Control.extend({
+  L.Control.SearchBox = L.Control.extend({
     options: {
       position: "topright",
       prepend: true,
@@ -10,12 +10,18 @@
     collapsedModeIsExpanded: true,
     icon: null,
     searchBox: null,
+    service: null,
 
     initialize: function(options) {
       if (options) {
         L.Util.setOptions(this, options)
       }
       this._buildContainer()
+    },
+
+    setService: function(func) {
+      if (typeof service == "function")
+        this.service = func
     },
 
     _buildContainer: function() {
@@ -38,7 +44,7 @@
 
       searchWrapper.appendChild(this.searchBox)
 
-      // create and bind autocomplete
+      // create and bind searchbox
       this.container.appendChild(searchWrapper)
 
     },
@@ -97,7 +103,8 @@
     },
 
     addTo: function(map) {
-      var entered = false;
+      var entered = false,
+        that=this
       this._map = map
 
       var container = this._container = this.onAdd(map),
@@ -110,73 +117,15 @@
       } else {
         corner.appendChild(container)
       }
-
+      // crude but effective event cludge
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
-        if (entered) return
-        entered = true;
-        AC();
+        that.service(this)
+        L.DomEvent.removeListener(this, 'keyup')
       })
 
       return this
     }
   })
-
-  function showResults(data, _this) {
-    console.log(data, _this.container)
-  }
-
-  var buildingCodes = {
-    'F': 'BUILDING FULLY ACCESSIBLE',
-    'A': 'ALTERNATE ENTRANCE',
-    'B': 'BUILDING SUBSTANTIALLY ACCESSIBLE',
-    'R': 'ACCESSIBLE WITH RAMP',
-    'M': 'BUILDING ACCESSIBLITY MODIFIED',
-    'N': 'BUILDING NOT ACCESSIBLE'
-  }
-  var parkingCodes = {
-    'N': 'NO PARKING',
-    'L': 'LOADING ZONE',
-    'H': 'HANDICAP PARKING',
-    'G': 'GENERAL PARKING'
-  }
-
-  function AC() {
-    $('input.leaflet-gac-control').autocomplete({
-      minLength: 3,
-      source: function(request, callback) {
-        var address = encodeURIComponent(request.term),
-          url = ('//apis.philadelphiavotes.com/autocomplete/{address}').replace('{address}', address)
-        $.getJSON(url, function(response) {
-          if (response.status == "success") {
-            var addresses = $.map(response.data, function(candidate) {
-              return {
-                label: candidate.address,
-                value: candidate.address,
-                precinct: candidate.precinct,
-                zip: candidate.zip
-              }
-            })
-            callback(addresses)
-          } else {
-            callback([])
-          }
-        })
-      },
-      select: function(evt, ui) {
-        var precinct = encodeURIComponent(ui.item.precinct),
-          pollingPlaceUrl = ('//apis.philadelphiavotes.com/pollingplaces/{precinct}').replace('{precinct}', precinct),
-          address = encodeURIComponent(ui.item.label),
-          geocodeUrl = ('//api.phila.gov/ais/v1/search/{address}/?gatekeeperKey={key}').replace('{address}', address).replace('{key}', 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d')
-          // Get everything
-        $.when($.getJSON(geocodeUrl), $.getJSON(pollingPlaceUrl)).done(function(addressResult, pollingplaceResult) {
-          // render everything
-          var address = addressResult[0].features[0].geometry.coordinates,
-            pollingPlace = [pollingplaceResult[0].features.attributes[0].lng, pollingplaceResult[0].features.attributes[0].lat]
-
-        })
-      }
-    })
-  }
 })(window.jQuery)
 
 

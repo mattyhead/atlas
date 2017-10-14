@@ -15,7 +15,7 @@
         })
         .addTo(map);*/
 
-    new L.Control.Autocomplete().addTo(lmap);
+    new L.Control.Autocomplete().addTo(lmap).setService(W.AC);
 
     // set up layers
     L.esri.tiledMapLayer({
