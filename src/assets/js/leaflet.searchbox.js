@@ -120,10 +120,11 @@
       // crude but effective initialization kludge
       L.DomEvent.on(this.searchBox, 'keyup', function() {
         // only want to run this event once.
-        if (entered) return
-          service(this)
+        if (entered) {
+          return
+        }
         entered = true
-      console.log("testing")
+        that.service(this)
       })
 
       return this
