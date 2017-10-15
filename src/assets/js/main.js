@@ -75,14 +75,14 @@
       markers.polling = L.marker(pollingPlace, {
           icon: ICONS.polling
         }).addTo(lmap);
-      markers.home = L.marker(pollingPlace, {
+      markers.home = L.marker(address, {
           icon: ICONS.home
         }).addTo(lmap);
 
       var group = new L.featureGroup(markers);
 
       lmap.fitBounds(group.getBounds());
-    },
+    }
   }
 }));
 
