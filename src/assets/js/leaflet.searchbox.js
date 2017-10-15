@@ -10,7 +10,7 @@
     collapsedModeIsExpanded: true,
     icon: null,
     searchBox: null,
-    callback = null,
+    callback: null,
     service: null,
 
     initialize: function(options) {
