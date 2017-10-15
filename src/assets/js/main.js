@@ -56,9 +56,8 @@
       handi: L.icon({
         iconUrl: 'src/assets/images/h.png',
         iconSize: [24, 24],
-      }),
+      })
     }
-  }
 
   function clearMarkers (marker) {
     // hey, we're clearing all the markers
