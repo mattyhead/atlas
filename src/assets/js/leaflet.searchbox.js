@@ -22,7 +22,7 @@
     setService: function(func) {
       console.log(func)
       if (typeof service == "function")
-        service = func
+        this.service = func
       console.log(this)
     },
 
