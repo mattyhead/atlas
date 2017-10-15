@@ -117,11 +117,10 @@
       } else {
         corner.appendChild(container)
       }
-      // crude but effective event cludge
+      // crude but effective initialization kludge
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
-        
         that.service(this)
-        L.DomEvent.removeListener(this, 'keyup')
+        L.DomEvent.off(this)
       })
 
       return this
