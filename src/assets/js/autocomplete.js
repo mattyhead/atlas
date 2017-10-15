@@ -1,5 +1,5 @@
 function AC(searchBox, lCallback) {
-  document.getElementById('lmap').style.zIndex = 1
+  //document.getElementById('lmap').style.zIndex = 1
 
   var buildingCodes = {
     'F': 'BUILDING FULLY ACCESSIBLE',
