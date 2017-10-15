@@ -15,7 +15,8 @@
         })
         .addTo(map);*/
 
-    new L.Control.SearchBox().addTo(lmap).setService(W.AC);
+    lmap.style.zIndex = 1
+    new L.Control.SearchBox().addTo(lmap).setService(W.AC)
 
     // set up layers
     L.esri.tiledMapLayer({
