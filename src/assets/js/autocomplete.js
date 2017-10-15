@@ -13,7 +13,7 @@ function AC(searchBox) {
     'H': 'HANDICAP PARKING',
     'G': 'GENERAL PARKING'
   }
-    searchBox.autocomplete({
+    $(searchBox).autocomplete({
       minLength: 3,
       source: function(request, callback) {
         var address = encodeURIComponent(request.term),
