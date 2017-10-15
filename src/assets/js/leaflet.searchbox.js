@@ -120,7 +120,7 @@
       // crude but effective initialization kludge
       L.DomEvent.on(this.searchBox, 'keyup', function(ev) {
         // only want to run this event once.
-        L.DomEvent.off(this, 'keyup', function() {console.log('in off')})
+        L.DomEvent.off(this, 'keyup', console.log('off'))
         // initialize our autocomplete
         that.service(this)
       })
