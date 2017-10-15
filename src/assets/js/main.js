@@ -15,7 +15,7 @@
         })
         .addTo(map);*/
 
-    console.log(lmap)
+    document.getElementById('lmap').style.zIndex = 1
     new L.Control.SearchBox().addTo(lmap).setService(W.AC)
 
     // set up layers
