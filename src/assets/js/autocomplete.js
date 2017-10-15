@@ -44,7 +44,7 @@ function AC(searchBox) {
           // render everything
           var address = addressResult[0].features[0].geometry.coordinates,
             pollingPlace = [pollingplaceResult[0].features.attributes[0].lng, pollingplaceResult[0].features.attributes[0].lat]
-
+            console.log(address, pollingPlace)
         })
       }
     })
