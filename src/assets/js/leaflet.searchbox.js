@@ -106,7 +106,7 @@
 
     addTo: function(map) {
       var entered = false,
-        this.service=_service,
+        _service = this.service
       this._map = map
 
       var container = this._container = this.onAdd(map),
