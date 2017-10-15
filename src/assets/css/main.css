@@ -1,11 +1,11 @@
 #lmap { height: 480px; width:50%; float:right;}
 #panel { height: 480px; width:50%; float:left;}
 #wrapper { text-align:center; margin: 20px auto 20px auto; width: 900px; display: inline-block;}
-.leaflet-top, .leaflet-bottom {
+/*.leaflet-top, .leaflet-bottom {
     position: absolute;
     z-index: 10!important;
     pointer-events: none;
 }
 .art-hmenu {
 	z-index: 100;
-}
+}*/
