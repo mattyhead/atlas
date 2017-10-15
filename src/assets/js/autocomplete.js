@@ -35,6 +35,7 @@ function AC(searchBox) {
         })
       },
       select: function(evt, ui) {
+        console.log('select');
         var precinct = encodeURIComponent(ui.item.precinct),
           pollingPlaceUrl = ('//apis.philadelphiavotes.com/pollingplaces/{precinct}').replace('{precinct}', precinct),
           address = encodeURIComponent(ui.item.label),
