@@ -69,9 +69,12 @@
   }
 
   function setPollingPair(addressResult, pollingplaceResult) {
-    var address = addressResult[0].features[0].geometry.coordinates,
-      pollingPlace = [pollingplaceResult[0].features.attributes[0].lng, pollingplaceResult[0].features.attributes[0].lat]
-
+    var address = [addressResult[0].features[0].geometry.coordinates[1], addressResult[0].features[0].geometry.coordinates[0]]
+      pollingPlace = [pollingplaceResult[0].features.attributes[0].lat, pollingplaceResult[0].features.attributes[0].lng ]
+      /*lmap.panTo([
+        place.geometry.location.lat(),
+        place.geometry.location.lng()
+      ])*/
     markers.polling = L.marker(pollingPlace, {
       icon: ICONS.polling
     }).addTo(lmap);
