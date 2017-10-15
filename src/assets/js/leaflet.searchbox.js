@@ -1,4 +1,4 @@
-(function($) {
+(function() {
   L.SearchBox = {}
 
   L.Control.SearchBox = L.Control.extend({
@@ -20,7 +20,8 @@
     },
 
     setService: function(func) {
-func()
+      if (typeof func == "function")
+        this.service = func
     },
 
     _buildContainer: function() {
@@ -119,14 +120,14 @@ func()
       // crude but effective event cludge
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
         
-        console.log(that)
+        console.log(that.service)
         L.DomEvent.removeListener(this, 'keyup')
       })
 
       return this
     }
   })
-})(window.jQuery)
+})()
 
 
 /*   geocoder: {
