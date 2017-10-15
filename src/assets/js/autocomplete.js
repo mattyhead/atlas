@@ -1,4 +1,6 @@
 function AC(searchBox) {
+      document.getElementById('lmap').style.zIndex = 1
+
   var buildingCodes = {
     'F': 'BUILDING FULLY ACCESSIBLE',
     'A': 'ALTERNATE ENTRANCE',
