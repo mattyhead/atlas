@@ -1,11 +1,11 @@
 (function(scoped) {
   scoped(window.jQuery, window.L, window, document);
 }(function($, L, W, D) {
+  var lmap, markers = {};
 
   // later 
   $(function() {
-    var lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
-      markers = {};
+    lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
     /*    new L.Control.Autocomplete({
           position: "topleft",
           callback: function(location){
@@ -15,8 +15,7 @@
         })
         .addTo(map);*/
 
-    document.getElementById('lmap').style.zIndex = 1
-    new L.Control.SearchBox().addTo(lmap).setService(W.AC)
+    new L.Control.SearchBox().addTo(lmap).setService(W.AC).setCallback(setPollingPair)
 
     // set up layers
     L.esri.tiledMapLayer({
@@ -59,6 +58,32 @@
         iconSize: [24, 24],
       }),
     }
+
+    funciton clearMarkers (marker) {
+      // hey, we're clearing all the markers
+      if (marker) {
+        // clear only one
+      } else {
+        // clear all
+      }
+    }
+
+    function setPollingPair(addressResult, pollingplaceResult) {
+      var address = addressResult[0].features[0].geometry.coordinates,
+        pollingPlace = [pollingplaceResult[0].features.attributes[0].lng, pollingplaceResult[0].features.attributes[0].lat]
+
+      markers.polling = L.marker(pollingPlace, {
+          icon: ICONS.polling
+        }).addTo(lmap);
+      markers.home = L.marker(pollingPlace, {
+          icon: ICONS.home
+        }).addTo(lmap);
+
+      var group = new L.featureGroup(markers);
+
+      lmap.fitBounds(group.getBounds());
+    },
+  }
 }));
 
 //L.esri.basemapLayer('//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer').addTo(mymap);

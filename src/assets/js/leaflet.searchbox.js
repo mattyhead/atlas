@@ -10,6 +10,7 @@
     collapsedModeIsExpanded: true,
     icon: null,
     searchBox: null,
+    callback = null,
     service: null,
 
     initialize: function(options) {
@@ -19,9 +20,16 @@
       this._buildContainer()
     },
 
+    setCallback: function(func) {
+      if (typeof func == "function")
+        this.callback = func
+      return this
+    },
+
     setService: function(func) {
       if (typeof func == "function")
         this.service = func
+      return this
     },
 
     _buildContainer: function() {
@@ -76,21 +84,6 @@
       this.collapsedModeIsExpanded = shouldDisplaySearch
     },
 
-    //***
-    // Default success callback
-    //***
-    onLocationComplete: function(place, map) {
-      // default callback
-      if (!place.geometry) {
-        alert("Location not found")
-        return
-      }
-      map.panTo([
-        place.geometry.location.lat(),
-        place.geometry.location.lng()
-      ])
-    },
-
     onAdd: function() {
       // stop propagation of click events
       L.DomEvent.addListener(this.container, 'click', L.DomEvent.stop)
@@ -122,7 +115,7 @@
         // only want to run this event once.
         if (entered) return
         entered = true
-        that.service(this)
+        that.service(this, that.callback)
       })
 
       return this

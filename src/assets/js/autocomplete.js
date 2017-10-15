@@ -1,5 +1,5 @@
-function AC(searchBox) {
-      document.getElementById('lmap').style.zIndex = 1
+function AC(searchBox, lCallback) {
+  document.getElementById('lmap').style.zIndex = 1
 
   var buildingCodes = {
     'F': 'BUILDING FULLY ACCESSIBLE',
@@ -45,9 +45,7 @@ function AC(searchBox) {
           // Get everything
         $.when($.getJSON(geocodeUrl), $.getJSON(pollingPlaceUrl)).done(function(addressResult, pollingplaceResult) {
           // render everything
-          var address = addressResult[0].features[0].geometry.coordinates,
-            pollingPlace = [pollingplaceResult[0].features.attributes[0].lng, pollingplaceResult[0].features.attributes[0].lat]
-            console.log(address, pollingPlace)
+            lCallback(addressResult, pollingplaceResult)
         })
       }
     })
