@@ -120,10 +120,10 @@
         corner.appendChild(container)
       }
       // crude but effective event cludge
-      console.log(this.searchBox)
+      console.log(this.searchBox, _service, this.service)
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
         _service(this)
-        console.log(this)
+        console.log(this, _service)
         L.DomEvent.removeListener(this, 'keyup')
       })
 
