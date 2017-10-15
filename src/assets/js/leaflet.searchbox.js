@@ -106,7 +106,7 @@
 
     addTo: function(map) {
       var entered = false,
-        _service = this.service
+        that = this
       this._map = map
 
       var container = this._container = this.onAdd(map),
@@ -120,10 +120,9 @@
         corner.appendChild(container)
       }
       // crude but effective event cludge
-      console.log(this.searchBox, _service, this.service)
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
-        _service(this)
-        console.log(this, _service)
+        
+        console.log(that)
         L.DomEvent.removeListener(this, 'keyup')
       })
 
