@@ -120,7 +120,7 @@
       // crude but effective event cludge
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
         
-        console.log(that.service)
+        that.service(this)
         L.DomEvent.removeListener(this, 'keyup')
       })
 
