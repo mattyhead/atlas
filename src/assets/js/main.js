@@ -79,7 +79,7 @@
       icon: ICONS.home
     }).addTo(lmap);
 
-    var group = new L.featureGroup(markers);
+    var group = new L.featureGroup([markers.home, markers.polling]);
 
     lmap.fitBounds(group.getBounds());
   }
