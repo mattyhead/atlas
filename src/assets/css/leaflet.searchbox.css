@@ -1,8 +1,8 @@
-.leaflet-gac-wrapper {
+.leaflet-wrapper {
     height: 30px;
 }
 
-.leaflet-control-container .leaflet-gac-control {
+.leaflet-control-container .leaflet-control {
     width: 300px;
     height: 30px;
     padding: 0 7px;
@@ -10,31 +10,31 @@
     border: 1px #d0d0d0 solid;
 }
 
-.leaflet-control-container .leaflet-right .leaflet-gac-control {
+.leaflet-control-container .leaflet-right .leaflet-control {
     position: absolute;
     right: 0;
     transition: width .3s ease .15s;
 }
 
-.leaflet-control-container .leaflet-gac-control:focus {
+.leaflet-control-container .leaflet-control:focus {
     outline: none;
 }
 
-.leaflet-control-container .leaflet-gac-search-btn {
+.leaflet-control-container .leaflet-search-btn {
     background: #fff;
     width: 30px;
     height: 30px;
     border-radius: 4px;
 }
 
-.leaflet-control-container .leaflet-gac-search-btn .leaflet-gac-search-icon {
+.leaflet-control-container .leaflet-search-btn .leaflet-search-icon {
     cursor: pointer;
     width: 100%;
     height: 100%;
     background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABOUlEQVQ4T6XTLUgmQRgH8N+Ligd+FOu1ww+wKPhxlwxXxHYnqCAGQZtgMBgU4eWaXLhyCgYxiAYVk6igJotgEaNiNYgGL6kHJwOzsO+yGzw3zszzm5nnP1vyzq+UU9+JUbTiCWdYw13eXmmgCr8wlbPwERPYys6lgVA8jSvM4RQfMIQF1KIfR2kkAdpxiRv04CGzUx9OcI02/EvmE+AH5jGG9YK+bmMQ3TjPApsYQXPcJc+Ywc/Y4I0ssIpxdOCi4ATl2Ivv2M0Ck1jBImZzgOrYoxZ8xG0WqI9Hb4pX2UkhNViKMe5jIC+FMPYVezGu4xhjHb7hUyx6wXDeFRK0C79jlMnYX4SmhZfZiwok7ymHwpBGyPs5RnaPRhzicxopAop+sYAc4Av+BPStQIAbsByffPl/gIrTvQLbJDoR8K3H6QAAAABJRU5ErkJggg==") no-repeat center center;
 }
 
-.leaflet-control-container .leaflet-gac-hidden {
+.leaflet-control-container .leaflet-hidden {
     opacity: 0;
     width: 0;
     height: 0;

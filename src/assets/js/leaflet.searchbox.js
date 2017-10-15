@@ -26,20 +26,20 @@
 
     _buildContainer: function() {
       // build structure
-      this.container = L.DomUtil.create("div", "leaflet-gac-container leaflet-bar")
-      var searchWrapper = L.DomUtil.create("div", "leaflet-gac-wrapper")
-      this.searchBox = L.DomUtil.create("input", "leaflet-gac-control")
+      this.container = L.DomUtil.create("div", "leaflet-container leaflet-bar")
+      var searchWrapper = L.DomUtil.create("div", "leaflet-wrapper")
+      this.searchBox = L.DomUtil.create("input", "leaflet-control")
 
       // if collapse mode set - create icon and register events
       if (this.options.collapsed_mode) {
         this.collapsedModeIsExpanded = false
 
-        this.icon = L.DomUtil.create("div", "leaflet-gac-search-btn")
+        this.icon = L.DomUtil.create("div", "leaflet-search-btn")
         L.DomEvent.on(this.icon, "click", this._showSearchBar, this)
 
-        this.icon.appendChild(L.DomUtil.create("div", "leaflet-gac-search-icon"))
+        this.icon.appendChild(L.DomUtil.create("div", "leaflet-search-icon"))
         searchWrapper.appendChild(this.icon)
-        L.DomUtil.addClass(this.searchBox, "leaflet-gac-hidden")
+        L.DomUtil.addClass(this.searchBox, "leaflet-hidden")
       }
 
       searchWrapper.appendChild(this.searchBox)
@@ -66,12 +66,12 @@
 
     _toggleSearch: function(shouldDisplaySearch) {
       if (shouldDisplaySearch) {
-        L.DomUtil.removeClass(this.searchBox, "leaflet-gac-hidden")
-        L.DomUtil.addClass(this.icon, "leaflet-gac-hidden")
+        L.DomUtil.removeClass(this.searchBox, "leaflet-hidden")
+        L.DomUtil.addClass(this.icon, "leaflet-hidden")
         this.searchBox.focus()
       } else {
-        L.DomUtil.addClass(this.searchBox, "leaflet-gac-hidden")
-        L.DomUtil.removeClass(this.icon, "leaflet-gac-hidden")
+        L.DomUtil.addClass(this.searchBox, "leaflet-hidden")
+        L.DomUtil.removeClass(this.icon, "leaflet-hidden")
       }
       this.collapsedModeIsExpanded = shouldDisplaySearch
     },
