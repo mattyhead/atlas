@@ -119,8 +119,10 @@
       }
       // crude but effective initialization kludge
       L.DomEvent.addListener(this.searchBox, 'keyup', function() {
-        that.service(this)
+        // only want to run this event once.
         L.DomEvent.off(this)
+        // initialize our autocomplete
+        that.service(this)
       })
 
       return this
