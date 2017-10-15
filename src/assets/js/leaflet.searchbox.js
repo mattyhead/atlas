@@ -20,9 +20,7 @@
     },
 
     setService: function(func) {
-      if (typeof service == "function")
-        this.service = func
-      console.log(func, this, this.service)
+func()
     },
 
     _buildContainer: function() {
