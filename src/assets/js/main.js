@@ -59,7 +59,7 @@
       }),
     }
 
-    funciton clearMarkers (marker) {
+    function clearMarkers (marker) {
       // hey, we're clearing all the markers
       if (marker) {
         // clear only one
