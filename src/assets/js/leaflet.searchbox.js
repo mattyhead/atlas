@@ -121,6 +121,8 @@
       L.DomEvent.on(this.searchBox, 'keyup', function() {
         // only want to run this event once.
         if (!entered) that.service(this)
+        entered = 1
+      console.log("testing")
       })
 
       return this
