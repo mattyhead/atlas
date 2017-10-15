@@ -6,6 +6,6 @@
     z-index: 10!important;
     pointer-events: none;
 }*/
-.art-hmenu {
+.art-hmenu li{
 	z-index: 1100;
 }
