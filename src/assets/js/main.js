@@ -58,31 +58,31 @@
         iconSize: [24, 24],
       }),
     }
+  }
 
-    function clearMarkers (marker) {
-      // hey, we're clearing all the markers
-      if (marker) {
-        // clear only one
-      } else {
-        // clear all
-      }
+  function clearMarkers (marker) {
+    // hey, we're clearing all the markers
+    if (marker) {
+      // clear only one
+    } else {
+      // clear all
     }
+  }
 
-    function setPollingPair(addressResult, pollingplaceResult) {
-      var address = addressResult[0].features[0].geometry.coordinates,
-        pollingPlace = [pollingplaceResult[0].features.attributes[0].lng, pollingplaceResult[0].features.attributes[0].lat]
+  function setPollingPair(addressResult, pollingplaceResult) {
+    var address = addressResult[0].features[0].geometry.coordinates,
+      pollingPlace = [pollingplaceResult[0].features.attributes[0].lng, pollingplaceResult[0].features.attributes[0].lat]
 
-      markers.polling = L.marker(pollingPlace, {
-          icon: ICONS.polling
-        }).addTo(lmap);
-      markers.home = L.marker(address, {
-          icon: ICONS.home
-        }).addTo(lmap);
+    markers.polling = L.marker(pollingPlace, {
+      icon: ICONS.polling
+    }).addTo(lmap);
+    markers.home = L.marker(address, {
+      icon: ICONS.home
+    }).addTo(lmap);
 
-      var group = new L.featureGroup(markers);
+    var group = new L.featureGroup(markers);
 
-      lmap.fitBounds(group.getBounds());
-    }
+    lmap.fitBounds(group.getBounds());
   }
 }));
 
