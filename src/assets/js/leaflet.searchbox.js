@@ -118,11 +118,12 @@
         corner.appendChild(container)
       }
       // crude but effective initialization kludge
-      L.DomEvent.on(this.searchBox, 'keyup', function(ev) {
+      L.DomEvent.on(this.searchBox, 'keyup', function() {
         // only want to run this event once.
-        L.DomEvent.off(this, 'keyup', console.log('off'))
+        L.DomEvent.off(this, 'keyup', function() {})
         // initialize our autocomplete
         that.service(this)
+        console.log('runonce')
       })
 
       return this
