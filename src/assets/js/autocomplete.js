@@ -37,16 +37,7 @@ function AC(searchBox, lCallback) {
         })
       },
       select: function(evt, ui) {
-        console.log('select');
-        var precinct = encodeURIComponent(ui.item.precinct),
-          pollingPlaceUrl = ('//apis.philadelphiavotes.com/pollingplaces/{precinct}').replace('{precinct}', precinct),
-          address = encodeURIComponent(ui.item.label),
-          geocodeUrl = ('//api.phila.gov/ais/v1/search/{address}/?gatekeeperKey={key}').replace('{address}', address).replace('{key}', 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d')
-          // Get everything
-        $.when($.getJSON(geocodeUrl), $.getJSON(pollingPlaceUrl)).done(function(addressResult, pollingplaceResult) {
-          // render everything
-            lCallback(addressResult, pollingplaceResult)
-        })
+        lCallback(ui.item.lable, ui.item.precinct)
       }
     })
   }
