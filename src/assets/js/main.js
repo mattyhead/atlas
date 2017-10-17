@@ -243,11 +243,7 @@
             service = services.divisions
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
-                deferred.resolve({
-                    coordinates: response.features[0].geometry.rings[0],
-                    color: "#FF0000",
-                    name: input
-                });
+                deferred.resolve(response.features.attributes[0]);
             } else {
                 deferred.reject();
             }
