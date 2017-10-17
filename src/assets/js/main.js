@@ -242,7 +242,7 @@
         var deferred = $.Deferred(),
             service = services.divisions
         $.getJSON(service.url(input), service.params).done(function(response) {
-            console.log(response.features.attributes)
+            console.log(response.features)
             if (response.features) {
                 deferred.resolve(response.features.attributes[0]);
             } else {
