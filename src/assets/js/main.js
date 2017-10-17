@@ -128,7 +128,7 @@
             minLength: 3,
             source: function(request, callback) {
                 var url = services.address_completer.url(request.term),
-                    space request.term.indexOf(' ')
+                    space = request.term.indexOf(' ')
                 if (space > 0 and space < request.term.length - 1) {
                     $.getJSON(url, function(response) {
                         if (response.status == "success") {
