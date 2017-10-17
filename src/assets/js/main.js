@@ -128,7 +128,7 @@
             minLength: 3,
             source: function(request, callback) {
                 var url = services.address_completer.url(request.term)
-                if (request.term.indexOf(' ') > 0) {
+                if (request.term.indexOf(' ') < request.term.length - 1) {
                     $.getJSON(url, function(response) {
                         if (response.status == "success") {
                             var addresses = $.map(response.data, function(candidate) {
