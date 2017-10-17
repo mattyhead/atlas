@@ -64,8 +64,9 @@
                     return '//apis.philadelphiavotes.com/autocomplete/${encInput}'
                 },
                 callback(response) {
+                    var addresses = []
                     if (response.status == "success") {
-                        var addresses = $.map(response.data, function(candidate) {
+                        addresses = $.map(response.data, function(candidate) {
                             return {
                                 label: candidate.address,
                                 value: candidate.address,
@@ -73,10 +74,8 @@
                                 zip: candidate.zip
                             }
                         })
-                        callback(addresses)
-                    } else {
-                        callback([])
                     }
+                    return addresses
                 }
             },
             'geocoder': {
