@@ -175,10 +175,10 @@
         var home = getHome(selected.home)
 
         home.done(function(data) {
+            console.log(data) return
             markers.home = L.marker(address, {
                 icon: ICONS.home
             }).addTo(lmap);
-
         })
 
 
