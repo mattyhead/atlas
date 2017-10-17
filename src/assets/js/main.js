@@ -88,7 +88,7 @@
             'division_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
-                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM={encInput}'.replace('{encInput}', encInput)
+                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM=%27{encInput}%27'.replace('{encInput}', encInput)
                 }
             },
             'ward_shape': {
