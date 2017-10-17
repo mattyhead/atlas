@@ -166,7 +166,6 @@
     }
 
     function onHomeAddress(selected) {
-        console.log('select', selected);
         /*lmap.panTo([
             place.geometry.location.lat(),
             place.geometry.location.lng()
@@ -177,7 +176,7 @@
         var divisionShape = getDivisionShape(selected.precinct)
         var divisions = getDivisions(selected.precinct)
 
-        pollingPlace.done(function(data) {
+        divisionShape.done(function(data) {
                 console.log(data)
 
             }).then(function(data) {
@@ -242,7 +241,6 @@
         var deferred = $.Deferred(),
             service = services.divisions
         $.getJSON(service.url(input), service.params).done(function(response) {
-            console.log(response.features)
             if (response.features) {
                 deferred.resolve(response.features.attributes);
             } else {
