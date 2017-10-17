@@ -182,7 +182,16 @@
         var group = new L.featureGroup([markers.home, markers.polling]);
         lmap.fitBounds(group.getBounds());
     }
-    /*
+
+    function pad(n, width, z) {
+        n = n + '' // cast to string
+        z = z || '0' // default padding: '0'
+        width = width || 2 // default digits: 2
+        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+    }
+}));
+/*
+
         getDivisionShape(wardDivision).done(function(A) {
             drawMap([ {
                 name: A.name,
@@ -210,7 +219,6 @@
             usCongressData = A;
             y("US_CONGRESS");
         });
-    */
 
     function getHome(a) {
         var b = $.Deferred();
@@ -349,14 +357,7 @@
         return a.promise();
     }
 
-    function pad(n, width, z) {
-        n = n + '' // cast to string
-        z = z || '0' // default padding: '0'
-        width = width || 2 // default digits: 2
-        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-    }
-}));
-/*geocoder: {
+geocoder: {
   // methods: {
   forward: {
     url(input) {
