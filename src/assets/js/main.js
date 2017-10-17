@@ -148,7 +148,7 @@
             minLength: 3,
             source: function(request, callback) {
                 var service = services.address_completer
-                console.log(getStuff(service.address_completer, request.term))
+                console.log(getStuff(services.address_completer, request.term))
 
             },
             select: function(evt, ui) {
