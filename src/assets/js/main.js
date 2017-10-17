@@ -89,6 +89,12 @@
                     'gatekeeperKey': GATEKEEPER_KEY
                 }
             },
+            'divisions': {
+                url(input) {
+                    const encInput = encodeURIComponent(input)
+                    return '//www.philadelphiavotes.com/index.php?option=com_divisions&view=json&division_id={encInput}'.replace('{encInput}', encInput)
+                }
+            },
             'polling_place': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
@@ -134,8 +140,7 @@
         }
 
     function getStuff(service, input) {
-        var deferred = $.Deferred(),
-            params = service.params || false,
+        params = service.params || false,
             callback = service.callback || function(data) {
                 console.log(data)
             },
@@ -166,7 +171,7 @@
             },
             select: function(evt, ui) {
                 onHomeAddress({
-                    'street': ui.item.lable,
+                    'home': ui.item.lable,
                     'precinct': ui.item.precinct
                 });
             }
@@ -188,9 +193,12 @@
             place.geometry.location.lat(),
             place.geometry.location.lng()
         ])*/
-        markers.polling = L.marker(pollingPlace, {
-            icon: ICONS.polling
-        }).addTo(lmap);
+        //        $.when(getStuff(services.geocoder, selected.street), getStuff(services.polling_place, selected.precinct)
+
+        var
+            markers.polling = L.marker(pollingPlace, {
+                icon: ICONS.polling
+            }).addTo(lmap);
         markers.home = L.marker(address, {
             icon: ICONS.home
         }).addTo(lmap);
