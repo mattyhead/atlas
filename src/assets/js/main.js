@@ -64,9 +64,9 @@
                     return '//apis.philadelphiavotes.com/autocomplete/{encInput}'.replace('{encInput}', encInput)
                 },
                 callback(response) {
-                    var addresses = []
+                    var deferred = $.Deferred
                     if (response.status == "success") {
-                        addresses = $.map(response.data, function(candidate) {
+                        deferred.resolve = $.map(response.data, function(candidate) {
                             return {
                                 label: candidate.address,
                                 value: candidate.address,
@@ -74,8 +74,10 @@
                                 zip: candidate.zip
                             }
                         })
+                    } else {
+                        deferred.reject()
                     }
-                    deferred.resolve(addresses)
+                    return deferred.promise()
                 }
             },
             'geocoder': {
@@ -138,18 +140,29 @@
                 console.log(data)
             },
             service_url = service.url(input)
-        console.log(service_url)
-        $.getJSON(service_url, params).done(callback)
-        return deferred.promise();
+        return $.getJSON(service_url, params).done(callback)
     }
 
     function addressComplete(searchBox) {
         $(searchBox).autocomplete({
             minLength: 3,
             source: function(request, callback) {
-                var service = services.address_completer
-                console.log(getStuff(services.address_completer, request.term))
-
+                var url = services.address_completer.url(request.term)
+                $.getJSON(url, function(response) {
+                    if (response.status == "success") {
+                        var addresses = $.map(response.data, function(candidate) {
+                            return {
+                                label: candidate.address,
+                                value: candidate.address,
+                                precinct: candidate.precinct,
+                                zip: candidate.zip
+                            };
+                        });
+                        callback(addresses);
+                    } else {
+                        callback([]);
+                    }
+                });
             },
             select: function(evt, ui) {
                 onHomeAddress({
