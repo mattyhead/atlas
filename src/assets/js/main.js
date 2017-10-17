@@ -163,13 +163,13 @@
     }
 
     function onHomeAddress(selected) {
-        console.log('select');
+        console.log('select', selected);
         /*lmap.panTo([
             place.geometry.location.lat(),
             place.geometry.location.lng()
         ])*/
         //        $.when(getStuff(services.geocoder, selected.street), getStuff(services.polling_place, selected.precinct)
-        var home = new getHome
+        var home = getHome(selected.home)
 
         /*        home.done(function(data) {
                     markers.home = L.marker(address, {
