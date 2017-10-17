@@ -64,6 +64,7 @@
                     return '//apis.philadelphiavotes.com/autocomplete/${encInput}'
                 },
                 callback(response) {
+                    console.log(response)
                     var addresses = []
                     if (response.status == "success") {
                         addresses = $.map(response.data, function(candidate) {
