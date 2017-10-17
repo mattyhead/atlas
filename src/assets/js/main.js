@@ -117,13 +117,13 @@
             }
         }
 
-    function getStuff(service) {
+    function getStuff(service, input) {
         var deferred = $.Deferred();
         var params = service.params || false
         var callback = service.callback || function(data) {
             console.log(data)
         }
-        $.getJSON(service.url(), params).done(callback)
+        $.getJSON(service.url(input), params).done(callback)
         return deferred.promise();
     }
 
@@ -131,7 +131,7 @@
         $(searchBox).autocomplete({
             minLength: 3,
             source: function(request, callback) {
-                console.log(getStuff(services.address_completer(request.term)));
+                console.log(getStuff(services.address_completer));
                 /*var address = encodeURIComponent(request.term),
                     url = "//apis.philadelphiavotes.com/autocomplete/{address}".replace("{address}", address);
                 $.getJSON(url, function(response) {
