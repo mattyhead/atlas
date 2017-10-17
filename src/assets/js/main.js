@@ -225,8 +225,9 @@
             service = services.polling_place
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
+                var attrs = response.features.attributes[0]
                 deferred.resolve({
-                    coordinates: [response.features.attributes[0].lat, response.features.attributes[0].lng],
+                    coordinates: [attrs.lng, attrs.lat],
                     color: "#FF0000",
                     name: input
                 });
