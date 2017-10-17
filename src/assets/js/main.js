@@ -224,7 +224,7 @@
             console.log(response)
             if (response.features) {
                 deferred.resolve({
-                    coordinates: response.features[0].geometry.rings[0],
+                    coordinates: [response.features.attributes[0].lat, response.features.attributes[0].lng],
                     color: "#FF0000",
                     name: input
                 });
