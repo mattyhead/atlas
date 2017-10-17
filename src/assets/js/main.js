@@ -176,7 +176,7 @@
         var divisionShape = getDivisionShape(selected.precinct)
         var divisions = getDivisions(selected.precinct)
 
-        divisionShape.done(function(data) {
+        divisions.done(function(data) {
                 console.log(data)
 
             }).then(function(data) {
