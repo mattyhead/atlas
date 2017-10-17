@@ -176,11 +176,11 @@
 
         home.done(function(data) {
 
-            console.log(data)
             markers.home = L.marker(data.coordinates, {
                 icon: ICONS.home,
                 label: "Home"
             }).addTo(lmap);
+            console.log(data, markers)
         })
 
 
