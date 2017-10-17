@@ -62,22 +62,6 @@
                 url(input) {
                     const encInput = encodeURIComponent(input)
                     return '//apis.philadelphiavotes.com/autocomplete/{encInput}'.replace('{encInput}', encInput)
-                },
-                callback(response) {
-                    var deferred = $.Deferred
-                    if (response.status == "success") {
-                        deferred.resolve = $.map(response.data, function(candidate) {
-                            return {
-                                label: candidate.address,
-                                value: candidate.address,
-                                precinct: candidate.precinct,
-                                zip: candidate.zip
-                            }
-                        })
-                    } else {
-                        deferred.reject()
-                    }
-                    return deferred.promise()
                 }
             },
             'geocoder': {
@@ -91,25 +75,25 @@
             },
             'divisions': {
                 url(input) {
-                    const encInput = encodeURIComponent(input)
+                    const encInput = encodeURIComponent(pad(input, 4))
                     return '//www.philadelphiavotes.com/index.php?option=com_divisions&view=json&division_id={encInput}'.replace('{encInput}', encInput)
                 }
             },
             'polling_place': {
                 url(input) {
-                    const encInput = encodeURIComponent(input)
+                    const encInput = encodeURIComponent(pad(input, 4))
                     return '//apis.philadelphiavotes.com/pollingplaces/{encInput}'.replace('{encInput}', encInput)
                 }
             },
             'division_shape': {
                 url(input) {
-                    const encInput = encodeURIComponent(input)
+                    const encInput = encodeURIComponent(pad(input, 4))
                     return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM={encInput}'.replace('{encInput}', encInput)
                 }
             },
             'ward_shape': {
                 url(input) {
-                    const encInput = encodeURIComponent(input)
+                    const encInput = encodeURIComponent(pad(input))
                     return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM={encInput}'.replace('{encInput}', encInput)
                 }
             },
@@ -133,20 +117,11 @@
             },
             'us_rep_shape': {
                 url(input) {
-                    const encInput = encodeURIComponent(input)
+                    const encInput = encodeURIComponent(pad(input))
                     return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=42{encInput}'.replace('{encInput}', encInput)
                 }
             }
         }
-
-    function getStuff(service, input) {
-        params = service.params || false,
-            callback = service.callback || function(data) {
-                console.log(data)
-            },
-            service_url = service.url(input)
-        return $.getJSON(service_url, params).done(callback)
-    }
 
     function addressComplete(searchBox) {
         $(searchBox).autocomplete({
@@ -194,16 +169,41 @@
             place.geometry.location.lng()
         ])*/
         //        $.when(getStuff(services.geocoder, selected.street), getStuff(services.polling_place, selected.precinct)
+        var home = getHome(selected.home)
 
-        var
-            markers.polling = L.marker(pollingPlace, {
-                icon: ICONS.polling
+        home.done(function(data) {
+            markers.home = L.marker(address, {
+                icon: ICONS.home
             }).addTo(lmap);
-        markers.home = L.marker(address, {
-            icon: ICONS.home
-        }).addTo(lmap);
-        var group = new L.featureGroup([markers.home, markers.polling]);
-        lmap.fitBounds(group.getBounds());
+        })
+
+
+        /*        var markers.polling = L.marker(pollingPlace, {
+                    icon: ICONS.polling
+                }).addTo(lmap);
+                markers.home = L.marker(address, {
+                    icon: ICONS.home
+                }).addTo(lmap);
+                var group = new L.featureGroup([markers.home, markers.polling]);
+                lmap.fitBounds(group.getBounds());*/
+    }
+
+    function getHome(input) {
+        var b = $.Deferred(),
+            service = services.geocoder
+        $.getJSON((service.url(input), service.params).done(function(c) {
+                if (c.features) {
+                    b.resolve({
+                        coordinates: c.features[0].geometry.coordinates,
+                        color: "#FF0000",
+                        name: input
+                    });
+                } else {
+                    b.reject();
+                }
+            });
+            return b.promise();
+        }
     }
 
     function pad(n, width, z) {
