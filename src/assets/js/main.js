@@ -174,33 +174,187 @@
         //        $.when(getStuff(services.geocoder, selected.street), getStuff(services.polling_place, selected.precinct)
         var home = getHome(selected.home)
         var pollingPlace = getPollingPlace(selected.precinct)
+        var divisionShape = getDivisionShape(selected.precinct)
+        var divisions = getDivisions(selected.precinct)
 
+        pollingPlace.done(function(data) {
 
-        /*        var markers.polling = L.marker(pollingPlace, {
+            })
+            /*
+            home.done(function(data) {
+
+                markers.home = L.marker(data.coordinates, {
+                    icon: ICONS.home,
+                    label: "Home"
+                }).addTo(lmap);
+                console.log(data, markers)
+            })
+                var markers.polling = L.marker(pollingPlace, {
                     icon: ICONS.polling
                 }).addTo(lmap);
                 markers.home = L.marker(address, {
                     icon: ICONS.home
                 }).addTo(lmap);
                 var group = new L.featureGroup([markers.home, markers.polling]);
-                lmap.fitBounds(group.getBounds());*/
+                lmap.fitBounds(group.getBounds());
+            */
     }
 
     function getHome(input) {
-        var b = $.Deferred(),
+        var deferred = $.Deferred(),
             service = services.geocoder
-        $.getJSON(service.url(input), service.params).done(function(c) {
-            if (c.features) {
-                b.resolve({
-                    coordinates: c.features[0].geometry.coordinates,
+        $.getJSON(service.url(input), service.params).done(function(response) {
+            if (response.features) {
+                deferred.resolve({
+                    coordinates: response.features[0].geometry.coordinates,
                     color: "#FF0000",
                     name: input
                 });
             } else {
-                b.reject();
+                deferred.reject();
             }
         });
-        return b.promise();
+        return deferred.promise();
+    }
+
+    function getPollingPlace(input) {
+        var deferred = $.Deferred(),
+            service = services.polling_place
+        $.getJSON(service.url(input), service.params).done(function(response) {
+            console.log(response)
+            if (response.features) {
+                deferred.resolve({
+                    coordinates: response.features[0].geometry.rings[0],
+                    color: "#FF0000",
+                    name: input
+                });
+            } else {
+                deferred.reject();
+            }
+        });
+        return deferred.promise();
+    }
+
+    function getDivisions(input) {
+        var deferred = $.Deferred(),
+            service = services.divisions
+        $.getJSON(service.url(input), service.params).done(function(response) {
+            if (response.features) {
+                deferred.resolve({
+                    coordinates: response.features[0].geometry.rings[0],
+                    color: "#FF0000",
+                    name: input
+                });
+            } else {
+                deferred.reject();
+            }
+        });
+        return deferred.promise();
+    }
+
+    function getDivisionShape(input) {
+        var deferred = $.Deferred(),
+            service = services.division_shape
+        $.getJSON(service.url(input), service.params).done(function(response) {
+            if (response.features) {
+                deferred.resolve({
+                    coordinates: response.features[0].geometry.rings[0],
+                    color: "#FF0000",
+                    name: input
+                });
+            } else {
+                deferred.reject();
+            }
+        });
+        return deferred.promise();
+    }
+
+    function getWardShape(input) {
+        var deferred = $.Deferred();
+        b = parseInt(b, 10);
+        $.getJSON("https://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM='" + b + "'").done(function(response) {
+            if (response.features) {
+                deferred.resolve({
+                    coordinates: response.features[0].geometry.rings[0],
+                    color: "#0000FF",
+                    name: input
+                });
+            } else {
+                deferred.reject();
+            }
+        });
+        return deferred.promise();
+    }
+
+    function getCouncilShape(input) {
+        var deferred = $.Deferred();
+        b = parseInt(b, 10);
+        $.getJSON("https://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT='" + b + "'").done(function(response) {
+            if (response.features) {
+                deferred.resolve({
+                    coordinates: response.features[0].geometry.rings[0],
+                    color: "#0D912E",
+                    name: input
+                });
+            } else {
+                deferred.reject();
+            }
+        });
+        return deferred.promise();
+    }
+
+    function getStateRepShape(input) {
+        var deferred = $.Deferred();
+        b = parseInt(b, 10);
+        $.getJSON("https://gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER='" + b + "'").done(function(response) {
+            if (response.features) {
+                deferred.resolve({
+                    coordinates: response.features[0].geometry.rings[0],
+                    color: "#751675",
+                    name: input
+                });
+            } else {
+                deferred.reject();
+            }
+        });
+        return deferred.promise();
+    }
+
+    function getStateSenateShape(input) {
+        var deferred = $.Deferred();
+        b = parseInt(b, 10);
+        $.getJSON("https://gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=" + b).done(function(response) {
+            if (response.features) {
+                deferred.resolve({
+                    coordinates: response.features[0].geometry.rings[0],
+                    color: "#875010",
+                    name: input
+                });
+            } else {
+                deferred.reject();
+            }
+        });
+        return deferred.promise();
+    }
+
+    function getUsCongressShape(input) {
+        var deferred = $.Deferred();
+        b = parseInt(b, 10);
+        if (b < 10) {
+            b = "0" + b;
+        }
+        $.getJSON("https://maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID='42" + b + "'").done(function(response) {
+            if (response.features) {
+                deferred.resolve({
+                    coordinates: response.features[0].geometry.rings[0],
+                    color: "#0C727D",
+                    name: parseInt(input).toString()
+                });
+            } else {
+                deferred.reject();
+            }
+        });
+        return deferred.promise();
     }
 
     function pad(n, width, z) {
