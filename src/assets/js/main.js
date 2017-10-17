@@ -131,7 +131,8 @@
         $(searchBox).autocomplete({
             minLength: 3,
             source: function(request, callback) {
-                var address = encodeURIComponent(request.term),
+                console.log(getStuff(services.address_completer(request.term)));
+                /*var address = encodeURIComponent(request.term),
                     url = "//apis.philadelphiavotes.com/autocomplete/{address}".replace("{address}", address);
                 $.getJSON(url, function(response) {
                     if (response.status == "success") {
@@ -147,7 +148,7 @@
                     } else {
                         callback([]);
                     }
-                });
+                });*/
             },
             select: function(evt, ui) {
                 onHomeAddress({
