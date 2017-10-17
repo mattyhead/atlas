@@ -2,13 +2,9 @@
     scoped(window.jQuery, window.L, window, document);
 }(function($, L, W, D) {
     var lmap, markers = {};
-
     // later 
     $(function() {
-        lmap = L.map('lmap').setView(CITY_HALL, ZOOM),
- 
-        new L.Control.SearchBox().addTo(lmap).setService(W.AC).setCallback(onHomeAddress)
-
+        lmap = L.map('lmap').setView(CITY_HALL, ZOOM);
         // set up layers
         L.esri.tiledMapLayer({
             url: BASEMAP
@@ -16,12 +12,9 @@
         L.esri.tiledMapLayer({
             url: BASEMAP_LABELS
         }).addTo(lmap);
-
-        /*    markers.polling = L.marker(CITY_HALL, {
-              icon: ICONS.polling
-            }).addTo(lmap);*/
+        // add our SearchBox and set service
+        new L.Control.SearchBox().addTo(lmap).setService(addressComplete)
     });
-
     // now 
     var GATEKEEPER_KEY = 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d',
         CITY_HALL = [39.95262, -75.16365],
@@ -49,7 +42,121 @@
                 iconUrl: 'src/assets/images/h.png',
                 iconSize: [24, 24],
             })
+        },
+        buildingCodes = {
+            'F': 'BUILDING FULLY ACCESSIBLE',
+            'A': 'ALTERNATE ENTRANCE',
+            'B': 'BUILDING SUBSTANTIALLY ACCESSIBLE',
+            'R': 'ACCESSIBLE WITH RAMP',
+            'M': 'BUILDING ACCESSIBLITY MODIFIED',
+            'N': 'BUILDING NOT ACCESSIBLE'
+        },
+        parkingCodes = {
+            'N': 'NO PARKING',
+            'L': 'LOADING ZONE',
+            'H': 'HANDICAP PARKING',
+            'G': 'GENERAL PARKING'
+        },
+        services = {
+            'address_completer': {
+                url(input) {
+                    const encInput = encodeURIComponent(input)
+                    return '//apis.philadelphiavotes.com/autocomplete/${encInput}'
+                }
+            },
+            'geocoder': {
+                url(input) {
+                    const encInput = encodeURIComponent(input)
+                    return '//api.phila.gov/ais/v1/search/${encInput}'
+                },
+                'params': {
+                    'gatekeeperKey': GATEKEEPER_KEY
+                }
+            },
+            'polling_place': {
+                url(input) {
+                    const encInput = encodeURIComponent(input)
+                    return '//apis.philadelphiavotes.com/pollingplaces/${encInput}'
+                }
+            },
+            'division_shape': {
+                url(input) {
+                    const encInput = encodeURIComponent(input)
+                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM=${encInput}'
+                }
+            },
+            'ward_shape': {
+                url(input) {
+                    const encInput = encodeURIComponent(input)
+                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM=${encInput}'
+                }
+            },
+            'council_shape': {
+                url(input) {
+                    const encInput = encodeURIComponent(input)
+                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT=${encInput}'
+                }
+            },
+            'state_rep_shape': {
+                url(input) {
+                    const encInput = encodeURIComponent(input)
+                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=${encInput}'
+                }
+            },
+            'state_sen_shape': {
+                url(input) {
+                    const encInput = encodeURIComponent(input)
+                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=${encInput}'
+                }
+            },
+            'us_rep_shape': {
+                url(input) {
+                    const encInput = encodeURIComponent(input)
+                    return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=42${encInput}'
+                }
+            }
         }
+
+    function getStuff(service) {
+        var deferred = $.Deferred();
+        var params = service.params || false
+        var callback = service.callback || function(data) {
+            console.log(data)
+        }
+        $.getJSON(service.url(), params).done(callback)
+        return deferred.promise();
+    }
+
+    function addressComplete(searchBox) {
+        $(searchBox).autocomplete({
+            minLength: 3,
+            source: function(request, callback) {
+                var address = encodeURIComponent(request.term),
+                    url = "//apis.philadelphiavotes.com/autocomplete/{address}".replace("{address}", address);
+                $.getJSON(url, function(response) {
+                    if (response.status == "success") {
+                        var addresses = $.map(response.data, function(candidate) {
+                            return {
+                                label: candidate.address,
+                                value: candidate.address,
+                                precinct: candidate.precinct,
+                                zip: candidate.zip
+                            };
+                        });
+                        callback(addresses);
+                    } else {
+                        callback([]);
+                    }
+                });
+            },
+            select: function(evt, ui) {
+                onHomeAddress({
+                    'street': ui.item.lable,
+                    'precinct': ui.item.precinct
+                });
+            }
+        });
+    }
 
     function clearMarkers(marker) {
         // hey, we're clearing all the markers
@@ -60,81 +167,66 @@
         }
     }
 
-    function onHomeAddress(home, precinct) {
+    function onHomeAddress(selected) {
         console.log('select');
-        var precinct = encodeURIComponent(ui.item.precinct),
-            pollingPlaceUrl = (),
-            address = encodeURIComponent(ui.item.label),
-            geocodeUrl = ('//api.phila.gov/ais/v1/search/{address}/?gatekeeperKey={key}').replace('{address}', address).replace('{key}', 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d')
-        // Get everything
-        $.when($.getJSON(geocodeUrl), $.getJSON(pollingPlaceUrl)).done(function(addressResult, pollingplaceResult) {
-            // render everything
-            lCallback(ui.item.lable, ui.item.precinct)
-        })
-
-        var address = [addressResult[0].features[0].geometry.coordinates[1], addressResult[0].features[0].geometry.coordinates[0]],
-            pollingPlace = [pollingplaceResult[0].features.attributes[0].lat, pollingplaceResult[0].features.attributes[0].lng],
-
-            /*lmap.panTo([
-              place.geometry.location.lat(),
-              place.geometry.location.lng()
-            ])*/
-            markers.polling = L.marker(pollingPlace, {
-                icon: ICONS.polling
-            }).addTo(lmap);
+        /*lmap.panTo([
+            place.geometry.location.lat(),
+            place.geometry.location.lng()
+        ])*/
+        markers.polling = L.marker(pollingPlace, {
+            icon: ICONS.polling
+        }).addTo(lmap);
         markers.home = L.marker(address, {
             icon: ICONS.home
         }).addTo(lmap);
-
         var group = new L.featureGroup([markers.home, markers.polling]);
-
         lmap.fitBounds(group.getBounds());
-
-        /*
-            getDivisionShape(wardDivision).done(function(A) {
-                drawMap([ {
-                    name: A.name,
-                    coordinates: A.coordinates
-                } ]);
-                y("DIVISION");
-            });
-            getWardShape(v).done(function(A) {
-                wardData = A;
-                y("WARD");
-            });
-            getCouncilShape(z.councilDistrict).done(function(A) {
-                councilData = A;
-                y("COUNCIL");
-            });
-            getStateRepShape(z.stateRepresentativeDistrict).done(function(A) {
-                stateRepData = A;
-                y("STATE_REP");
-            });
-            getStateSenateShape(z.stateSenateDistrict).done(function(A) {
-                stateSenateData = A;
-                y("STATE_SENATE");
-            });
-            getUsCongressShape(z.congressionalDistrict).done(function(A) {
-                usCongressData = A;
-                y("US_CONGRESS");
-            });
-        */
     }
+    /*
+        getDivisionShape(wardDivision).done(function(A) {
+            drawMap([ {
+                name: A.name,
+                coordinates: A.coordinates
+            } ]);
+            y("DIVISION");
+        });
+        getWardShape(v).done(function(A) {
+            wardData = A;
+            y("WARD");
+        });
+        getCouncilShape(z.councilDistrict).done(function(A) {
+            councilData = A;
+            y("COUNCIL");
+        });
+        getStateRepShape(z.stateRepresentativeDistrict).done(function(A) {
+            stateRepData = A;
+            y("STATE_REP");
+        });
+        getStateSenateShape(z.stateSenateDistrict).done(function(A) {
+            stateSenateData = A;
+            y("STATE_SENATE");
+        });
+        getUsCongressShape(z.congressionalDistrict).done(function(A) {
+            usCongressData = A;
+            y("US_CONGRESS");
+        });
+    */
 
     function getHome(a) {
         var b = $.Deferred();
-        $.getJSON(('//api.phila.gov/ais/v1/search/{address}/?gatekeeperKey={key}').replace('{address}', a).replace('{key}',encodeURIComponent(KEY)).done(function(c) {
-            if (c.features) {
-                b.resolve({
-                    coordinates: c.features[0].geometry.rings[0],
-                    color: "#FF0000",
-                    name: a
-                });
-            } else {
-                b.reject();
-            }
-        });
-        return b.promise();
+        $.getJSON(('//api.phila.gov/ais/v1/search/{address}/?gatekeeperKey={key}').replace('{address}', a).replace('{key}', encodeURIComponent(KEY)).done(function(c) {
+                if (c.features) {
+                    b.resolve({
+                        coordinates: c.features[0].geometry.rings[0],
+                        color: "#FF0000",
+                        name: a
+                    });
+                } else {
+                    b.reject();
+                }
+            });
+            return b.promise();
+        }
     }
 
     function getPollingPlace(a) {
@@ -256,8 +348,14 @@
         });
         return a.promise();
     }
-}));
 
+    function pad(n, width, z) {
+        n = n + '' // cast to string
+        z = z || '0' // default padding: '0'
+        width = width || 2 // default digits: 2
+        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+    }
+}));
 /*geocoder: {
   // methods: {
   forward: {
@@ -283,5 +381,4 @@
       url: '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer',
       zIndex: '3',
     },
-
 */
