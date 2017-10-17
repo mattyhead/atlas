@@ -65,18 +65,18 @@
                 },
                 callback(response) {
                     if (response.status == "success") {
-                        deferred.resolve($.map(response.data, function(candidate) {
+                        var addresses = $.map(response.data, function(candidate) {
                             return {
                                 label: candidate.address,
                                 value: candidate.address,
                                 precinct: candidate.precinct,
                                 zip: candidate.zip
                             }
-                        }))
+                        })
+                        callback(addresses)
                     } else {
-                        deferred.reject()
+                        callback([])
                     }
-                    return deferred.promise()
                 }
             },
             'geocoder': {
