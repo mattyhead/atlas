@@ -61,7 +61,7 @@
             'address_completer': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
-                    return '//apis.philadelphiavotes.com/autocomplete/${encInput}'
+                    return '//apis.philadelphiavotes.com/autocomplete/{encInput}'.replace('{encInput}', encInput)
                 },
                 callback(response) {
                     console.log(response)
@@ -82,7 +82,7 @@
             'geocoder': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
-                    return '//api.phila.gov/ais/v1/search/${encInput}'
+                    return '//api.phila.gov/ais/v1/search/{encInput}'.replace('{encInput}', encInput)
                 },
                 'params': {
                     'gatekeeperKey': GATEKEEPER_KEY
@@ -91,43 +91,43 @@
             'polling_place': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
-                    return '//apis.philadelphiavotes.com/pollingplaces/${encInput}'
+                    return '//apis.philadelphiavotes.com/pollingplaces/{encInput}'.replace('{encInput}', encInput)
                 }
             },
             'division_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
-                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM=${encInput}'
+                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM={encInput}'.replace('{encInput}', encInput)
                 }
             },
             'ward_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
-                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM=${encInput}'
+                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM={encInput}'.replace('{encInput}', encInput)
                 }
             },
             'council_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
-                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT=${encInput}'
+                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT={encInput}'.replace('{encInput}', encInput)
                 }
             },
             'state_rep_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
-                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=${encInput}'
+                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER={encInput}'.replace('{encInput}', encInput)
                 }
             },
             'state_sen_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
-                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=${encInput}'
+                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER={encInput}'.replace('{encInput}', encInput)
                 }
             },
             'us_rep_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
-                    return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=42${encInput}'
+                    return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=42{encInput}'.replace('{encInput}', encInput)
                 }
             }
         }
@@ -140,7 +140,7 @@
             },
             service_url = service.url(input)
         console.log(service_url)
-        $.getJSON(service_url, params).done(callback)
+        $.getJSON(service_ url, params).done(callback)
         return deferred.promise();
     }
 
