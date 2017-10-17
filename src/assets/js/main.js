@@ -128,21 +128,23 @@
             minLength: 3,
             source: function(request, callback) {
                 var url = services.address_completer.url(request.term)
-                $.getJSON(url, function(response) {
-                    if (response.status == "success") {
-                        var addresses = $.map(response.data, function(candidate) {
-                            return {
-                                label: candidate.address,
-                                value: candidate.address,
-                                precinct: candidate.precinct,
-                                zip: candidate.zip
-                            };
-                        });
-                        callback(addresses);
-                    } else {
-                        callback([]);
-                    }
-                });
+                if (request.term.indexOf(' ') > 0) {
+                    $.getJSON(url, function(response) {
+                        if (response.status == "success") {
+                            var addresses = $.map(response.data, function(candidate) {
+                                return {
+                                    label: candidate.address,
+                                    value: candidate.address,
+                                    precinct: candidate.precinct,
+                                    zip: candidate.zip
+                                };
+                            });
+                            callback(addresses);
+                        } else {
+                            callback([]);
+                        }
+                    });
+                }
             },
             select: function(evt, ui) {
                 onHomeAddress({
