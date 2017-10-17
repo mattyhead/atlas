@@ -148,7 +148,7 @@
             minLength: 3,
             source: function(request, callback) {
                 var service = services.address_completer,
-                    addresses = $.getJSON(service.url(request.term)).done(service.callback).responseJSON
+                    addresses = $.getJSON(service.url(request.term)).done(service.callback)
                 console.log(addresses)
                 callback(addresses)
             },
