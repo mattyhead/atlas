@@ -169,7 +169,7 @@
             place.geometry.location.lng()
         ])*/
         //        $.when(getStuff(services.geocoder, selected.street), getStuff(services.polling_place, selected.precinct)
-        var home = getHome(selected.home)
+        var home = new getHome
 
         /*        home.done(function(data) {
                     markers.home = L.marker(address, {
