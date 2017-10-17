@@ -146,7 +146,7 @@
             },
             select: function(evt, ui) {
                 onHomeAddress({
-                    'home': ui.item.lable,
+                    'home': ui.item.label,
                     'precinct': ui.item.precinct
                 });
             }
