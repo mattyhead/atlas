@@ -140,7 +140,7 @@
             },
             service_url = service.url(input)
         console.log(service_url)
-        $.getJSON(service_ url, params).done(callback)
+        $.getJSON(service_url, params).done(callback)
         return deferred.promise();
     }
 
