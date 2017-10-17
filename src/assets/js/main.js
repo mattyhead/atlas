@@ -171,12 +171,12 @@
         //        $.when(getStuff(services.geocoder, selected.street), getStuff(services.polling_place, selected.precinct)
         var home = getHome(selected.home)
 
-        home.done(function(data) {
-            markers.home = L.marker(address, {
-                icon: ICONS.home
-            }).addTo(lmap);
-        })
-
+        /*        home.done(function(data) {
+                    markers.home = L.marker(address, {
+                        icon: ICONS.home
+                    }).addTo(lmap);
+                })
+        */
 
         /*        var markers.polling = L.marker(pollingPlace, {
                     icon: ICONS.polling
@@ -191,19 +191,18 @@
     function getHome(input) {
         var b = $.Deferred(),
             service = services.geocoder
-        $.getJSON((service.url(input), service.params).done(function(c) {
-                if (c.features) {
-                    b.resolve({
-                        coordinates: c.features[0].geometry.coordinates,
-                        color: "#FF0000",
-                        name: input
-                    });
-                } else {
-                    b.reject();
-                }
-            });
-            return b.promise();
-        }
+        $.getJSON(service.url(input), service.params).done(function(c) {
+            if (c.features) {
+                b.resolve({
+                    coordinates: c.features[0].geometry.coordinates,
+                    color: "#FF0000",
+                    name: input
+                });
+            } else {
+                b.reject();
+            }
+        });
+        return b.promise();
     }
 
     function pad(n, width, z) {
@@ -212,6 +211,7 @@
         width = width || 2 // default digits: 2
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     }
+
 }));
 /*
 
