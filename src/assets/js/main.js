@@ -254,6 +254,7 @@
     function getDivisionShape(input) {
         var deferred = $.Deferred(),
             service = services.division_shape
+        console.log(service.url(input), input)
         $.getJSON(service.url(input), service.params).done(function(response) {
             console.log(response)
             if (response.features) {
