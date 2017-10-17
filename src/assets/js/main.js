@@ -147,8 +147,8 @@
         $(searchBox).autocomplete({
             minLength: 3,
             source: function(request, callback) {
-                var service = services.address_completer,
-                    $.getJSON(service.url(request.term)).done(service.callback)
+                var service = services.address_completer
+                $.getJSON(service.url(request.term)).done(service.callback)
             },
             select: function(evt, ui) {
                 onHomeAddress({
