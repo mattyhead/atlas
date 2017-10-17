@@ -133,12 +133,14 @@
         }
 
     function getStuff(service, input) {
-        var deferred = $.Deferred();
-        var params = service.params || false
-        var callback = service.callback || function(data) {
-            console.log(data)
-        }
-        $.getJSON(service.url(input), params).done(callback)
+        var deferred = $.Deferred(),
+            params = service.params || false,
+            callback = service.callback || function(data) {
+                console.log(data)
+            },
+            service_url = service.url(input)
+        console.log(service_url)
+        $.getJSON(service_url, params).done(callback)
         return deferred.promise();
     }
 
