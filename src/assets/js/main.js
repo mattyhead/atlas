@@ -62,6 +62,21 @@
                 url(input) {
                     const encInput = encodeURIComponent(input)
                     return '//apis.philadelphiavotes.com/autocomplete/${encInput}'
+                },
+                callback(response) {
+                    if (response.status == "success") {
+                        deferred.resolve($.map(response.data, function(candidate) {
+                            return {
+                                label: candidate.address,
+                                value: candidate.address,
+                                precinct: candidate.precinct,
+                                zip: candidate.zip
+                            }
+                        }))
+                    } else {
+                        deferred.reject()
+                    }
+                    return deferred.promise()
                 }
             },
             'geocoder': {
