@@ -173,15 +173,7 @@
         ])*/
         //        $.when(getStuff(services.geocoder, selected.street), getStuff(services.polling_place, selected.precinct)
         var home = getHome(selected.home)
-
-        home.done(function(data) {
-
-            markers.home = L.marker(data.coordinates, {
-                icon: ICONS.home,
-                label: "Home"
-            }).addTo(lmap);
-            console.log(data, markers)
-        })
+        var pollingPlace = getPollingPlace(selected.precinct)
 
 
         /*        var markers.polling = L.marker(pollingPlace, {
