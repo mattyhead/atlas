@@ -146,24 +146,7 @@
         $(searchBox).autocomplete({
             minLength: 3,
             source: function(request, callback) {
-                console.log(getStuff(services.address_completer));
-                /*var address = encodeURIComponent(request.term),
-                    url = "//apis.philadelphiavotes.com/autocomplete/{address}".replace("{address}", address);
-                $.getJSON(url, function(response) {
-                    if (response.status == "success") {
-                        var addresses = $.map(response.data, function(candidate) {
-                            return {
-                                label: candidate.address,
-                                value: candidate.address,
-                                precinct: candidate.precinct,
-                                zip: candidate.zip
-                            };
-                        });
-                        callback(addresses);
-                    } else {
-                        callback([]);
-                    }
-                });*/
+                callback(getStuff(services.address_completer, request.term));
             },
             select: function(evt, ui) {
                 onHomeAddress({
