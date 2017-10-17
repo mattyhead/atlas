@@ -174,12 +174,13 @@
         //        $.when(getStuff(services.geocoder, selected.street), getStuff(services.polling_place, selected.precinct)
         var home = getHome(selected.home)
 
-        /*        home.done(function(data) {
-                    markers.home = L.marker(address, {
-                        icon: ICONS.home
-                    }).addTo(lmap);
-                })
-        */
+        home.done(function(data) {
+            markers.home = L.marker(address, {
+                icon: ICONS.home
+            }).addTo(lmap);
+
+        })
+
 
         /*        var markers.polling = L.marker(pollingPlace, {
                     icon: ICONS.polling
