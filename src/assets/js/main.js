@@ -64,10 +64,11 @@
                     return '//apis.philadelphiavotes.com/autocomplete/{encInput}'.replace('{encInput}', encInput)
                 },
                 callback(response) {
-                    console.log(response)
+                    console.log(response.status)
                     var addresses = []
                     if (response.status == "success") {
                         addresses = $.map(response.data, function(candidate) {
+                            console.log(candidate)
                             return {
                                 label: candidate.address,
                                 value: candidate.address,
