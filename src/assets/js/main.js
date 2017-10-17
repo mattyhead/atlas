@@ -178,7 +178,10 @@
         var divisions = getDivisions(selected.precinct)
 
         pollingPlace.done(function(data) {
+                console.log(data)
 
+            }).then(function(data) {
+                console.log(data)
             })
             /*
             home.done(function(data) {
@@ -221,7 +224,6 @@
         var deferred = $.Deferred(),
             service = services.polling_place
         $.getJSON(service.url(input), service.params).done(function(response) {
-            console.log(response)
             if (response.features) {
                 deferred.resolve({
                     coordinates: [response.features.attributes[0].lat, response.features.attributes[0].lng],
