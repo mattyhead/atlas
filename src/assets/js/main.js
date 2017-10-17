@@ -178,7 +178,8 @@
 
             console.log(data)
             markers.home = L.marker(data.coordinates, {
-                icon: ICONS.home
+                icon: ICONS.home,
+                label: "Home"
             }).addTo(lmap);
         })
 
