@@ -75,7 +75,7 @@
                             }
                         })
                     }
-                    callback(addresses)
+                    deferred.resolve(addresses)
                 }
             },
             'geocoder': {
@@ -148,7 +148,8 @@
             minLength: 3,
             source: function(request, callback) {
                 var service = services.address_completer
-                $.getJSON(service.url(request.term)).done(service.callback)
+                console.log(getStuff(service.address_completer, request.term))
+
             },
             select: function(evt, ui) {
                 onHomeAddress({
