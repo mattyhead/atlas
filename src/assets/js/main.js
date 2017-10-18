@@ -177,33 +177,39 @@
             divisionShape = getDivisionShape(selected.precinct),
             divisions = getDivisions(selected.precinct),
             wardShape, councilShape, stateRepShape, stateSenateShape, usCongressShape
-/*        home
-            .done(
-                function(data) {
-                    vars.done = data
+            /*        home
+                        .done(
+                            function(data) {
+                                vars.home = data
 
-                })
-        pollingPlace
-            .done(
-                function(data) {
-                    vars.pollingPlace = data
+                            })
+                    pollingPlace
+                        .done(
+                            function(data) {
+                                vars.pollingPlace = data
 
-                })
-        divisionShape
-            .done(
-                function(data) {
-                    vars.divisionShape = data
+                            })
+                    divisionShape
+                        .done(
+                            function(data) {
+                                vars.divisionShape = data
 
-                })
-        divisions
-            .done(
-                function(data) {
-                    vars.divisions = data
+                            })
+                    divisions
+                        .done(
+                            function(data) {
+                                vars.divisions = data
 
-                })
-*/
-        $.when(home, pollingPlace, divisionShape, divisions).done(function(home, pollingPlace, divisionShape, divisions) {
-            console.log(home, pollingPlace, divisionShape, divisions)
+                            })
+            */
+        $.when(home, pollingPlace, divisionShape, divisions).done(function(h, pp, ds, d) {
+            vars.home = h
+            vars.pollingPlace = pp
+            vars.divisionShape = ds
+            vars.divisions = d
+
+            console.log(d)
+                //wardShape = 
         })
 
         /*        console.log(vars, vars.home, vars.pollingPlace, vars.divisionShape, vars.divisions)
