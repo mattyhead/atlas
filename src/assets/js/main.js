@@ -352,10 +352,9 @@
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 var rings = response.features[0].geometry.rings[0],
-                    tmp = []
-                tmp = rings.forEach(function(a, b) {
-                    return [b, a]
-                })
+                    tmp = $.map(rings, function(coord) {
+                        return [coord[1], coord[0]]
+                    })
 
                 deferred.resolve({
                     coordinates: tmp,
