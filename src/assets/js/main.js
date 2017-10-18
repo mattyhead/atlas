@@ -183,7 +183,7 @@
             divisionShape = getDivisionShape(selected.precinct)
 
         $.when(home, pollingPlace, divisionShape).then(function(h, pp, ds) {
-            console.log('home', h, 'pollingplace', pp, 'divisionshape', ds)
+            console.log('home', h, 'pollingplace', pp, 'divisionshape', ds, lmap)
 
             // save data
             vars.home = h
@@ -199,7 +199,7 @@
             // draw info display
         })
 
-        indexer.done(function(indexes) {
+        /*       indexer.done(function(indexes) {
             // run dependent services
             var
                 wardShape = getWardShape(indexes.ward),
@@ -265,7 +265,7 @@
             })
 
         })
-
+*/
         /*
         home.done(function(data) {
 
