@@ -355,7 +355,6 @@
                     tmp = $.map(rings, function(coord) {
                         return [coord[1], coord[0]]
                     })
-
                 deferred.resolve({
                     coordinates: tmp,
                     color: "#FF0000",
