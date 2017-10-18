@@ -175,8 +175,8 @@
         var home = getHome(selected.home),
             pollingPlace = getPollingPlace(selected.precinct),
             divisionShape = getDivisionShape(selected.precinct),
-            divisions = getDivisions(selected.precinct)
-
+            divisions = getDivisions(selected.precinct),
+            wardShape, councilShape, stateRepShape, stateSenateShape, usCongressShape
         home
             .done(
                 function(data) {
@@ -202,7 +202,13 @@
 
                 })
 
-        console.log(vars)
+        console.log(vars.divisions)
+        /*        wardShape = getWardShape(vars.divisions)
+                councilShape = getCouncilShape
+                stateRepShape = getStateRepShape
+                stateSenateShape = getStateSenateShape
+                usCongressShape = getUsCongressShape*/
+
             /*
             home.done(function(data) {
 
