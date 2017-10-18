@@ -201,7 +201,7 @@
 
             ds.marker = L.polygon(ds.coordinates, {}).addTo(lmap)
             console.log(ds.coordinates)
-            var group = new L.featureGroup([pp.marker, h.marker])
+            var group = new L.featureGroup([pp.marker, h.marker, ds.marker])
             lmap.fitBounds(group.getBounds())
 
 
