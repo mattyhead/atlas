@@ -81,7 +81,7 @@
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//www.philadelphiavotes.com/index.php?option=com_divisions&view=json&division_id={encInput}'.replace('{encInput}', encInput)
                 },
-                'resolve': 'response.features[0].attributes'
+                'resolve': response.features[0].attributes
             },
             'polling_place': {
                 url(input) {
@@ -183,10 +183,10 @@
     function onHomeAddress(selected) {
         // independant services
         var
-            indexer = new getService(selected.precinct, services.indexes),
-            home = new getService(selected.home, services.geocoder),
-            pollingPlace = new getService(selected.precinct, services.polling_place),
-            divisionShape = new getService(selected.precinct, services.division_shape)
+            indexer = getIndexes(selected.precinct),
+            home = getHome(selected.home),
+            pollingPlace = getPollingPlace(selected.precinct),
+            divisionShape = getDivisionShape(selected.precinct)
 
         $.when(home, pollingPlace, divisionShape).then(function(h, pp, ds) {
             console.log('home', h, 'pollingplace', pp, 'divisionshape', ds, lmap)
@@ -288,7 +288,7 @@
         var deferred = $.Deferred()
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
-                deferred.resolve(service.resolve)
+                deferred.resolve(eval(service.resolve))
             } else {
                 deferred.reject()
             }
