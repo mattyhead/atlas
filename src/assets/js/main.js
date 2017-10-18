@@ -191,7 +191,7 @@
             vars.divisionShape = ds
 
             // draw markers
-            markers.home = L.marker(h.coordinates, {
+            h.marker = L.marker(h.coordinates, {
                 icon: ICONS.home,
                 label: "Home"
             }).addTo(lmap)
