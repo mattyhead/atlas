@@ -193,11 +193,6 @@
             // draw markers
             h.marker = L.marker(h.coordinates, {
                 icon: ICONS.home,
-                label: "Home"
-            }).addTo(lmap)
-
-            h.marker = L.marker(h.coordinates, {
-                icon: ICONS.home,
             }).addTo(lmap)
 
             pp.marker = L.marker(pp.coordinates, {
@@ -318,7 +313,7 @@
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
-                    coordinates: response.features[0].geometry.coordinates,
+                    coordinates: [response.features[0].geometry.coordinates[1], response.features[0].geometry.coordinates[0]],
                     color: "#FF0000",
                     name: input
                 })
@@ -337,7 +332,7 @@
             if (response.features) {
                 var attrs = response.features.attributes[0]
                 deferred.resolve({
-                    coordinates: [attrs.lng, attrs.lat],
+                    coordinates: [attrs.lat, attrs.lng],
                     color: "#FF0000",
                     name: input
                 })
