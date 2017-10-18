@@ -202,31 +202,31 @@
 
                 })
 
-        console.log(vars.divisions)
-        /*        wardShape = getWardShape(vars.divisions)
-                councilShape = getCouncilShape
-                stateRepShape = getStateRepShape
-                stateSenateShape = getStateSenateShape
-                usCongressShape = getUsCongressShape*/
+        console.log(vars)
+            /*        wardShape = getWardShape(vars.divisions)
+                    councilShape = getCouncilShape
+                    stateRepShape = getStateRepShape
+                    stateSenateShape = getStateSenateShape
+                    usCongressShape = getUsCongressShape*/
 
-            /*
-            home.done(function(data) {
+        /*
+        home.done(function(data) {
 
-                markers.home = L.marker(data.coordinates, {
-                    icon: ICONS.home,
-                    label: "Home"
-                }).addTo(lmap)
-                console.log(data, markers)
-            })
-                var markers.polling = L.marker(pollingPlace, {
-                    icon: ICONS.polling
-                }).addTo(lmap)
-                markers.home = L.marker(address, {
-                    icon: ICONS.home
-                }).addTo(lmap)
-                var group = new L.featureGroup([markers.home, markers.polling])
-                lmap.fitBounds(group.getBounds())
-            */
+            markers.home = L.marker(data.coordinates, {
+                icon: ICONS.home,
+                label: "Home"
+            }).addTo(lmap)
+            console.log(data, markers)
+        })
+            var markers.polling = L.marker(pollingPlace, {
+                icon: ICONS.polling
+            }).addTo(lmap)
+            markers.home = L.marker(address, {
+                icon: ICONS.home
+            }).addTo(lmap)
+            var group = new L.featureGroup([markers.home, markers.polling])
+            lmap.fitBounds(group.getBounds())
+        */
     }
 
     function getHome(input) {
