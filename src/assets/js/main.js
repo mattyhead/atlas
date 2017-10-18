@@ -352,8 +352,8 @@
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 var rings = response.features[0].geometry.rings[0],
-                    tmp
-                tmp[] = rings.forEach(function(a, b) {
+                    tmp = []
+                tmp = rings.forEach(function(a, b) {
                     return [b, a]
                 })
 
