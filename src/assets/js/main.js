@@ -1,21 +1,22 @@
 (function(scoped) {
-    scoped(window.jQuery, window.L, window, document);
+    scoped(window.jQuery, window.L, window, document)
 }(function($, L, W, D) {
-    var lmap, markers = {};
-    // later 
+    'use strict'
+    var lmap, markers, data = {}
+        // later 
     $(function() {
-        lmap = L.map('lmap').setView(CITY_HALL, ZOOM);
-        // set up layers
-        L.esri.tiledMapLayer({
-            url: BASEMAP
-        }).addTo(lmap);
-        L.esri.tiledMapLayer({
-            url: BASEMAP_LABELS
-        }).addTo(lmap);
-        // add our SearchBox and set service
-        new L.Control.SearchBox().addTo(lmap).setService(addressComplete)
-    });
-    // now 
+            lmap = L.map('lmap').setView(CITY_HALL, ZOOM)
+                // set up layers
+            L.esri.tiledMapLayer({
+                url: BASEMAP
+            }).addTo(lmap)
+            L.esri.tiledMapLayer({
+                    url: BASEMAP_LABELS
+                }).addTo(lmap)
+                // add our SearchBox and set service
+            new L.Control.SearchBox().addTo(lmap).setService(addressComplete)
+        })
+        // now 
     var GATEKEEPER_KEY = 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d',
         CITY_HALL = [39.95262, -75.16365],
         ZOOM = 16,
@@ -94,31 +95,31 @@
             'ward_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input))
-                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM={encInput}'.replace('{encInput}', encInput)
+                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM=%27{encInput}%27'.replace('{encInput}', encInput)
                 }
             },
             'council_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
-                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT={encInput}'.replace('{encInput}', encInput)
+                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT=%27{encInput}%27'.replace('{encInput}', encInput)
                 }
             },
             'state_rep_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
-                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER={encInput}'.replace('{encInput}', encInput)
+                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=%27{encInput}%27'.replace('{encInput}', encInput)
                 }
             },
             'state_sen_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(input)
-                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER={encInput}'.replace('{encInput}', encInput)
+                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=%27{encInput}%27'.replace('{encInput}', encInput)
                 }
             },
             'us_rep_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input))
-                    return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=42{encInput}'.replace('{encInput}', encInput)
+                    return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=%2742{encInput}%27'.replace('{encInput}', encInput)
                 }
             }
         }
@@ -138,22 +139,22 @@
                                     value: candidate.address,
                                     precinct: candidate.precinct,
                                     zip: candidate.zip
-                                };
-                            });
-                            callback(addresses);
+                                }
+                            })
+                            callback(addresses)
                         } else {
-                            callback([]);
+                            callback([])
                         }
-                    });
+                    })
                 }
             },
             select: function(evt, ui) {
                 onHomeAddress({
                     'home': ui.item.label,
                     'precinct': ui.item.precinct
-                });
+                })
             }
-        });
+        })
     }
 
     function clearMarkers(marker) {
@@ -171,15 +172,18 @@
             place.geometry.location.lng()
         ])*/
         //        $.when(getStuff(services.geocoder, selected.street), getStuff(services.polling_place, selected.precinct)
-        var home = getHome(selected.home)
-        var pollingPlace = getPollingPlace(selected.precinct)
-        var divisionShape = getDivisionShape(selected.precinct)
-        var divisions = getDivisions(selected.precinct)
+        var home = getHome(selected.home),
+            pollingPlace = getPollingPlace(selected.precinct),
+            divisionShape = getDivisionShape(selected.precinct),
+            divisions = getDivisions(selected.precinct),
+            vars = {}
 
-        divisions.done(function(data) {
-                console.log(data)
+        divisions
+            .done(
+                function(data) {
+                    console.log(data)
 
-            }).then(function(data) {
+                }).then(function(data) {
                 console.log(data)
             })
             /*
@@ -188,17 +192,17 @@
                 markers.home = L.marker(data.coordinates, {
                     icon: ICONS.home,
                     label: "Home"
-                }).addTo(lmap);
+                }).addTo(lmap)
                 console.log(data, markers)
             })
                 var markers.polling = L.marker(pollingPlace, {
                     icon: ICONS.polling
-                }).addTo(lmap);
+                }).addTo(lmap)
                 markers.home = L.marker(address, {
                     icon: ICONS.home
-                }).addTo(lmap);
-                var group = new L.featureGroup([markers.home, markers.polling]);
-                lmap.fitBounds(group.getBounds());
+                }).addTo(lmap)
+                var group = new L.featureGroup([markers.home, markers.polling])
+                lmap.fitBounds(group.getBounds())
             */
     }
 
@@ -211,12 +215,12 @@
                     coordinates: response.features[0].geometry.coordinates,
                     color: "#FF0000",
                     name: input
-                });
+                })
             } else {
-                deferred.reject();
+                deferred.reject()
             }
-        });
-        return deferred.promise();
+        })
+        return deferred.promise()
     }
 
     function getPollingPlace(input) {
@@ -229,12 +233,12 @@
                     coordinates: [attrs.lng, attrs.lat],
                     color: "#FF0000",
                     name: input
-                });
+                })
             } else {
-                deferred.reject();
+                deferred.reject()
             }
-        });
-        return deferred.promise();
+        })
+        return deferred.promise()
     }
 
     function getDivisions(input) {
@@ -242,12 +246,12 @@
             service = services.divisions
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
-                deferred.resolve(response.features.attributes);
+                deferred.resolve(response.features.attributes)
             } else {
-                deferred.reject();
+                deferred.reject()
             }
-        });
-        return deferred.promise();
+        })
+        return deferred.promise()
     }
 
     function getDivisionShape(input) {
@@ -259,87 +263,87 @@
                     coordinates: response.features[0].geometry.rings[0],
                     color: "#FF0000",
                     name: input
-                });
+                })
             } else {
-                deferred.reject();
+                deferred.reject()
             }
-        });
-        return deferred.promise();
+        })
+        return deferred.promise()
     }
 
     function getWardShape(input) {
-        var deferred = $.Deferred();
-        b = parseInt(b, 10);
+        var deferred = $.Deferred()
+        b = parseInt(b, 10)
         $.getJSON("https://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM='" + b + "'").done(function(response) {
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
                     color: "#0000FF",
                     name: input
-                });
+                })
             } else {
-                deferred.reject();
+                deferred.reject()
             }
-        });
-        return deferred.promise();
+        })
+        return deferred.promise()
     }
 
     function getCouncilShape(input) {
-        var deferred = $.Deferred();
-        b = parseInt(b, 10);
+        var deferred = $.Deferred()
+        b = parseInt(b, 10)
         $.getJSON("https://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT='" + b + "'").done(function(response) {
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
                     color: "#0D912E",
                     name: input
-                });
+                })
             } else {
-                deferred.reject();
+                deferred.reject()
             }
-        });
-        return deferred.promise();
+        })
+        return deferred.promise()
     }
 
     function getStateRepShape(input) {
-        var deferred = $.Deferred();
-        b = parseInt(b, 10);
+        var deferred = $.Deferred()
+        b = parseInt(b, 10)
         $.getJSON("https://gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER='" + b + "'").done(function(response) {
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
                     color: "#751675",
                     name: input
-                });
+                })
             } else {
-                deferred.reject();
+                deferred.reject()
             }
-        });
-        return deferred.promise();
+        })
+        return deferred.promise()
     }
 
     function getStateSenateShape(input) {
-        var deferred = $.Deferred();
-        b = parseInt(b, 10);
+        var deferred = $.Deferred()
+        b = parseInt(b, 10)
         $.getJSON("https://gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=" + b).done(function(response) {
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
                     color: "#875010",
                     name: input
-                });
+                })
             } else {
-                deferred.reject();
+                deferred.reject()
             }
-        });
-        return deferred.promise();
+        })
+        return deferred.promise()
     }
 
     function getUsCongressShape(input) {
-        var deferred = $.Deferred();
-        b = parseInt(b, 10);
+        var deferred = $.Deferred()
+        b = parseInt(b, 10)
         if (b < 10) {
-            b = "0" + b;
+            b = "0" + b
         }
         $.getJSON("https://maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID='42" + b + "'").done(function(response) {
             if (response.features) {
@@ -347,174 +351,174 @@
                     coordinates: response.features[0].geometry.rings[0],
                     color: "#0C727D",
                     name: parseInt(input).toString()
-                });
+                })
             } else {
-                deferred.reject();
+                deferred.reject()
             }
-        });
-        return deferred.promise();
+        })
+        return deferred.promise()
     }
 
     function pad(n, width, z) {
         n = n + '' // cast to string
         z = z || '0' // default padding: '0'
         width = width || 2 // default digits: 2
-        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
     }
 
-}));
+}))
 /*
 
         getDivisionShape(wardDivision).done(function(A) {
             drawMap([ {
                 name: A.name,
                 coordinates: A.coordinates
-            } ]);
-            y("DIVISION");
-        });
+            } ])
+            y("DIVISION")
+        })
         getWardShape(v).done(function(A) {
-            wardData = A;
-            y("WARD");
-        });
+            wardData = A
+            y("WARD")
+        })
         getCouncilShape(z.councilDistrict).done(function(A) {
-            councilData = A;
-            y("COUNCIL");
-        });
+            councilData = A
+            y("COUNCIL")
+        })
         getStateRepShape(z.stateRepresentativeDistrict).done(function(A) {
-            stateRepData = A;
-            y("STATE_REP");
-        });
+            stateRepData = A
+            y("STATE_REP")
+        })
         getStateSenateShape(z.stateSenateDistrict).done(function(A) {
-            stateSenateData = A;
-            y("STATE_SENATE");
-        });
+            stateSenateData = A
+            y("STATE_SENATE")
+        })
         getUsCongressShape(z.congressionalDistrict).done(function(A) {
-            usCongressData = A;
-            y("US_CONGRESS");
-        });
+            usCongressData = A
+            y("US_CONGRESS")
+        })
 
     function getHome(a) {
-        var b = $.Deferred();
+        var b = $.Deferred()
         $.getJSON(('//api.phila.gov/ais/v1/search/{address}/?gatekeeperKey={key}').replace('{address}', a).replace('{key}', encodeURIComponent(KEY)).done(function(c) {
                 if (c.features) {
                     b.resolve({
                         coordinates: c.features[0].geometry.rings[0],
                         color: "#FF0000",
                         name: a
-                    });
+                    })
                 } else {
-                    b.reject();
+                    b.reject()
                 }
-            });
-            return b.promise();
+            })
+            return b.promise()
         }
     }
 
     function getPollingPlace(a) {
-        var b = $.Deferred();
+        var b = $.Deferred()
         $.getJSON(('//apis.philadelphiavotes.com/pollingplaces/{precinct}').replace('{precinct}', encodeURIComponent(a))).done(function(c) {
             if (c.features) {
                 b.resolve({
                     coordinates: c.features[0].geometry.rings[0],
                     color: "#FF0000",
                     name: a
-                });
+                })
             } else {
-                b.reject();
+                b.reject()
             }
-        });
-        return b.promise();
+        })
+        return b.promise()
     }
 
     function getDivisionShape(a) {
-        var b = $.Deferred();
+        var b = $.Deferred()
         $.getJSON("https://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM='" + a + "'").done(function(c) {
             if (c.features) {
                 b.resolve({
                     coordinates: c.features[0].geometry.rings[0],
                     color: "#FF0000",
                     name: a
-                });
+                })
             } else {
-                b.reject();
+                b.reject()
             }
-        });
-        return b.promise();
+        })
+        return b.promise()
     }
 
     function getWardShape(b) {
-        var a = $.Deferred();
-        b = parseInt(b, 10);
+        var a = $.Deferred()
+        b = parseInt(b, 10)
         $.getJSON("https://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM='" + b + "'").done(function(c) {
             if (c.features) {
                 a.resolve({
                     coordinates: c.features[0].geometry.rings[0],
                     color: "#0000FF",
                     name: b
-                });
+                })
             } else {
-                a.reject();
+                a.reject()
             }
-        });
-        return a.promise();
+        })
+        return a.promise()
     }
 
     function getCouncilShape(b) {
-        var a = $.Deferred();
-        b = parseInt(b, 10);
+        var a = $.Deferred()
+        b = parseInt(b, 10)
         $.getJSON("https://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT='" + b + "'").done(function(c) {
             if (c.features) {
                 a.resolve({
                     coordinates: c.features[0].geometry.rings[0],
                     color: "#0D912E",
                     name: b
-                });
+                })
             } else {
-                a.reject();
+                a.reject()
             }
-        });
-        return a.promise();
+        })
+        return a.promise()
     }
 
     function getStateRepShape(b) {
-        var a = $.Deferred();
-        b = parseInt(b, 10);
+        var a = $.Deferred()
+        b = parseInt(b, 10)
         $.getJSON("https://gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER='" + b + "'").done(function(c) {
             if (c.features) {
                 a.resolve({
                     coordinates: c.features[0].geometry.rings[0],
                     color: "#751675",
                     name: b
-                });
+                })
             } else {
-                a.reject();
+                a.reject()
             }
-        });
-        return a.promise();
+        })
+        return a.promise()
     }
 
     function getStateSenateShape(b) {
-        var a = $.Deferred();
-        b = parseInt(b, 10);
+        var a = $.Deferred()
+        b = parseInt(b, 10)
         $.getJSON("https://gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=" + b).done(function(c) {
             if (c.features) {
                 a.resolve({
                     coordinates: c.features[0].geometry.rings[0],
                     color: "#875010",
                     name: b
-                });
+                })
             } else {
-                a.reject();
+                a.reject()
             }
-        });
-        return a.promise();
+        })
+        return a.promise()
     }
 
     function getUsCongressShape(b) {
-        var a = $.Deferred();
-        b = parseInt(b, 10);
+        var a = $.Deferred()
+        b = parseInt(b, 10)
         if (b < 10) {
-            b = "0" + b;
+            b = "0" + b
         }
         $.getJSON("https://maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID='42" + b + "'").done(function(c) {
             if (c.features) {
@@ -522,19 +526,19 @@
                     coordinates: c.features[0].geometry.rings[0],
                     color: "#0C727D",
                     name: parseInt(b).toString()
-                });
+                })
             } else {
-                a.reject();
+                a.reject()
             }
-        });
-        return a.promise();
+        })
+        return a.promise()
     }
 
 geocoder: {
   // methods: {
   forward: {
     url(input) {
-      const inputEncoded = encodeURIComponent(input);
+      const inputEncoded = encodeURIComponent(input)
       return `//api.phila.gov/ais/v1/search/${inputEncoded}`
     },
     params: {
