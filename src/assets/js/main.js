@@ -89,37 +89,37 @@
             'division_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
-                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM=%27{encInput}%27'.replace('{encInput}', encInput)
+                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM=\'{encInput}\''.replace('{encInput}', encInput)
                 }
             },
             'ward_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
-                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM=%27{encInput}%27'.replace('{encInput}', encInput)
+                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM=\'{encInput}\''.replace('{encInput}', encInput)
                 }
             },
             'council_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
-                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT=%27{encInput}%27'.replace('{encInput}', encInput)
+                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT=\'{encInput}\''.replace('{encInput}', encInput)
                 }
             },
             'state_rep_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
-                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=%27{encInput}%27'.replace('{encInput}', encInput)
+                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=\'{encInput}\''.replace('{encInput}', encInput)
                 }
             },
             'state_sen_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
-                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=%27{encInput}%27'.replace('{encInput}', encInput)
+                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=\'{encInput}\''.replace('{encInput}', encInput)
                 }
             },
             'us_rep_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input))
-                    return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=%2742{encInput}%27'.replace('{encInput}', encInput)
+                    return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=\'42{encInput}\''.replace('{encInput}', encInput)
                 }
             }
         }
