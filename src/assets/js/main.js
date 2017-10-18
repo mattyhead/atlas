@@ -176,23 +176,43 @@
             place.geometry.location.lng()
         ])*/
         var
-            indexer = getIndexes(selected.precinct)
+            indexer = getIndexes(selected.precinct),
+            home = getHome(selected.home),
+            pollingPlace = getPollingPlace(selected.precinct),
+            divisionShape = getDivisionShape(selected.precinct)
+
+        $.when(home, pollingPlace, divisionShape).then(function(h, pp, ds) {
+            console.log('home', h, 'pollingplace', pp, 'divisionshape', ds)
+
+            // save data
+            // draw markers
+
+            // draw info display
+        })
 
         indexer.done(function(indexes) {
 
-            var home = getHome(selected.home),
-                pollingPlace = getPollingPlace(selected.precinct),
-                divisionShape = getDivisionShape(selected.precinct),
+            var
                 wardShape = getWardShape(indexes.ward),
                 councilShape = getCouncilShape(indexes.council_district),
                 stateSenShape = getStateSenateShape(indexes.state_senate_district),
                 stateRepShape = getStateRepShape(indexes.state_representative_district),
                 usCongressShape = getUsCongressShape(indexes.congressional_district)
 
-            console.log('indexer', indexes, selected, lmap, markers, home, pollingPlace, divisionShape, wardShape, councilShape, stateSenShape, stateRepShape, usCongressShape)
-
-            $.when(home, pollingPlace, divisionShape, wardShape, councilShape, stateSenShape, stateRepShape).then(function(h, pp, ds, ws, cs, sss, srs) {
-                console.log('when', h, pp, ds, ws, cs, sss, srs, indexes, selected, lmap, markers)
+            wardShape.done(function(data) {
+                console.log('wardShape', data)
+            })
+            councilShape.done(function(data) {
+                console.log('councilShape', data)
+            })
+            stateSenShape.done(function(data) {
+                console.log('stateSenShape', data)
+            })
+            stateRepShape.done(function(data) {
+                console.log('stateRepShape', data)
+            })
+            usCongressShape.done(function(data) {
+                console.log('usCongressShape', data)
             })
 
         })
