@@ -246,8 +246,7 @@
             service = services.divisions
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
-                console.log(response.features)
-                deferred.resolve(response.features.attributes)
+                deferred.resolve(response.features[0].attributes)
             } else {
                 deferred.reject()
             }
