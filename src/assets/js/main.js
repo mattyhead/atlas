@@ -73,7 +73,8 @@
                 },
                 'params': {
                     'gatekeeperKey': GATEKEEPER_KEY
-                }
+                },
+            'coordinates': '[response.features[0].geometry.coordinates[1], response.features[0].geometry.coordinates[0]]'
             },
             'indexes': {
                 url(input) {
@@ -295,7 +296,7 @@
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
-                    coordinates: [response.features[0].geometry.coordinates[1], response.features[0].geometry.coordinates[0]],
+                    coordinates: eval(service.coordinates),
                     style: {
                         color: "#FF0000"
                     },
