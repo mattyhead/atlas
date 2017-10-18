@@ -171,34 +171,9 @@
             place.geometry.location.lat(),
             place.geometry.location.lng()
         ])*/
-        //        $.when(getStuff(services.geocoder, selected.street), getStuff(services.polling_place, selected.precinct)
         var
             indexer = getIndexes(selected.precinct)
-            /*        home
-                        .done(
-                            function(data) {
-                                vars.home = data
 
-                            })
-                    pollingPlace
-                        .done(
-                            function(data) {
-                                vars.pollingPlace = data
-
-                            })
-                    divisionShape
-                        .done(
-                            function(data) {
-                                vars.divisionShape = data
-
-                            })
-                    divisions
-                        .done(
-                            function(data) {
-                                vars.divisions = data
-
-                            })
-            */
         indexer.done(function(indexes) {
 
             var home = getHome(selected.home),
@@ -217,14 +192,6 @@
             })
 
         })
-
-        /*        console.log(vars, vars.home, vars.pollingPlace, vars.divisionShape, vars.divisions)
-         */
-        /*        wardShape = getWardShape(vars.divisions)
-                    councilShape = getCouncilShape
-                    stateRepShape = getStateRepShape
-                    stateSenateShape = getStateSenateShape
-                    usCongressShape = getUsCongressShape*/
 
         /*
         home.done(function(data) {
@@ -254,6 +221,7 @@
                 deferred.resolve(response.features[0].attributes)
             } else {
                 deferred.reject()
+                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -271,6 +239,7 @@
                 })
             } else {
                 deferred.reject()
+                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -289,6 +258,7 @@
                 })
             } else {
                 deferred.reject()
+                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -306,6 +276,7 @@
                 })
             } else {
                 deferred.reject()
+                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -323,6 +294,7 @@
                 })
             } else {
                 deferred.reject()
+                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -340,6 +312,7 @@
                 })
             } else {
                 deferred.reject()
+                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -357,6 +330,7 @@
                 })
             } else {
                 deferred.reject()
+                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -374,6 +348,7 @@
                 })
             } else {
                 deferred.reject()
+                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -391,6 +366,7 @@
                 })
             } else {
                 deferred.reject()
+                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
