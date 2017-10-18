@@ -353,7 +353,7 @@
             if (response.features) {
                 var rings = response.features[0].geometry.rings[0],
                     tmp = $.map(rings, function(coord) {
-                        return [coord[1], coord[0]]
+                        return [].push([coord[1], coord[0]])
                     })
                 deferred.resolve({
                     coordinates: tmp,
