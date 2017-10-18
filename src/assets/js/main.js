@@ -20,7 +20,7 @@
         // now 
     var GATEKEEPER_KEY = 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d',
         CITY_HALL = [39.95262, -75.16365],
-        ZOOM = 16,
+        ZOOM = 15,
         BASEMAP = '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer',
         BASEMAP_LABELS = '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer',
         ICONS = {
@@ -81,7 +81,7 @@
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//www.philadelphiavotes.com/index.php?option=com_divisions&view=json&division_id={encInput}'.replace('{encInput}', encInput)
                 },
-                'resolve': response.features[0].attributes
+                'resolve': 'response.features[0].attributes'
             },
             'polling_place': {
                 url(input) {
@@ -183,7 +183,7 @@
     function onHomeAddress(selected) {
         // independant services
         var
-            indexer = getService(selected.precinct, services.indexes),
+            indexer = getIndexes(selected.precinct),
             home = getHome(selected.home),
             pollingPlace = getPollingPlace(selected.precinct),
             divisionShape = getDivisionShape(selected.precinct)
