@@ -2,7 +2,7 @@
     scoped(window.jQuery, window.L, window, document)
 }(function($, L, W, D) {
     'use strict'
-    var lmap, markers, data = {}
+    var lmap, markers, vars = {}
         // later 
     $(function() {
             lmap = L.map('lmap').setView(CITY_HALL, ZOOM)
@@ -175,9 +175,26 @@
         var home = getHome(selected.home),
             pollingPlace = getPollingPlace(selected.precinct),
             divisionShape = getDivisionShape(selected.precinct),
-            divisions = getDivisions(selected.precinct),
-            vars = {}
+            divisions = getDivisions(selected.precinct)
 
+        home
+            .done(
+                function(data) {
+                    vars.done = data
+
+                })
+        pollingPlace
+            .done(
+                function(data) {
+                    vars.pollingPlace = data
+
+                })
+        divisionShape
+            .done(
+                function(data) {
+                    vars.divisionShape = data
+
+                })
         divisions
             .done(
                 function(data) {
