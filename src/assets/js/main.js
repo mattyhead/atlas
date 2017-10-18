@@ -172,11 +172,8 @@
             place.geometry.location.lng()
         ])*/
         //        $.when(getStuff(services.geocoder, selected.street), getStuff(services.polling_place, selected.precinct)
-        var home = getHome(selected.home),
-            pollingPlace = getPollingPlace(selected.precinct),
-            divisionShape = getDivisionShape(selected.precinct),
-            divisions = getDivisions(selected.precinct),
-            wardShape, councilShape, stateRepShape, stateSenateShape, usCongressShape
+        var
+            indexes = getIndexes(selected.precinct)
             /*        home
                         .done(
                             function(data) {
@@ -202,14 +199,17 @@
 
                             })
             */
-        $.when(home, pollingPlace, divisionShape, divisions).done(function(h, pp, ds, d) {
+        $.when(indexes).done(function(h, pp, ds, d) {
             vars.home = h
             vars.pollingPlace = pp
             vars.divisionShape = ds
             vars.divisions = d
 
             console.log(selected, d, lmap, markers)
-            wardShape = getWardShape(d.ward)
+            home = getHome(selected.home),
+                pollingPlace = getPollingPlace(selected.precinct),
+                divisionShape = getDivisionShape(selected.precinct),
+                wardShape = getWardShape(d.ward)
             councilShape = getCouncilShape(d.council_district)
             stateSenateShape = getStateSenateShape(d.state_senate_district)
             stateRepShape = getStateRepShape(d.state_representative_district)
@@ -245,6 +245,19 @@
         */
     }
 
+    function getIndexes(input) {
+        var deferred = $.Deferred(),
+            service = services.divisions
+        $.getJSON(service.url(input), service.params).done(function(response) {
+            if (response.features) {
+                deferred.resolve(response.features[0].attributes)
+            } else {
+                deferred.reject()
+            }
+        })
+        return deferred.promise()
+    }
+
     function getHome(input) {
         var deferred = $.Deferred(),
             service = services.geocoder
@@ -273,19 +286,6 @@
                     color: "#FF0000",
                     name: input
                 })
-            } else {
-                deferred.reject()
-            }
-        })
-        return deferred.promise()
-    }
-
-    function getDivisions(input) {
-        var deferred = $.Deferred(),
-            service = services.divisions
-        $.getJSON(service.url(input), service.params).done(function(response) {
-            if (response.features) {
-                deferred.resolve(response.features[0].attributes)
             } else {
                 deferred.reject()
             }
