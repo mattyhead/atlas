@@ -354,9 +354,9 @@
                 var rings = response.features[0].geometry.rings[0],
                     tmp = [],
                     elem = []
-                console.log(rings)
                 for (var i = 0; i < rings.length - 1; i++) {
-                    tmp[i][rings[i][1], rings[i][0]]
+
+                    tmp.push([rings[i][1], rings[i][0]])
                 }
                 console.log(tmp)
                 deferred.resolve({
