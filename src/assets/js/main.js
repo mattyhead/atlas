@@ -200,6 +200,10 @@
             }).addTo(lmap)
 
             ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
+            ds.label = new L.Label()
+            ds.label.setContent(ds.name)
+            ds.label.setLatLng(ds.marker.getBounds().getCenter())
+            lmap.showLabel(ds.label);
             console.log(ds.marker)
             var group = new L.featureGroup([pp.marker, h.marker, ds.marker])
             lmap.fitBounds(group.getBounds())
@@ -298,7 +302,9 @@
             if (response.features) {
                 deferred.resolve({
                     coordinates: [response.features[0].geometry.coordinates[1], response.features[0].geometry.coordinates[0]],
-                    color: "#FF0000",
+                    style: {
+                        color: "#FF0000"
+                    },
                     name: input
                 })
             } else {
@@ -319,7 +325,8 @@
                     coordinates: [attrs.lat, attrs.lng],
                     style: {
                         color: "#FF0000"
-                    }
+                    },
+                    name: input
                 })
             } else {
                 deferred.reject()
@@ -344,7 +351,8 @@
                     coordinates: tmp,
                     style: {
                         color: "#00FF00"
-                    }
+                    },
+                    name: input
                 })
             } else {
                 deferred.reject()
@@ -363,7 +371,8 @@
                     coordinates: response.features[0].geometry.rings[0],
                     style: {
                         color: "#0000FF"
-                    }
+                    },
+                    name: input
                 })
             } else {
                 deferred.reject()
@@ -382,7 +391,8 @@
                     coordinates: response.features[0].geometry.rings[0],
                     style: {
                         color: "#0D912E"
-                    }
+                    },
+                    name: input
                 })
             } else {
                 deferred.reject()
@@ -401,7 +411,8 @@
                     coordinates: response.features[0].geometry.rings[0],
                     style: {
                         color: "#751675"
-                    }
+                    },
+                    name: input
                 })
             } else {
                 deferred.reject()
@@ -420,7 +431,8 @@
                     coordinates: response.features[0].geometry.rings[0],
                     style: {
                         color: "#875010"
-                    }
+                    },
+                    name: input
                 })
             } else {
                 deferred.reject()
@@ -437,7 +449,9 @@
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
-                    color: "#0C727D",
+                    style: {
+                        color: "#0C727D"
+                    },
                     name: parseInt(input).toString()
                 })
             } else {
