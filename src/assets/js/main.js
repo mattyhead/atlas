@@ -199,7 +199,7 @@
                 icon: ICONS.polling
             }).addTo(lmap)
 
-            ds.marker = L.polygon(ds.coordinates, {}).addTo(lmap)
+            ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
             console.log(ds.coordinates)
             var group = new L.featureGroup([pp.marker, h.marker, ds.marker])
             lmap.fitBounds(group.getBounds())
@@ -275,24 +275,6 @@
 
         })
 */
-        /*
-        home.done(function(data) {
-
-            markers.home = L.marker(data.coordinates, {
-                icon: ICONS.home,
-                label: "Home"
-            }).addTo(lmap)
-            console.log(data, markers)
-        })
-            var markers.polling = L.marker(pollingPlace, {
-                icon: ICONS.polling
-            }).addTo(lmap)
-            markers.home = L.marker(address, {
-                icon: ICONS.home
-            }).addTo(lmap)
-            var group = new L.featureGroup([markers.home, markers.polling])
-            lmap.fitBounds(group.getBounds())
-        */
     }
 
     function getIndexes(input) {
@@ -335,8 +317,9 @@
                 var attrs = response.features.attributes[0]
                 deferred.resolve({
                     coordinates: [attrs.lat, attrs.lng],
-                    color: "#FF0000",
-                    name: input
+                    style: {
+                        color: "#FF0000"
+                    }
                 })
             } else {
                 deferred.reject()
@@ -355,25 +338,13 @@
                     tmp = [],
                     elem = []
                 for (var i = 0; i < rings.length - 1; i++) {
-
                     tmp.push([rings[i][1], rings[i][0]])
                 }
-                elem = [
-                    [40.01490502099166, -75.18593893297532],
-                    [40.013924205629905, -75.18480491525104],
-                    [40.013683826576546, -75.18451730570843],
-                    [40.01337819877329, -75.18416991809201],
-                    [40.00822716014956, -75.1808270384524],
-                    [40.00931962791466, -75.1846956864732],
-                    [40.00941034351985, -75.18501702926459],
-                    [40.01153318663397, -75.18639671456947],
-                    [40.01286080644587, -75.18687712335922],
-                    [40.01490502099166, -75.18593893297532]
-                ]
                 deferred.resolve({
                     coordinates: tmp,
-                    color: "#FF0000",
-                    name: input
+                    style: {
+                        color: "#00FF00"
+                    }
                 })
             } else {
                 deferred.reject()
@@ -390,8 +361,9 @@
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
-                    color: "#0000FF",
-                    name: input
+                    style: {
+                        color: "#0000FF"
+                    }
                 })
             } else {
                 deferred.reject()
@@ -408,8 +380,9 @@
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
-                    color: "#0D912E",
-                    name: input
+                    style: {
+                        color: "#0D912E"
+                    }
                 })
             } else {
                 deferred.reject()
@@ -426,8 +399,9 @@
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
-                    color: "#751675",
-                    name: input
+                    style: {
+                        color: "#751675"
+                    }
                 })
             } else {
                 deferred.reject()
@@ -444,8 +418,9 @@
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
-                    color: "#875010",
-                    name: input
+                    style: {
+                        color: "#875010"
+                    }
                 })
             } else {
                 deferred.reject()
