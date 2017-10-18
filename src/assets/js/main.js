@@ -355,7 +355,7 @@
                     tmp = [],
                     elem = []
                 for (var i = 0; i > rings.length - 1; i++) {
-
+                    console.log(rings[i]);
                     tmp[i][rings[i][1], rings[i][0]]
                 }
                 console.log(tmp)
