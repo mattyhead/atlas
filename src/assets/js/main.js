@@ -173,7 +173,7 @@
         ])*/
         //        $.when(getStuff(services.geocoder, selected.street), getStuff(services.polling_place, selected.precinct)
         var
-            indexes = getIndexes(selected.precinct)
+            indexer = getIndexes(selected.precinct)
             /*        home
                         .done(
                             function(data) {
@@ -199,21 +199,20 @@
 
                             })
             */
-        $.when(indexes).done(function(h, pp, ds, d) {
-            vars.home = h
-            vars.pollingPlace = pp
-            vars.divisionShape = ds
-            vars.divisions = d
+        indexer.done(function(indexes) {
 
-            console.log(selected, d, lmap, markers)
-            home = getHome(selected.home),
+            var home = getHome(selected.home),
                 pollingPlace = getPollingPlace(selected.precinct),
                 divisionShape = getDivisionShape(selected.precinct),
-                wardShape = getWardShape(d.ward)
-            councilShape = getCouncilShape(d.council_district)
-            stateSenateShape = getStateSenateShape(d.state_senate_district)
-            stateRepShape = getStateRepShape(d.state_representative_district)
-            usCongressShape = getUsCongressShape(d.congressional_district)
+                wardShape = getWardShape(indexes.ward),
+                councilShape = getCouncilShape(indexes.council_district),
+                stateSenShape = getStateSenateShape(indexes.state_senate_district),
+                stateRepShape = getStateRepShape(indexes.state_representative_district),
+                usCongressShape = getUsCongressShape(indexes.congressional_district)
+
+            $.when(home, pollingPlace, divisionShape, wardShape, councilShape, stateSenShape, stateRepShape, usCongressShape).done(function(h, pp, ds, ws, cs, sss, srs, ucs) {
+                console.log(h, pp, ds, ws, cs, sss, srs, ucs, indexes, selected, lmap, markers)
+            })
 
         })
 
