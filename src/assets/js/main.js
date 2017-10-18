@@ -358,7 +358,7 @@
 
                     tmp.push([rings[i][1], rings[i][0]])
                 }
-                console.log(tmp)
+                console.log(tmp.toString())
                 deferred.resolve({
                     coordinates: tmp.toString(),
                     color: "#FF0000",
