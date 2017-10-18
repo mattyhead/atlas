@@ -185,10 +185,10 @@
                 stateRepShape = getStateRepShape(indexes.state_representative_district),
                 usCongressShape = getUsCongressShape(indexes.congressional_district)
 
-            console.log(indexes, selected, lmap, markers)
+            console.log('indexer', indexes, selected, lmap, markers, home, pollingPlace, divisionShape, wardShape, councilShape, stateSenShape, stateRepShape, usCongressShape)
 
             $.when(home, pollingPlace, divisionShape, wardShape, councilShape, stateSenShape, stateRepShape, usCongressShape).done(function(h, pp, ds, ws, cs, sss, srs, ucs) {
-                console.log(h, pp, ds, ws, cs, sss, srs, ucs, indexes, selected, lmap, markers)
+                console.log('when', h, pp, ds, ws, cs, sss, srs, ucs, indexes, selected, lmap, markers)
             })
 
         })
