@@ -133,7 +133,7 @@
                 url(input) {
                     const encInput = encodeURIComponent(pad(input))
                     return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=42{encInput}'.replace('{encInput}', encInput)
-                }
+                },
                 'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#0C727D" }, name: parseInt(input).toString() }'
             }
         }
