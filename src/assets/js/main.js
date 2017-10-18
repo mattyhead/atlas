@@ -94,25 +94,25 @@
             },
             'ward_shape': {
                 url(input) {
-                    const encInput = encodeURIComponent(pad(input))
+                    const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM=%27{encInput}%27'.replace('{encInput}', encInput)
                 }
             },
             'council_shape': {
                 url(input) {
-                    const encInput = encodeURIComponent(input)
+                    const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT=%27{encInput}%27'.replace('{encInput}', encInput)
                 }
             },
             'state_rep_shape': {
                 url(input) {
-                    const encInput = encodeURIComponent(input)
+                    const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=%27{encInput}%27'.replace('{encInput}', encInput)
                 }
             },
             'state_sen_shape': {
                 url(input) {
-                    const encInput = encodeURIComponent(input)
+                    const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=%27{encInput}%27'.replace('{encInput}', encInput)
                 }
             },
@@ -311,9 +311,9 @@
     }
 
     function getWardShape(input) {
-        var deferred = $.Deferred()
-        b = parseInt(b, 10)
-        $.getJSON("https://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM='" + b + "'").done(function(response) {
+        var deferred = $.Deferred(),
+            service = services.ward_shape
+        $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
@@ -328,9 +328,9 @@
     }
 
     function getCouncilShape(input) {
-        var deferred = $.Deferred()
-        b = parseInt(b, 10)
-        $.getJSON("https://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT='" + b + "'").done(function(response) {
+        var deferred = $.Deferred(),
+            service = services.council_shape
+        $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
@@ -345,9 +345,9 @@
     }
 
     function getStateRepShape(input) {
-        var deferred = $.Deferred()
-        b = parseInt(b, 10)
-        $.getJSON("https://gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER='" + b + "'").done(function(response) {
+        var deferred = $.Deferred(),
+            service = services.state_rep_shape
+        $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
@@ -362,9 +362,9 @@
     }
 
     function getStateSenateShape(input) {
-        var deferred = $.Deferred()
-        b = parseInt(b, 10)
-        $.getJSON("https://gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=" + b).done(function(response) {
+        var deferred = $.Deferred(),
+            service = services.state_sen_shape
+        $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
@@ -379,12 +379,9 @@
     }
 
     function getUsCongressShape(input) {
-        var deferred = $.Deferred()
-        b = parseInt(b, 10)
-        if (b < 10) {
-            b = "0" + b
-        }
-        $.getJSON("https://maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID='42" + b + "'").done(function(response) {
+        var deferred = $.Deferred(),
+            service = services.us_rep_shape
+        $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
