@@ -76,7 +76,7 @@
                 },
                 'resolve': '{ coordinates: [response.features[0].geometry.coordinates[1], response.features[0].geometry.coordinates[0]], style: { color: "#FF0000" }, name: input }'
             },
-            'indexes': {
+            'indexer': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//www.philadelphiavotes.com/index.php?option=com_divisions&view=json&division_id={encInput}'.replace('{encInput}', encInput)
@@ -297,7 +297,7 @@
 
     function getIndexes(input) {
         var deferred = $.Deferred(),
-            service = services.indexes
+            service = services.indexer
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve(response.features[0].attributes)
