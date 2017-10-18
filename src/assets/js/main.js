@@ -189,7 +189,6 @@
             divisionShape = getDivisionShape(selected.precinct)
 
         $.when(home, pollingPlace, divisionShape).then(function(h, pp, ds) {
-            console.log('home', h, 'pollingplace', pp, 'divisionshape', ds, lmap)
 
             // save data
             vars.home = h
@@ -314,7 +313,13 @@
             service = services.geocoder
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
-                deferred.resolve()
+                deferred.resolve({
+                    coordinates: [response.features[0].geometry.coordinates[1], response.features[0].geometry.coordinates[0]],
+                    style: {
+                        color: "#FF0000"
+                    },
+                    name: input
+                })
             } else {
                 deferred.reject()
             }
