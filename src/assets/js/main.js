@@ -183,10 +183,10 @@
     function onHomeAddress(selected) {
         // independant services
         var
-            indexer = getService(selected.precinct, services.indexes),
-            home = getService(selected.home, services.geocoder),
-            pollingPlace = getService(selected.precinct, services.polling_place),
-            divisionShape = getService(selected.precinct, services.division_shape)
+            indexer = new getService(selected.precinct, services.indexes),
+            home = new getService(selected.home, services.geocoder),
+            pollingPlace = new getService(selected.precinct, services.polling_place),
+            divisionShape = new getService(selected.precinct, services.division_shape)
 
         $.when(home, pollingPlace, divisionShape).then(function(h, pp, ds) {
             console.log('home', h, 'pollingplace', pp, 'divisionshape', ds, lmap)
