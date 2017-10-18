@@ -183,7 +183,7 @@
     function onHomeAddress(selected) {
         // independant services
         var
-            indexer = getIndexes(selected.precinct),
+            indexer = getService(selected.precinct, services.indexes),
             home = getHome(selected.home),
             pollingPlace = getPollingPlace(selected.precinct),
             divisionShape = getDivisionShape(selected.precinct)
