@@ -202,7 +202,7 @@
 
                 })
 
-        console.log(vars, vars.divisions)
+        console.log(vars, vars.home, vars.pollingPlace, vars.divisionShape, vars.divisions)
             /*        wardShape = getWardShape(vars.divisions)
                     councilShape = getCouncilShape
                     stateRepShape = getStateRepShape
