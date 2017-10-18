@@ -181,11 +181,11 @@
         divisions
             .done(
                 function(data) {
-                    console.log(data)
+                    vars.divisions = data
 
-                }).then(function(data) {
-                console.log(data)
-            })
+                })
+
+        console.log(vars)
             /*
             home.done(function(data) {
 
