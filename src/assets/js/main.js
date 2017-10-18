@@ -204,7 +204,7 @@
                 icon: ICONS.polling
             }).addTo(lmap)
 
-            ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
+            ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name).addTo(lmap)
 
             console.log(ds.marker)
             var group = new L.featureGroup([pp.marker, h.marker, ds.marker])
