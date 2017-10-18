@@ -1,7 +1,7 @@
 (function(scoped) {
     scoped(window.jQuery, window.L, window, document)
 }(function($, L, W, D) {
-    'use strict'
+    //'use strict'
     var lmap, markers, vars = {}
         // later 
     $(function() {
