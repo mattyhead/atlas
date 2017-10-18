@@ -208,8 +208,13 @@
             vars.divisionShape = ds
             vars.divisions = d
 
-            console.log(d)
-                //wardShape = 
+            console.log(d, lmap, markers)
+            wardShape = getWardShape(d.ward)
+            councilShape = getCouncilShape(d.council_district)
+            stateSenateShape = getStateSenateShape(d.state_senate_district)
+            stateRepShape = getStateRepShape(d.state_representative_district)
+            usCongressShape = getUsCongressShape(d.congressional_district)
+
         })
 
         /*        console.log(vars, vars.home, vars.pollingPlace, vars.divisionShape, vars.divisions)
