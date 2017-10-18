@@ -352,9 +352,13 @@
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 var rings = response.features[0].geometry.rings[0],
-                    tmp = $.map(rings, function(coord) {
-                        return [].push([coord[1], coord[0]])
-                    })
+                    tmp = []
+                for (var i = 0; i > rings.length - 1; i++) {
+                    tmp.push([rings[i][1],
+                        rings[i][0]
+                    ])
+                }
+
                 deferred.resolve({
                     coordinates: tmp,
                     color: "#FF0000",
@@ -364,8 +368,7 @@
                 deferred.reject()
                 console.log(arguments.callee.name)
             }
-        })
-        return deferred.promise()
+        }) return deferred.promise()
     }
 
     function getWardShape(input) {
