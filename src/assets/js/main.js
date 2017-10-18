@@ -175,6 +175,7 @@
             place.geometry.location.lat(),
             place.geometry.location.lng()
         ])*/
+        // independant services
         var
             indexer = getIndexes(selected.precinct),
             home = getHome(selected.home),
@@ -185,13 +186,21 @@
             console.log('home', h, 'pollingplace', pp, 'divisionshape', ds)
 
             // save data
+            vars.home = h
+            vars.pollingPlace = pp
+            vars.divisionShape = ds
+
             // draw markers
+            markers.home = L.marker(h.coordinates, {
+                icon: ICONS.home,
+                label: "Home"
+            }).addTo(lmap)
 
             // draw info display
         })
 
         indexer.done(function(indexes) {
-
+            // run dependent services
             var
                 wardShape = getWardShape(indexes.ward),
                 councilShape = getCouncilShape(indexes.council_district),
@@ -201,18 +210,58 @@
 
             wardShape.done(function(data) {
                 console.log('wardShape', data)
+
+                // save data
+                vars.wardShape = data
+
+                // draw markers
+
+                // draw info display
+
             })
             councilShape.done(function(data) {
                 console.log('councilShape', data)
+
+                // save data
+                vars.councilShape = data
+
+                // draw markers
+
+                // draw info display
+
             })
             stateSenShape.done(function(data) {
                 console.log('stateSenShape', data)
+
+                // save data
+                vars.stateSenShape = data
+
+                // draw markers
+
+                // draw info display
+
             })
             stateRepShape.done(function(data) {
                 console.log('stateRepShape', data)
+
+                // save data
+                vars.stateRepShape = data
+
+                // draw markers
+
+                // draw info display
+
             })
             usCongressShape.done(function(data) {
                 console.log('usCongressShape', data)
+
+                // save data
+                vars.usCongressShape = data
+
+                // draw markers
+
+                // draw info display
+
             })
 
         })
