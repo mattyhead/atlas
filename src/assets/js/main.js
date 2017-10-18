@@ -5,6 +5,7 @@
     var lmap, markers, vars = {}
         // later 
     $(function() {
+            document.getElementById('lmap').style.zIndex = 1
             lmap = L.map('lmap').setView(CITY_HALL, ZOOM)
                 // set up layers
             L.esri.tiledMapLayer({
