@@ -74,59 +74,67 @@
                 'params': {
                     'gatekeeperKey': GATEKEEPER_KEY
                 },
-            'coordinates': '[response.features[0].geometry.coordinates[1], response.features[0].geometry.coordinates[0]]'
+                'resolve': '{ coordinates: [response.features[0].geometry.coordinates[1], response.features[0].geometry.coordinates[0]], style: { color: "#FF0000" }, name: input }'
             },
             'indexes': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//www.philadelphiavotes.com/index.php?option=com_divisions&view=json&division_id={encInput}'.replace('{encInput}', encInput)
-                }
+                },
+                'resolve': 'response.features[0].attributes'
             },
             'polling_place': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//apis.philadelphiavotes.com/pollingplaces/{encInput}'.replace('{encInput}', encInput)
-                }
+                },
+                'resolve': '{ coordinates: [response.features.attributes[0].lat, response.features.attributes[0].lng], style: { color: "#FF0000" }, name: input }'
             },
             'division_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM=\'{encInput}\''.replace('{encInput}', encInput)
-                }
+                },
+                'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#00FF00" }, name: input }'
             },
             // ward service - single quotes
             'ward_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM=\'{encInput}\''.replace('{encInput}', encInput)
-                }
+                },
+                'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#0000FF" }, name: input }'
             },
             // council service - single quotes
             'council_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT=\'{encInput}\''.replace('{encInput}', encInput)
-                }
+                },
+                'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#0D912E" }, name: input }'
             },
             // state rep service - single quotes
             'state_rep_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=\'{encInput}\''.replace('{encInput}', encInput)
-                }
+                },
+                'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#751675" }, name: input }'
             },
             // state sen service - no single quotes
             'state_sen_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER={encInput}'.replace('{encInput}', encInput)
-                }
+                },
+                'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#875010" }, name: input }'
             },
             'us_rep_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input))
                     return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=42{encInput}'.replace('{encInput}', encInput)
                 }
+                'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#0C727D" }, name: parseInt(input).toString() }'
             }
         }
 
@@ -175,10 +183,10 @@
     function onHomeAddress(selected) {
         // independant services
         var
-            indexer = getIndexes(selected.precinct),
-            home = getHome(selected.home),
-            pollingPlace = getPollingPlace(selected.precinct),
-            divisionShape = getDivisionShape(selected.precinct)
+            indexer = getService(selected.precinct, services.indexes),
+            home = getService(selected.home, services.geocoder),
+            pollingPlace = getService(selected.precinct, services.polling_place),
+            divisionShape = getService(selected.precinct, services.division_shape)
 
         $.when(home, pollingPlace, divisionShape).then(function(h, pp, ds) {
             console.log('home', h, 'pollingplace', pp, 'divisionshape', ds, lmap)
@@ -276,6 +284,18 @@
 */
     }
 
+    function getService(input, service) {
+        var deferred = $.Deferred()
+        $.getJSON(service.url(input), service.params).done(function(response) {
+            if (response.features) {
+                deferred.resolve(eval(service.resolve))
+            } else {
+                deferred.reject()
+            }
+        })
+        return deferred.promise()
+    }
+
     function getIndexes(input) {
         var deferred = $.Deferred(),
             service = services.indexes
@@ -284,7 +304,6 @@
                 deferred.resolve(response.features[0].attributes)
             } else {
                 deferred.reject()
-                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -295,16 +314,9 @@
             service = services.geocoder
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
-                deferred.resolve({
-                    coordinates: eval(service.coordinates),
-                    style: {
-                        color: "#FF0000"
-                    },
-                    name: input
-                })
+                deferred.resolve()
             } else {
                 deferred.reject()
-                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -325,7 +337,6 @@
                 })
             } else {
                 deferred.reject()
-                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -343,7 +354,7 @@
                     tmp.push([rings[i][1], rings[i][0]])
                 }
                 deferred.resolve({
-                    coordinates: tmp,
+                    coordinates: response.features[0].geometry.rings[0],
                     style: {
                         color: "#00FF00"
                     },
@@ -351,7 +362,6 @@
                 })
             } else {
                 deferred.reject()
-                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -371,7 +381,6 @@
                 })
             } else {
                 deferred.reject()
-                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -391,7 +400,6 @@
                 })
             } else {
                 deferred.reject()
-                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -411,7 +419,6 @@
                 })
             } else {
                 deferred.reject()
-                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -431,7 +438,6 @@
                 })
             } else {
                 deferred.reject()
-                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
@@ -451,7 +457,6 @@
                 })
             } else {
                 deferred.reject()
-                console.log(arguments.callee.name)
             }
         })
         return deferred.promise()
