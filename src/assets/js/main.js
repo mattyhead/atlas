@@ -208,7 +208,7 @@
             vars.divisionShape = ds
             vars.divisions = d
 
-            console.log(d, lmap, markers)
+            console.log(selected, d, lmap, markers)
             wardShape = getWardShape(d.ward)
             councilShape = getCouncilShape(d.council_district)
             stateSenateShape = getStateSenateShape(d.state_senate_district)
