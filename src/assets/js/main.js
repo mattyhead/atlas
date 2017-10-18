@@ -171,10 +171,6 @@
     }
 
     function onHomeAddress(selected) {
-        /*lmap.panTo([
-            place.geometry.location.lat(),
-            place.geometry.location.lng()
-        ])*/
         // independant services
         var
             indexer = getIndexes(selected.precinct),
@@ -199,7 +195,7 @@
                 icon: ICONS.polling
             }).addTo(lmap)
 
-            ds.marker = L.polygon(ds.coordinates, ds.style).bindLabel(ds.name).addTo(lmap)
+            ds.marker = L.polygon(ds.coordinates, ds.style).setContent(ds.name).addTo(lmap)
 
             console.log(ds.marker)
             var group = new L.featureGroup([pp.marker, h.marker, ds.marker])
