@@ -288,7 +288,7 @@
         var deferred = $.Deferred()
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
-                deferred.resolve(eval(service.resolve))
+                deferred.resolve(service.resolve)
             } else {
                 deferred.reject()
             }
