@@ -199,6 +199,8 @@
                 icon: ICONS.polling
             }).addTo(lmap)
 
+            ds.marker = L.marker(pp.coordinates, {}).addTo(lmap)
+
             var group = new L.featureGroup([pp.marker, h.marker])
             lmap.fitBounds(group.getBounds())
 
