@@ -360,7 +360,7 @@
                 }
                 console.log(tmp)
                 deferred.resolve({
-                    coordinates: tmp,
+                    coordinates: tmp.toString(),
                     color: "#FF0000",
                     name: input
                 })
