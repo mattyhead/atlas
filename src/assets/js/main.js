@@ -177,7 +177,7 @@
             divisionShape = getDivisionShape(selected.precinct),
             divisions = getDivisions(selected.precinct),
             wardShape, councilShape, stateRepShape, stateSenateShape, usCongressShape
-        home
+/*        home
             .done(
                 function(data) {
                     vars.done = data
@@ -201,9 +201,14 @@
                     vars.divisions = data
 
                 })
+*/
+        $.when(home, pollingPlace, divisionShape, divisions).done(function(home, pollingPlace, divisionShape, divisions) {
+            console.log(home, pollingPlace, divisionShape, divisions)
+        })
 
-        console.log(vars, vars.home, vars.pollingPlace, vars.divisionShape, vars.divisions)
-            /*        wardShape = getWardShape(vars.divisions)
+        /*        console.log(vars, vars.home, vars.pollingPlace, vars.divisionShape, vars.divisions)
+         */
+        /*        wardShape = getWardShape(vars.divisions)
                     councilShape = getCouncilShape
                     stateRepShape = getStateRepShape
                     stateSenateShape = getStateSenateShape
