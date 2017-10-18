@@ -187,7 +187,7 @@
 
             console.log('indexer', indexes, selected, lmap, markers, home, pollingPlace, divisionShape, wardShape, councilShape, stateSenShape, stateRepShape, usCongressShape)
 
-            $.when(home, pollingPlace, divisionShape, wardShape, councilShape, stateSenShape, stateRepShape).done(function(h, pp, ds, ws, cs, sss, srs) {
+            $.when(home, pollingPlace, divisionShape, wardShape, councilShape, stateSenShape, stateRepShape).then(function(h, pp, ds, ws, cs, sss, srs) {
                 console.log('when', h, pp, ds, ws, cs, sss, srs, indexes, selected, lmap, markers)
             })
 
