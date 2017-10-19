@@ -214,7 +214,7 @@
             ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name).addTo(lmap)
 
             ucs.coordinates = coordsSwap(ucs.coordinates)
-            ca.marker = L.polygon(ucs.coordinates, ucs.style).bindTooltip(ucs.name).addTo(lmap)
+            ucs.marker = L.polygon(ucs.coordinates, ucs.style).bindTooltip(ucs.name).addTo(lmap)
 
             groups.core = new L.featureGroup([pp.marker, h.marker, ds.marker, ucs.marker])
             lmap.fitBounds(groups.core.getBounds())
