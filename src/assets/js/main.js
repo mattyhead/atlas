@@ -2,7 +2,7 @@
     scoped(window.jQuery, window.L, window, document)
 }(function($, L, W, D) {
     //'use strict'
-    var lmap, markers, vars = {}
+    var lmap, markers, groups, vars = {}
         // later 
     $(function() {
             document.getElementById('lmap').style.zIndex = 1
@@ -190,11 +190,6 @@
 
         $.when(home, pollingPlace, divisionShape).then(function(h, pp, ds) {
 
-            // save data
-            vars.home = h
-            vars.pollingPlace = pp
-            vars.divisionShape = ds
-
             // draw markers
             h.marker = L.marker(h.coordinates, {
                 icon: ICONS.home,
@@ -204,17 +199,22 @@
                 icon: ICONS.polling
             }).addTo(lmap)
 
+            // coordinate pairs are lng/lat.  we need lat/lng for leaflet polygons
+            ds.coordinates = coordsSwap(ds.coordinates)
             ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name).addTo(lmap)
 
-            console.log(ds.marker)
-            var group = new L.featureGroup([pp.marker, h.marker, ds.marker])
-            lmap.fitBounds(group.getBounds())
+            groups.core = new L.featureGroup([pp.marker, h.marker, ds.marker])
+            lmap.fitBounds(groups.core.getBounds())
 
+            // save data
+            vars.home = h
+            vars.pollingPlace = pp
+            vars.divisionShape = ds
 
             // draw info display
         })
 
-        /*       indexer.done(function(indexes) {
+        /*indexer.done(function(indexes) {
             // run dependent services
             var
                 wardShape = getWardShape(indexes.ward),
@@ -223,11 +223,12 @@
                 stateRepShape = getStateRepShape(indexes.state_representative_district),
                 usCongressShape = getUsCongressShape(indexes.congressional_district)
 
+            vars.indexes = indexes
             wardShape.done(function(data) {
                 console.log('wardShape', data)
 
                 // save data
-                vars.wardShape = data
+                data
 
                 // draw markers
 
@@ -352,12 +353,6 @@
             service = services.division_shape
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
-                var rings = response.features[0].geometry.rings[0],
-                    tmp = [],
-                    elem = []
-                for (var i = 0; i < rings.length - 1; i++) {
-                    tmp.push([rings[i][1], rings[i][0]])
-                }
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
                     style: {
@@ -467,6 +462,14 @@
         return deferred.promise()
     }
 
+    function coordsSwap(coords) {
+        var tmp = []
+        for (var i = 0; i < coords.length - 1; i++) {
+            tmp.push([coords[i][1], coords[i][0]])
+        }
+        return tmp
+    }
+
     function pad(n, width, z) {
         n = n + '' // cast to string
         z = z || '0' // default padding: '0'
@@ -475,59 +478,3 @@
     }
 
 }))
-/*
-
-        getDivisionShape(wardDivision).done(function(A) {
-            drawMap([ {
-                name: A.name,
-                coordinates: A.coordinates
-            } ])
-            y("DIVISION")
-        })
-        getWardShape(v).done(function(A) {
-            wardData = A
-            y("WARD")
-        })
-        getCouncilShape(z.councilDistrict).done(function(A) {
-            councilData = A
-            y("COUNCIL")
-        })
-        getStateRepShape(z.stateRepresentativeDistrict).done(function(A) {
-            stateRepData = A
-            y("STATE_REP")
-        })
-        getStateSenateShape(z.stateSenateDistrict).done(function(A) {
-            stateSenateData = A
-            y("STATE_SENATE")
-        })
-        getUsCongressShape(z.congressionalDistrict).done(function(A) {
-            usCongressData = A
-            y("US_CONGRESS")
-        })
-
-geocoder: {
-  // methods: {
-  forward: {
-    url(input) {
-      const inputEncoded = encodeURIComponent(input)
-      return `//api.phila.gov/ais/v1/search/${inputEncoded}`
-    },
-    params: {
-      gatekeeperKey: GATEKEEPER_KEY
-    }
-  },
-  reverse: {
-    // TODO uri encode
-    url: (input) => `//api.phila.gov/ais/v1/reverse_geocode/${input}`,
-    params: {
-      gatekeeperKey: GATEKEEPER_KEY
-    }
-  }
-  // }
-},
-    cityBasemapLabels: {
-      // type: 'labels',
-      url: '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer',
-      zIndex: '3',
-    },
-*/
