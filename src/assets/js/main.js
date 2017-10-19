@@ -211,10 +211,10 @@
 
             // coordinate pairs are lng/lat.  we need lat/lng for leaflet polygons
             ds.coordinates = coordsSwap(ds.coordinates)
-            ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name).addTo(lmap)
+            ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip("tooltip").addTo(lmap)
 
             ucs.coordinates = coordsSwap(ucs.coordinates)
-            ucs.marker = L.polygon(ucs.coordinates, ucs.style).bindTooltip(ucs.name).addTo(lmap)
+            ucs.marker = L.polygon(ucs.coordinates, ucs.style).bindTooltip("tooltip").addTo(lmap)
 
             groups.core = new L.featureGroup([pp.marker, h.marker, ds.marker, ucs.marker])
             lmap.fitBounds(groups.core.getBounds())
