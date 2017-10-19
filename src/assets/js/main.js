@@ -2,7 +2,9 @@
     scoped(window.jQuery, window.L, window, document)
 }(function($, L, W, D) {
     //'use strict'
-    var lmap, markers, groups, vars = {}
+    var lmap, markers = {},
+        groups = {},
+        vars = {}
         // later 
     $(function() {
             document.getElementById('lmap').style.zIndex = 1
