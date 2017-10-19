@@ -212,12 +212,13 @@
 
             // coordinate pairs are lng/lat.  we need lat/lng for leaflet polygons
             ds.coordinates = coordsSwap(ds.coordinates)
-                //            ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
-            ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name, {
-                /*                permanant: true,
-                                className: "polygon-labels",
-                                offset: [0, 0]*/
-            }).addTo(lmap).openTooltip()
+            ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
+
+            //ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name, {
+            //    permanant: true,
+            //    className: "polygon-labels",
+            //    offset: [0, 0]
+            //}).addTo(lmap).openTooltip()
 
             grouper([h.marker, pp.marker])
 
@@ -233,24 +234,14 @@
 
     }
 
-    function getService(input, service) {
-        var deferred = $.Deferred()
-        $.getJSON(service.url(input), service.params).done(function(response) {
-            if (response.features) {
-                deferred.resolve(eval(service.resolve))
-            } else {
-                deferred.reject()
-            }
-        })
-        return deferred.promise()
-    }
-
     function getIndexes(input) {
         var deferred = $.Deferred(),
             service = services.indexer
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
-                deferred.resolve(response.features[0].attributes)
+                deferred.resolve({
+                    data: response.features[0].attributes
+                })
             } else {
                 deferred.reject()
             }
@@ -268,6 +259,7 @@
                     style: {
                         color: "#FF0000"
                     },
+                    data: response.features[0]
                     name: input
                 })
             } else {
@@ -288,6 +280,7 @@
                     style: {
                         color: "#FF0000"
                     },
+                    data: attrs,
                     name: input
                 })
             } else {
