@@ -195,10 +195,9 @@
             indexer = getIndexes(selected.precinct),
             home = getHome(selected.home),
             pollingPlace = getPollingPlace(selected.precinct),
-            divisionShape = getDivisionShape(selected.precinct),
-            usCongressShape = getWardShape(13)
+            divisionShape = getDivisionShape(selected.precinct)
 
-        $.when(home, pollingPlace, divisionShape, usCongressShape).then(function(h, pp, ds, ucs) {
+        $.when(home, pollingPlace, divisionShape, indexer).then(function(h, pp, ds, idx) {
 
             // draw markers
             h.marker = L.marker(h.coordinates, {
@@ -220,86 +219,18 @@
                 offset: [0, 0]
             }).addTo(lmap).openTooltip()
             */
-            groups.core = new L.featureGroup([pp.marker, h.marker, ds.marker])
-            lmap.fitBounds(groups.core.getBounds())
 
-
-            // save data
+            grouper([pp.marker, h.marker, ds.marker])
+                // save data
             vars.home = h
             vars.pollingPlace = pp
             vars.divisionShape = ds
+            vars.indexes = idx
 
             // draw info display
-        })
-
-        /*indexer.done(function(indexes) {
-            // run dependent services
-            var
-                wardShape = getWardShape(indexes.ward),
-                councilShape = getCouncilShape(indexes.council_district),
-                stateSenShape = getStateSenateShape(indexes.state_senate_district),
-                stateRepShape = getStateRepShape(indexes.state_representative_district),
-                usCongressShape = getUsCongressShape(indexes.congressional_district)
-
-            vars.indexes = indexes
-            wardShape.done(function(data) {
-                console.log('wardShape', data)
-
-                // save data
-                data
-
-                // draw markers
-
-                // draw info display
-
-            })
-            councilShape.done(function(data) {
-                console.log('councilShape', data)
-
-                // save data
-                vars.councilShape = data
-
-                // draw markers
-
-                // draw info display
-
-            })
-            stateSenShape.done(function(data) {
-                console.log('stateSenShape', data)
-
-                // save data
-                vars.stateSenShape = data
-
-                // draw markers
-
-                // draw info display
-
-            })
-            stateRepShape.done(function(data) {
-                console.log('stateRepShape', data)
-
-                // save data
-                vars.stateRepShape = data
-
-                // draw markers
-
-                // draw info display
-
-            })
-            usCongressShape.done(function(data) {
-                console.log('usCongressShape', data)
-
-                // save data
-                vars.usCongressShape = data
-
-                // draw markers
-
-                // draw info display
-
-            })
 
         })
-*/
+
     }
 
     function getService(input, service) {
@@ -479,6 +410,11 @@
             }
         })
         return deferred.promise()
+    }
+
+    function grouper(markers) {
+        groups.core = new L.featureGroup(markers)
+        lmap.fitBounds(groups.core.getBounds())
     }
 
     function coordsSwap(coords) {
