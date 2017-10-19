@@ -212,7 +212,9 @@
             // coordinate pairs are lng/lat.  we need lat/lng for leaflet polygons
             ds.coordinates = coordsSwap(ds.coordinates)
             ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name, {
-                permanant: true
+                permanant: true,
+                className: "polygon-labels",
+                offset: [0, 0]
             }).addTo(lmap).openTooltip()
 
 

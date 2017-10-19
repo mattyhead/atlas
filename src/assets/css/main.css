@@ -9,3 +9,8 @@
 .art-hmenu li{
 	z-index: 1100;
 }
+.polygon-labels {
+	position: absolute;
+    width: 30px;
+    font-size:6px;
+}
