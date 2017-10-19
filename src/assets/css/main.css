@@ -11,6 +11,7 @@
 }
 .polygon-labels {
 	position: absolute;
-    width: 30px;
+    width: 15px;
+    height: 8px;
     font-size:6px;
 }
