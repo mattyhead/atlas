@@ -214,7 +214,9 @@
             ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip("tooltip").addTo(lmap).openTooltip()
             console.log(ds.name)
             ucs.coordinates = coordsSwap(ucs.coordinates)
-            ucs.marker = L.polygon(ucs.coordinates, ucs.style).bindTooltip("tooltip").addTo(lmap).openTooltip()
+            ucs.marker = L.polygon(ucs.coordinates, ucs.style).bindTooltip("tooltip", {
+                permanant: true
+            }).addTo(lmap).openTooltip()
             console.log(ucs.name)
 
             groups.core = new L.featureGroup([pp.marker, h.marker, ds.marker, ucs.marker])
