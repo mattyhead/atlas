@@ -196,7 +196,7 @@
             home = getHome(selected.home),
             pollingPlace = getPollingPlace(selected.precinct),
             divisionShape = getDivisionShape(selected.precinct),
-            usCongressShape = getUsCongressShape(13)
+            usCongressShape = getWardShape(13)
 
         $.when(home, pollingPlace, divisionShape, usCongressShape).then(function(h, pp, ds, ucs) {
 
