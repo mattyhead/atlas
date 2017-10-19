@@ -213,7 +213,7 @@
             ds.coordinates = coordsSwap(ds.coordinates)
             ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip((ds.name).toString(), {
                 permanant: true
-            }).addTo(lmap).openTooltip()
+            }).addTo(lmap)
             console.log(ds.name)
                 /*            ucs.coordinates = coordsSwap(ucs.coordinates)
                             ucs.marker = L.polygon(ucs.coordinates, ucs.style).bindTooltip("tooltip", {
