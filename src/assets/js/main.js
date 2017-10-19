@@ -220,6 +220,7 @@
             }).addTo(lmap).openTooltip()
 
             var center = ds.marker.getBounds().getCenter()
+            console.log(center)
             ds.center[0] = center.lat
             ds.center[1] = center.lng
 
