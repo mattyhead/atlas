@@ -211,18 +211,14 @@
 
             // coordinate pairs are lng/lat.  we need lat/lng for leaflet polygons
             ds.coordinates = coordsSwap(ds.coordinates)
+            ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
+
+            /*
             ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name, {
                 permanant: true,
                 className: "polygon-labels",
                 offset: [0, 0]
             }).addTo(lmap).openTooltip()
-
-
-            /*            ucs.coordinates = coordsSwap(ucs.coordinates)
-                        ucs.marker = L.polygon(ucs.coordinates, ucs.style).bindTooltip("tooltip", {
-                            permanant: true
-                        }).addTo(lmap).openTooltip()
-                        console.log(ucs.name)
             */
             groups.core = new L.featureGroup([pp.marker, h.marker, ds.marker])
             lmap.fitBounds(groups.core.getBounds())
