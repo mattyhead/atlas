@@ -4,22 +4,31 @@
     //'use strict'
     var lmap, markers = {},
         groups = {},
-        vars = {}
-        // later 
+        vars = {},
+        shapes = {}
+
+    // later 
     $(function() {
-            document.getElementById('lmap').style.zIndex = 1
-            lmap = L.map('lmap').setView(CITY_HALL, ZOOM)
-                // set up layers
-            L.esri.tiledMapLayer({
-                url: BASEMAP
-            }).addTo(lmap)
-            L.esri.tiledMapLayer({
-                    url: BASEMAP_LABELS
-                }).addTo(lmap)
-                // add our SearchBox and set service
-            new L.Control.SearchBox().addTo(lmap).setService(addressComplete)
-        })
-        // now 
+
+        // set map lower, for chrissakes
+        document.getElementById('lmap').style.zIndex = 1
+
+        // set the map, center on City Hall
+        lmap = L.map('lmap').setView(CITY_HALL, ZOOM)
+
+        // set up layers
+        L.esri.tiledMapLayer({
+            url: BASEMAP
+        }).addTo(lmap)
+        L.esri.tiledMapLayer({
+            url: BASEMAP_LABELS
+        }).addTo(lmap)
+
+        // add our SearchBox and set service
+        new L.Control.SearchBox().addTo(lmap).setService(addressComplete)
+    })
+
+    // now 
     var GATEKEEPER_KEY = 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d',
         CITY_HALL = [39.95262, -75.16365],
         ZOOM = 15,
@@ -257,7 +266,7 @@
                     style: {
                         color: "#FF0000"
                     },
-                    data: response.features[0]
+                    data: response.features[0],
                     name: input
                 })
             } else {
@@ -296,7 +305,7 @@
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
                     style: {
-                        color: "#00FF00"
+                        color: "#FF0000"
                     },
                     name: input
                 })
