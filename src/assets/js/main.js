@@ -221,8 +221,7 @@
 
             var center = ds.marker.getBounds().getCenter()
             console.log(center)
-            ds.center[1] = center.Lat
-            ds.center[0] = center.Lng
+            ds.center = [center.Lat, center.Lng]
 
             grouper([h.marker, pp.marker, ds.center])
 
