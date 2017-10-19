@@ -219,12 +219,7 @@
                 offset: [0, 0]
             }).addTo(lmap).openTooltip()
 
-            var center = ds.marker.getBounds().getCenter()
-            ds.center = L.marker([center.lat, center.lng]).addTo(lmap)
-
-
-            console.log([h.marker, pp.marker, ds.center])
-            grouper([h.marker, pp.marker, ds.center])
+            grouper([h.marker, pp.marker])
 
             // save data
             vars.home = h
