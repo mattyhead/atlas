@@ -135,6 +135,13 @@
                     return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=42{encInput}'.replace('{encInput}', encInput)
                 },
                 'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#0C727D" }, name: parseInt(input).toString() }'
+            },
+            'new_us_rep_shape': {
+                url(input) {
+                    const encInput = encodeURIComponent(pad(input))
+                    return '//apis.philadelphiavotes.com/pollingplaces/42{encInput}'.replace('{encInput}', encInput)
+                },
+                'resolve': '{ coordinates: response.features[0].coords, style: { color: "#0C727D" }, name: parseInt(input).toString() }'
             }
         }
 
@@ -445,7 +452,7 @@
 
     function getUsCongressShape(input) {
         var deferred = $.Deferred(),
-            service = services.us_rep_shape
+            service = services.new_us_rep_shape
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
