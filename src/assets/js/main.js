@@ -218,12 +218,18 @@
                 className: "polygon-labels",
                 offset: [0, 0]
             }).addTo(lmap).openTooltip()
+
             var center = ds.marker.getBounds().getCenter()
             ds.center[0] = center.lat
             ds.center[1] = center.lng
+
             grouper([h.marker, pp.marker, ds.center])
-                // save data
-            vars.home = h vars.pollingPlace = pp vars.divisionShape = ds vars.indexes = idx
+
+            // save data
+            vars.home = h
+            vars.pollingPlace = pp
+            vars.divisionShape = ds
+            vars.indexes = idx
 
             // draw info display
 
