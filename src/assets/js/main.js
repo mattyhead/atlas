@@ -204,8 +204,6 @@
                 icon: ICONS.home,
             }).addTo(lmap)
 
-            grouper([h.marker])
-
             pp.marker = L.marker(pp.coordinates, {
                 icon: ICONS.polling
             }).addTo(lmap)
@@ -224,11 +222,7 @@
             }).addTo(lmap).openTooltip()
             */
 
-            grouper([pp.marker, h.marker, ds.marker])
-            setTimeout(function() {
-                    grouper([ds.marker])
-                }, 3000)
-                // save data
+            // save data
             vars.home = h
             vars.pollingPlace = pp
             vars.divisionShape = ds
