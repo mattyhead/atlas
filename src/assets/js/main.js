@@ -223,7 +223,7 @@
             ds.center = [center.Lat, center.Lng]
             console.log(center, h.coordinates, ds.center)
 
-            grouper([h.marker, pp.marker, ds.center])
+            grouper([h.marker, pp.marker, center.M])
 
             // save data
             vars.home = h
