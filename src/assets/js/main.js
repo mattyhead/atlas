@@ -220,8 +220,6 @@
             //    offset: [0, 0]
             //}).addTo(lmap).openTooltip()
 
-            grouper([h.marker, pp.marker])
-
             // save data
             vars.home = h
             vars.pollingPlace = pp
@@ -406,7 +404,7 @@
     }
 
     function grouper(markers) {
-        groups.core = new L.featureGroup(markers)
+        var group = new L.featureGroup(markers)
         lmap.fitBounds(groups.core.getBounds())
     }
 
