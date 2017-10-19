@@ -204,9 +204,13 @@
                 icon: ICONS.home,
             }).addTo(lmap)
 
+            grouper([h.marker])
+
             pp.marker = L.marker(pp.coordinates, {
                 icon: ICONS.polling
             }).addTo(lmap)
+
+            grouper([h.marker, pp.marker])
 
             // coordinate pairs are lng/lat.  we need lat/lng for leaflet polygons
             ds.coordinates = coordsSwap(ds.coordinates)
