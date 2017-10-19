@@ -219,7 +219,7 @@
                 offset: [0, 0]
             }).addTo(lmap).openTooltip()
 
-            grouper([h.marker, pp.marker, ds.marker.getBounds().getCenter();])
+            grouper([h.marker, pp.marker, ds.marker.getBounds().getCenter()])
                 // save data
             vars.home = h
             vars.pollingPlace = pp
