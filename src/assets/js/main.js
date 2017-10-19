@@ -461,6 +461,7 @@
         var deferred = $.Deferred(),
             service = services.new_us_rep_shape
         $.getJSON(service.url(input), service.params).done(function(response) {
+            console.log(response)
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.rings[0],
