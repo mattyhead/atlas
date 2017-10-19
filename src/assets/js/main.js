@@ -211,7 +211,7 @@
 
             // coordinate pairs are lng/lat.  we need lat/lng for leaflet polygons
             ds.coordinates = coordsSwap(ds.coordinates)
-            ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name + '', {
+            ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name.toString(), {
                 permanant: true
             }).addTo(lmap).openTooltip()
             console.log(ds.name)
