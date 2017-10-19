@@ -218,7 +218,7 @@
                 className: "polygon-labels",
                 offset: [0, 0]
             }).addTo(lmap).openTooltip()
-
+            console.log(ds.marker.getBounds())
             grouper([h.marker, pp.marker, ds.marker.getBounds().getCenter()])
                 // save data
             vars.home = h
