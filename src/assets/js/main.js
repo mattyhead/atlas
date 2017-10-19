@@ -221,9 +221,8 @@
 
             var center = ds.marker.getBounds().getCenter()
             ds.center = [center.lat, center.lng]
-            console.log(center, h.coordinates, ds.center)
 
-            grouper([h.marker, pp.marker, center.M])
+            grouper([h.marker, pp.marker, ds.center])
 
             // save data
             vars.home = h
