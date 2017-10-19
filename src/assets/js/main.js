@@ -221,7 +221,9 @@
             */
 
             grouper([pp.marker, h.marker, ds.marker])
-            setTimeout(grouper([ds.marker]), 3000)
+            setTimeout(function() {
+                    grouper([ds.marker])
+                }, 3000)
                 // save data
             vars.home = h
             vars.pollingPlace = pp
