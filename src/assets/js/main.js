@@ -220,8 +220,8 @@
             }).addTo(lmap).openTooltip()
 
             var center = ds.marker.getBounds().getCenter()
-            console.log(center, h.coordinates)
             ds.center = [center.Lat, center.Lng]
+            console.log(center, h.coordinates, ds.center)
 
             grouper([h.marker, pp.marker, ds.center])
 
