@@ -195,9 +195,10 @@
             indexer = getIndexes(selected.precinct),
             home = getHome(selected.home),
             pollingPlace = getPollingPlace(selected.precinct),
-            divisionShape = getDivisionShape(selected.precinct)
+            divisionShape = getDivisionShape(selected.precinct),
+            usCongressShape = getUsCongressShape(13)
 
-        $.when(home, pollingPlace, divisionShape).then(function(h, pp, ds) {
+        $.when(home, pollingPlace, divisionShape, usCongressShape).then(function(h, pp, ds, ucs) {
 
             // draw markers
             h.marker = L.marker(h.coordinates, {
@@ -212,8 +213,12 @@
             ds.coordinates = coordsSwap(ds.coordinates)
             ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name).addTo(lmap)
 
-            groups.core = new L.featureGroup([pp.marker, h.marker, ds.marker])
+            ucs.coordinates = coordsSwap(ucs.coordinates)
+            ca.marker = L.polygon(ucs.coordinates, ucs.style).bindTooltip(ucs.name).addTo(lmap)
+
+            groups.core = new L.featureGroup([pp.marker, h.marker, ds.marker, ucs.marker])
             lmap.fitBounds(groups.core.getBounds())
+
 
             // save data
             vars.home = h
