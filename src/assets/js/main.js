@@ -1,35 +1,14 @@
 (function(scoped) {
     scoped(window.jQuery, window.L, window, document)
 }(function($, L, W, D) {
-    //'use strict'
+    'use strict'
+
+    // declarations
     var lmap, markers = {},
         groups = {},
         vars = {},
-        shapes = {}
-
-    // later 
-    $(function() {
-
-        // set map lower, for chrissakes
-        document.getElementById('lmap').style.zIndex = 1
-
-        // set the map, center on City Hall
-        lmap = L.map('lmap').setView(CITY_HALL, ZOOM)
-
-        // set up layers
-        L.esri.tiledMapLayer({
-            url: BASEMAP
-        }).addTo(lmap)
-        L.esri.tiledMapLayer({
-            url: BASEMAP_LABELS
-        }).addTo(lmap)
-
-        // add our SearchBox and set service
-        new L.Control.SearchBox().addTo(lmap).setService(addressComplete)
-    })
-
-    // now 
-    var GATEKEEPER_KEY = 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d',
+        shapes = {},
+        GATEKEEPER_KEY = 'f2e3e82987f8a1ef78ca9d9d3cfc7f1d',
         CITY_HALL = [39.95262, -75.16365],
         ZOOM = 15,
         BASEMAP = '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer',
@@ -71,82 +50,110 @@
             'G': 'GENERAL PARKING'
         },
         services = {
-            'address_completer': {
+            address_completer: {
                 url(input) {
                     const encInput = encodeURIComponent(input)
                     return '//apis.philadelphiavotes.com/autocomplete/{encInput}'.replace('{encInput}', encInput)
                 }
             },
-            'geocoder': {
+            geocoder: {
                 url(input) {
                     const encInput = encodeURIComponent(input)
                     return '//api.phila.gov/ais/v1/search/{encInput}'.replace('{encInput}', encInput)
                 },
-                'params': {
-                    'gatekeeperKey': GATEKEEPER_KEY
+                params: {
+                    gatekeeperKey: GATEKEEPER_KEY
+                },
+                style: {
+                    color: "#FF0000",
                 }
             },
-            'indexer': {
+            indexer: {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//apis.philadelphiavotes.com/indexes/{encInput}'.replace('{encInput}', encInput)
                         //return '//www.philadelphiavotes.com/index.php?option=com_divisions&view=json&division_id={encInput}'.replace('{encInput}', encInput)
                 }
             },
-            'polling_place': {
+            polling_place: {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//apis.philadelphiavotes.com/pollingplaces/{encInput}'.replace('{encInput}', encInput)
+                },
+                style {
+                    color: "#FF0000"
                 }
             },
-            'shape_city_division': {
+            shape_city_division: {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//apis.philadelphiavotes.com/shapes/city_division/{encInput}'.replace('{encInput}', encInput)
                         //return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM=\'{encInput}\''.replace('{encInput}', encInput)
+                },
+                style: {
+                    color: "#FF0000"
                 }
             },
             // ward service - single quotes
-            'shape_city_ward': {
+            shape_city_ward: {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//apis.philadelphiavotes.com/shapes/city_ward/{encInput}'.replace('{encInput}', encInput)
                         //return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM=\'{encInput}\''.replace('{encInput}', encInput)
+                },
+                style: {
+                    color: "#0000FF"
                 }
             },
             // council service - single quotes
-            'shape_city_district': {
+            shape_city_district: {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//apis.philadelphiavotes.com/shapes/city_district/{encInput}'.replace('{encInput}', encInput)
                         //return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT=\'{encInput}\''.replace('{encInput}', encInput)
                 }
+                style: {
+                    color: "#0D912E"
+                },
+
             },
             // state rep service - single quotes
-            'shape_state_house': {
+            shape_state_house: {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//apis.philadelphiavotes.com/shapes/state_house/{encInput}'.replace('{encInput}', encInput)
                         //return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=\'{encInput}\''.replace('{encInput}', encInput)
+                },
+                style: {
+                    color: "#751675"
                 }
             },
             // state sen service - no single quotes
-            'shape_state_senate': {
+            shape_state_senate: {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//apis.philadelphiavotes.com/shapes/state_senate/{encInput}'.replace('{encInput}', encInput)
                         //return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER={encInput}'.replace('{encInput}', encInput)
+                },
+                style: {
+                    color: "#875010"
                 }
+
             },
-            'shape_federal_house': {
+            shape_federal_house: {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input))
                     return '//apis.philadelphiavotes.com/shapes/federal_house/42{encInput}'.replace('{encInput}', encInput)
                         //return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=42{encInput}'.replace('{encInput}', encInput)
+                },
+                style: {
+                    color: "#0C727D"
                 }
+
             }
         }
 
+    // functions
     function addressComplete(searchBox) {
         $(searchBox).autocomplete({
             minLength: 3,
@@ -176,8 +183,8 @@
             },
             select: function(evt, ui) {
                 onHomeAddress({
-                    'home': ui.item.label,
-                    'precinct': ui.item.precinct
+                    home: ui.item.label,
+                    precinct: ui.item.precinct
                 })
             }
         })
@@ -198,7 +205,7 @@
             indexer = getIndexes(selected.precinct),
             home = getHome(selected.home),
             pollingPlace = getPollingPlace(selected.precinct),
-            divisionShape = getDivisionShape(selected.precinct)
+            divisionShape = getDivisionShape(selected.precinct, services.shape_city_district)
 
         $.when(home, pollingPlace, divisionShape, indexer).then(function(h, pp, ds, idx) {
 
@@ -322,9 +329,7 @@
             if (response.features) {
                 deferred.resolve({
                     coordinates: [response.features[0].geometry.coordinates[1], response.features[0].geometry.coordinates[0]],
-                    style: {
-                        color: "#FF0000",
-                    },
+                    style: service.style,
                     data: response.features[0].properties,
                     name: input
                 })
@@ -343,9 +348,7 @@
                 var attrs = response.features.attributes[0]
                 deferred.resolve({
                     coordinates: [attrs.lat, attrs.lng],
-                    style: {
-                        color: "#FF0000"
-                    },
+                    style: service.style,
                     data: attrs,
                     name: input
                 })
@@ -356,113 +359,14 @@
         return deferred.promise()
     }
 
-    function getDivisionShape(input) {
-        var deferred = $.Deferred(),
-            service = services.division_shape
+    function getShapeFromService(input, service) {
+        var deferred = $.Deferred()
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.coordinates[0],
-                    style: {
-                        color: "#FF0000"
-                    },
+                    style: service.style,
                     name: input
-                })
-            } else {
-                deferred.reject()
-            }
-        })
-        return deferred.promise()
-    }
-
-    function getWardShape(input) {
-        var deferred = $.Deferred(),
-            service = services.ward_shape
-        $.getJSON(service.url(input), service.params).done(function(response) {
-            if (response.features) {
-                deferred.resolve({
-                    coordinates: response.features[0].geometry.coordinates[0],
-                    style: {
-                        color: "#0000FF"
-                    },
-                    name: input
-                })
-            } else {
-                deferred.reject()
-            }
-        })
-        return deferred.promise()
-    }
-
-    function getCouncilShape(input) {
-        var deferred = $.Deferred(),
-            service = services.council_shape
-        $.getJSON(service.url(input), service.params).done(function(response) {
-            if (response.features) {
-                deferred.resolve({
-                    coordinates: response.features[0].geometry.rings[0],
-                    style: {
-                        color: "#0D912E"
-                    },
-                    name: input
-                })
-            } else {
-                deferred.reject()
-            }
-        })
-        return deferred.promise()
-    }
-
-    function getStateRepShape(input) {
-        var deferred = $.Deferred(),
-            service = services.state_rep_shape
-        $.getJSON(service.url(input), service.params).done(function(response) {
-            if (response.features) {
-                deferred.resolve({
-                    coordinates: response.features[0].geometry.coordinates[0],
-                    style: {
-                        color: "#751675"
-                    },
-                    name: input
-                })
-            } else {
-                deferred.reject()
-            }
-        })
-        return deferred.promise()
-    }
-
-    function getStateSenateShape(input) {
-        var deferred = $.Deferred(),
-            service = services.state_sen_shape
-        $.getJSON(service.url(input), service.params).done(function(response) {
-            if (response.features) {
-                deferred.resolve({
-                    coordinates: response.features[0].geometry.coordinates[0],
-                    style: {
-                        color: "#875010"
-                    },
-                    name: input
-                })
-            } else {
-                deferred.reject()
-            }
-        })
-        return deferred.promise()
-    }
-
-    function getUsCongressShape(input) {
-        var deferred = $.Deferred(),
-            service = services.new_us_rep_shape
-        $.getJSON(service.url(input), service.params).done(function(response) {
-            console.log(response)
-            if (response.features) {
-                deferred.resolve({
-                    coordinates: response.features[0].geometry.coordinates[0],
-                    style: {
-                        color: "#0C727D"
-                    },
-                    name: parseInt(input).toString()
                 })
             } else {
                 deferred.reject()
@@ -491,4 +395,24 @@
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
     }
 
+    // later (our init)
+    $(function() {
+
+        // set map lower, for chrissakes
+        document.getElementById('lmap').style.zIndex = 1
+
+        // set the map, center on City Hall
+        lmap = L.map('lmap').setView(CITY_HALL, ZOOM)
+
+        // set up layers
+        L.esri.tiledMapLayer({
+            url: BASEMAP
+        }).addTo(lmap)
+        L.esri.tiledMapLayer({
+            url: BASEMAP_LABELS
+        }).addTo(lmap)
+
+        // add our SearchBox and set service
+        new L.Control.SearchBox().addTo(lmap).setService(addressComplete)
+    })
 }))
