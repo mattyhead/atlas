@@ -153,6 +153,9 @@
             source: function(request, callback) {
                 var url = services.address_completer.url(request.term),
                     space = request.term.indexOf(' ')
+
+                // let's not run until we've entered a street number
+                // and the first letter of the street
                 if (space > 0 && space < request.term.length - 1) {
                     $.getJSON(url, function(response) {
                         if (response.status == "success") {
@@ -212,7 +215,21 @@
 
             // coordinate pairs are lng/lat.  we need lat/lng for leaflet polygons
             ds.coordinates = coordsSwap(ds.coordinates)
-            ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
+                //ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
+            ds.shape = L.getJSON({
+                type: "Feature",
+                properties: {
+                    name: ds.name
+                },
+                geometry: {
+                    type: "Polygon",
+                    coordinates: ds.coordinates
+                }
+            }, {
+                style: ds.style
+            })
+
+            ds.shape.addTo(lmap)
 
             //ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name, {
             //    permanant: true,
