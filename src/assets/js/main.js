@@ -245,55 +245,55 @@
 
             // draw info display
             $('#panel').html(
-/*              '<div id="accordion">' + 
-              '  <h3 >Polling Place</h3>' +
-              '  <p>' +
-              '    <div>' + pp.data.location + '</div>' +
-              '    <div>' + pp.data.display_address + '</div>' +
-              '    <div>' + buildingCodes[pp.data.building] + ' | ' + parkingCodes[pp.data.parking] + '</div>' +
-              '  </p>' + 
-              '  <h3 >Something Else</h3>' +
-              '  <p>' +
-              '    <div>Other stuff</div>' +
-              '  </p>' +
-              '  <h3 >Something Else</h3>' +
-              '  <p>' +
-              '    <div>Other stuff</div>' +
-              '  </p>' +
-              '  <h3 >Something Else</h3>' +
-              '  <p>' +
-              '    <div>Other stuff</div>' +
-              '  </p>' +
-              '</div>'*/
+                /*              '<div id="accordion">' + 
+                              '  <h3 >Polling Place</h3>' +
+                              '  <p>' +
+                              '    <div>' + pp.data.location + '</div>' +
+                              '    <div>' + pp.data.display_address + '</div>' +
+                              '    <div>' + buildingCodes[pp.data.building] + ' | ' + parkingCodes[pp.data.parking] + '</div>' +
+                              '  </p>' + 
+                              '  <h3 >Something Else</h3>' +
+                              '  <p>' +
+                              '    <div>Other stuff</div>' +
+                              '  </p>' +
+                              '  <h3 >Something Else</h3>' +
+                              '  <p>' +
+                              '    <div>Other stuff</div>' +
+                              '  </p>' +
+                              '  <h3 >Something Else</h3>' +
+                              '  <p>' +
+                              '    <div>Other stuff</div>' +
+                              '  </p>' +
+                              '</div>'*/
 
-'<div id="accordion">' +
-'  <h3>Polling Place</h3>' +
-'  <div>' +
-'    <ul>' +
-'      <li>'+pp.data.location+'</li>' +
-'      <li>'+pp.data.display_address+'</li>' +
-'      <li>'+buildingCodes[pp.data.building]+'</li>' +
-'      <li>'+parkingCodes[pp.data.parking]+'</li>' +
-'    </ul>' +
-'  </div>' +
-'  <h3>Sample Ballot</h3>' +
-'  <div>' +
-'    <p>Sed non urna. Phasellus eu ligula. Vestibulum sit amet purus.' +
-'    Vivamus hendrerit, dolor aliquet laoreet, mauris turpis velit,' +
-'    faucibus interdum tellus libero ac justo.</p>' +
-'  </div>' +
-'  <h3>Elected Officials</h3>' +
-'  <div>' +
-'    <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus.' +
-'    Quisque lobortis.Phasellus pellentesque purus in massa.</p>' +
-'    <ul>' +
-'      <li>List item one</li>' +
-'      <li>List item two</li>' +
-'      <li>List item three</li>' +
-'    </ul>' +
-'  </div>' +
-'</div>'              )
-              $( "#accordion" ).accordion();
+                '<div id="accordion">' +
+                '  <h3>Polling Place</h3>' +
+                '  <div>' +
+                '    <ul>' +
+                '      <li>' + pp.data.location + '</li>' +
+                '      <li>' + pp.data.display_address + '</li>' +
+                '      <li>' + buildingCodes[pp.data.building] + '</li>' +
+                '      <li>' + parkingCodes[pp.data.parking] + '</li>' +
+                '    </ul>' +
+                '  </div>' +
+                '  <h3>Sample Ballot</h3>' +
+                '  <div>' +
+                '    <p>Sed non urna. Phasellus eu ligula. Vestibulum sit amet purus.' +
+                '    Vivamus hendrerit, dolor aliquet laoreet, mauris turpis velit,' +
+                '    faucibus interdum tellus libero ac justo.</p>' +
+                '  </div>' +
+                '  <h3>Elected Officials</h3>' +
+                '  <div>' +
+                '    <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus.' +
+                '    Quisque lobortis.Phasellus pellentesque purus in massa.</p>' +
+                '    <ul>' +
+                '      <li>List item one</li>' +
+                '      <li>List item two</li>' +
+                '      <li>List item three</li>' +
+                '    </ul>' +
+                '  </div>' +
+                '</div>')
+            $("#accordion").accordion();
         })
 
     }
