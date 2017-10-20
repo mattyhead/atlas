@@ -250,20 +250,22 @@
               '</div>'*/
 
 '<div id="accordion">' +
-'  <h3>Section 1</h3>' +
+'  <h3>Polling Place</h3>' +
 '  <div>' +
-'    <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget.' +
-'    Integer ut neque. Vivamus nisi metus, molestie vel, gravida in,' +
-'    condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros.' +
-'    Nam mi. Proin viverra leo ut odio.</p>' +
+'    <ul>' +
+'      <li>'+pp.data.location+'</li>' +
+'      <li>'+pp.data.display_address+'</li>' +
+'      <li>'+buildingCodes[pp.data.building]+'</li>' +
+'      <li>'+parkingCodes[pp.data.parking]+'</li>' +
+'    </ul>' +
 '  </div>' +
-'  <h3>Section 2</h3>' +
+'  <h3>Sample Ballot</h3>' +
 '  <div>' +
 '    <p>Sed non urna. Phasellus eu ligula. Vestibulum sit amet purus.' +
 '    Vivamus hendrerit, dolor aliquet laoreet, mauris turpis velit,' +
 '    faucibus interdum tellus libero ac justo.</p>' +
 '  </div>' +
-'  <h3>Section 3</h3>' +
+'  <h3>Elected Officials</h3>' +
 '  <div>' +
 '    <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus.' +
 '    Quisque lobortis.Phasellus pellentesque purus in massa.</p>' +
