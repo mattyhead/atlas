@@ -357,7 +357,7 @@
     }
 
     function getShapeFromService(input, service) {
-        console.log(input, service)
+        console.log(input, service, service.url(input))
         var deferred = $.Deferred()
         $.getJSON(service.url(input), service.params).done(function(response) {
             console.log(response)
