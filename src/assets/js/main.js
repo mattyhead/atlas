@@ -228,12 +228,16 @@
 
             // draw info display
             $('#panel').html(
-              '<div id="accordian">' + 
-              '  <h3>Polling Place</h3>' +
+              '<div class="ui-accordian" id="accordian">' + 
+              '  <h3 class="ui-accordian-header ui-accordian-active">Polling Place</h3>' +
               '  <div>' + pp.data.location + '</div>' +
               '  <div>' + pp.data.display_address + '</div>' +
               '  <div>' + buildingCodes[pp.data.building] + ' | ' + parkingCodes[pp.data.parking] + '</div>' +
-              '  <h3>Something Else</h3>' +
+              '  <h3 class="ui-accordian-header">Something Else</h3>' +
+              '  <div>Other stuff</div>' +
+              '  <h3 class="ui-accordian-header">Something Else</h3>' +
+              '  <div>Other stuff</div>' +
+              '  <h3 class="ui-accordian-header">Something Else</h3>' +
               '  <div>Other stuff</div>' +
               '</div>'
               )
