@@ -230,15 +230,23 @@
             $('#panel').html(
               '<div id="accordion">' + 
               '  <h3 >Polling Place</h3>' +
-              '  <div>' + pp.data.location + '</div>' +
-              '  <div>' + pp.data.display_address + '</div>' +
-              '  <div>' + buildingCodes[pp.data.building] + ' | ' + parkingCodes[pp.data.parking] + '</div>' +
+              '  <p>' +
+              '    <div>' + pp.data.location + '</div>' +
+              '    <div>' + pp.data.display_address + '</div>' +
+              '    <div>' + buildingCodes[pp.data.building] + ' | ' + parkingCodes[pp.data.parking] + '</div>' +
+              '  </p>' + 
               '  <h3 >Something Else</h3>' +
-              '  <div>Other stuff</div>' +
+              '  <p>' +
+              '    <div>Other stuff</div>' +
+              '  </p>' +
               '  <h3 >Something Else</h3>' +
-              '  <div>Other stuff</div>' +
+              '  <p>' +
+              '    <div>Other stuff</div>' +
+              '  </p>' +
               '  <h3 >Something Else</h3>' +
-              '  <div>Other stuff</div>' +
+              '  <p>' +
+              '    <div>Other stuff</div>' +
+              '  </p>' +
               '</div>'
               )
               $( "#accordion" ).accordion();
