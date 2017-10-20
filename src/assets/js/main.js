@@ -357,8 +357,10 @@
     }
 
     function getShapeFromService(input, service) {
+        console.log(service)
         var deferred = $.Deferred()
         $.getJSON(service.url(input), service.params).done(function(response) {
+            console.log(response)
             if (response.features) {
                 deferred.resolve({
                     coordinates: response.features[0].geometry.coordinates[0],
