@@ -111,11 +111,10 @@
                     const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//apis.philadelphiavotes.com/shapes/city_district/{encInput}'.replace('{encInput}', encInput)
                         //return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT=\'{encInput}\''.replace('{encInput}', encInput)
-                }
+                },
                 style: {
                     color: "#0D912E"
-                },
-
+                }
             },
             // state rep service - single quotes
             shape_state_house: {
@@ -138,7 +137,6 @@
                 style: {
                     color: "#875010"
                 }
-
             },
             shape_federal_house: {
                 url(input) {
@@ -149,7 +147,6 @@
                 style: {
                     color: "#0C727D"
                 }
-
             }
         }
 
