@@ -89,7 +89,8 @@
             'indexer': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
-                    return '//www.philadelphiavotes.com/index.php?option=com_divisions&view=json&division_id={encInput}'.replace('{encInput}', encInput)
+                    return '//apis.philadelphiavotes.com/indexes/{encInput}'.replace('{encInput}', encInput)
+                        //return '//www.philadelphiavotes.com/index.php?option=com_divisions&view=json&division_id={encInput}'.replace('{encInput}', encInput)
                 }
             },
             'polling_place': {
@@ -98,51 +99,50 @@
                     return '//apis.philadelphiavotes.com/pollingplaces/{encInput}'.replace('{encInput}', encInput)
                 }
             },
-            'division_shape': {
+            'shape_city_division': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
-                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM=\'{encInput}\''.replace('{encInput}', encInput)
+                    return '//apis.philadelphiavotes.com/shapes/city_division/{encInput}'.replace('{encInput}', encInput)
+                        //return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM=\'{encInput}\''.replace('{encInput}', encInput)
                 }
             },
             // ward service - single quotes
-            'ward_shape': {
+            'shape_city_ward': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
-                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM=\'{encInput}\''.replace('{encInput}', encInput)
+                    return '//apis.philadelphiavotes.com/shapes/city_ward/{encInput}'.replace('{encInput}', encInput)
+                        //return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM=\'{encInput}\''.replace('{encInput}', encInput)
                 }
             },
             // council service - single quotes
-            'council_shape': {
+            'shape_city_district': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
-                    return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT=\'{encInput}\''.replace('{encInput}', encInput)
-                },
-                'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#0D912E" }, name: input }'
+                    return '//apis.philadelphiavotes.com/shapes/city_district/{encInput}'.replace('{encInput}', encInput)
+                        //return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/3/query?f=pjson&callback=?&outSR=4326&where=DISTRICT=\'{encInput}\''.replace('{encInput}', encInput)
+                }
             },
             // state rep service - single quotes
-            'state_rep_shape': {
+            'shape_state_house': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
-                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=\'{encInput}\''.replace('{encInput}', encInput)
+                    return '//apis.philadelphiavotes.com/shapes/state_house/{encInput}'.replace('{encInput}', encInput)
+                        //return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=\'{encInput}\''.replace('{encInput}', encInput)
                 }
             },
             // state sen service - no single quotes
-            'state_sen_shape': {
+            'shape_state_senate': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
-                    return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER={encInput}'.replace('{encInput}', encInput)
+                    return '//apis.philadelphiavotes.com/shapes/state_senate/{encInput}'.replace('{encInput}', encInput)
+                        //return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER={encInput}'.replace('{encInput}', encInput)
                 }
             },
-            'us_rep_shape': {
+            'shape_federal_house': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input))
-                    return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=42{encInput}'.replace('{encInput}', encInput)
-                }
-            },
-            'new_us_rep_shape': {
-                url(input) {
-                    const encInput = encodeURIComponent(pad(input))
-                    return '//apis.philadelphiavotes.com/shapes/us_congress/42{encInput}'.replace('{encInput}', encInput)
+                    return '//apis.philadelphiavotes.com/shapes/federal_house/42{encInput}'.replace('{encInput}', encInput)
+                        //return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=42{encInput}'.replace('{encInput}', encInput)
                 }
             }
         }
@@ -231,6 +231,7 @@
             })
 
             ds.shape.addTo(lmap)
+            grouper([h.marker, pp.marker, ds.shape])
 
             //ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name, {
             //    permanant: true,
@@ -361,7 +362,7 @@
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
-                    coordinates: response.features[0].geometry.rings[0],
+                    coordinates: response.features[0].geometry.coordinates[0],
                     style: {
                         color: "#FF0000"
                     },
@@ -380,7 +381,7 @@
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
-                    coordinates: response.features[0].geometry.rings[0],
+                    coordinates: response.features[0].geometry.coordinates[0],
                     style: {
                         color: "#0000FF"
                     },
@@ -418,7 +419,7 @@
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
-                    coordinates: response.features[0].geometry.rings[0],
+                    coordinates: response.features[0].geometry.coordinates[0],
                     style: {
                         color: "#751675"
                     },
@@ -437,7 +438,7 @@
         $.getJSON(service.url(input), service.params).done(function(response) {
             if (response.features) {
                 deferred.resolve({
-                    coordinates: response.features[0].geometry.rings[0],
+                    coordinates: response.features[0].geometry.coordinates[0],
                     style: {
                         color: "#875010"
                     },
@@ -457,7 +458,7 @@
             console.log(response)
             if (response.features) {
                 deferred.resolve({
-                    coordinates: response.features[0].geometry.rings[0],
+                    coordinates: response.features[0].geometry.coordinates[0],
                     style: {
                         color: "#0C727D"
                     },
