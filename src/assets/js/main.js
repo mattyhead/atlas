@@ -228,13 +228,13 @@
 
             // draw info display
             $('#panel').html(
-              '<div id="accordian">' . 
-              '  <h3>Polling Place</h3>' .
-              '  <div>' . pp.data.location . '</div>' .
-              '  <div>' . pp.data.display_address . '</div>' .
-              '  <div>' . buildingCodes[pp.data.building] . '|' . parkingCodes[pp.data.parking] . '</div>' .
-              '  <h3>Something Else</h3>' .
-              '  <div>Other stuff</div>' .
+              '<div id="accordian">' + 
+              '  <h3>Polling Place</h3>' +
+              '  <div>' + pp.data.location + '</div>' +
+              '  <div>' + pp.data.display_address + '</div>' +
+              '  <div>' + buildingCodes[pp.data.building] + ' | ' + parkingCodes[pp.data.parking] + '</div>' +
+              '  <h3>Something Else</h3>' +
+              '  <div>Other stuff</div>' +
               '</div>'
               )
             console.log(
