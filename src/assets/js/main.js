@@ -202,7 +202,7 @@
             indexer = getIndexes(selected.precinct),
             home = getHome(selected.home),
             pollingPlace = getPollingPlace(selected.precinct),
-            divisionShape = getShapeFromService('02', services.shape_city_ward)
+            divisionShape = getShapeFromService('02', services.shape_city_district)
 
         $.when(home, pollingPlace, divisionShape, indexer).then(function(h, pp, ds, idx) {
 
