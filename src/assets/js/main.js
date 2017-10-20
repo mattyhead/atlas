@@ -228,7 +228,7 @@
 
             // draw info display
             $('#panel').html(
-              '<div id="accordian">' + 
+              '<div id="accordion">' + 
               '  <h3 >Polling Place</h3>' +
               '  <div>' + pp.data.location + '</div>' +
               '  <div>' + pp.data.display_address + '</div>' +
