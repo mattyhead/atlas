@@ -202,7 +202,7 @@
             indexer = getIndexes(selected.precinct),
             home = getHome(selected.home),
             pollingPlace = getPollingPlace(selected.precinct),
-            divisionShape = getShapeFromService('02', services.shape_city_district)
+            divisionShape = getShapeFromService(selected.precinct, services.shape_city_division)
 
         $.when(home, pollingPlace, divisionShape, indexer).then(function(h, pp, ds, idx) {
 
@@ -221,18 +221,7 @@
             //ds.coordinates = coordsSwap(ds.coordinates)
             //ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
             console.log(ds.coordinates)
-            ds.shape = L.geoJSON({
-                type: "Feature",
-                properties: {
-                    name: ds.name
-                },
-                geometry: {
-                    type: "Polygon",
-                    coordinates: [ds.coordinates]
-                }
-            }, {
-                style: ds.style
-            })
+            ds.shape = L.geoJSON(ds.geoJSON, ds.style)
 
             ds.shape.addTo(lmap)
             grouper([h.marker, pp.marker, ds.shape])
@@ -363,9 +352,19 @@
             console.log(response)
             if (response.features) {
                 deferred.resolve({
-                    coordinates: response.features[0].geometry.coordinates[0],
-                    style: service.style,
-                    name: input
+                    geoJSON: {
+                        type: "Feature",
+                        properties: {
+                            name: input
+                        },
+                        geometry: {
+                            type: "Polygon",
+                            coordinates: [response.features[0].geometry.coordinates[0]]
+                        }
+                    },
+                    style: {
+                        style: service.style,
+                    }
                 })
             } else {
                 deferred.reject()
