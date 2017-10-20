@@ -227,7 +227,7 @@
             vars.indexes = idx
 
             // draw info display
-            console.log(vars.home.data)
+            console.log(vars.pollingPlace.data)
         })
 
     }
@@ -255,9 +255,9 @@
                 deferred.resolve({
                     coordinates: [response.features[0].geometry.coordinates[1], response.features[0].geometry.coordinates[0]],
                     style: {
-                        color: "#FF0000"
+                        color: "#FF0000",
                     },
-                    data: response.features[0],
+                    data: response.features[0].properties,
                     name: input
                 })
             } else {
