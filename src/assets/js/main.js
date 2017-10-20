@@ -237,12 +237,6 @@
               '  <div>Other stuff</div>' +
               '</div>'
               )
-            console.log(
-vars.pollingPlace.data.display_address
-vars.pollingPlace.data.location
-vars.pollingPlace.data.building
-vars.pollingPlace.data.parking
-              )
         })
 
     }
