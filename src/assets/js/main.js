@@ -227,7 +227,7 @@
             vars.indexes = idx
 
             // draw info display
-
+            console.log(vars.home.data)
         })
 
     }
