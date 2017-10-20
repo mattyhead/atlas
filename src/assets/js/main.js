@@ -216,7 +216,7 @@
             // coordinate pairs are lng/lat.  we need lat/lng for leaflet polygons
             ds.coordinates = coordsSwap(ds.coordinates)
                 //ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
-            ds.shape = L.getJSON({
+            ds.shape = L.geoJSON({
                 type: "Feature",
                 properties: {
                     name: ds.name
