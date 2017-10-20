@@ -80,7 +80,7 @@
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//apis.philadelphiavotes.com/pollingplaces/{encInput}'.replace('{encInput}', encInput)
                 },
-                style {
+                style: {
                     color: "#FF0000"
                 }
             },
