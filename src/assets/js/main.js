@@ -214,8 +214,8 @@
             grouper([h.marker, pp.marker])
 
             // coordinate pairs are lng/lat.  we need lat/lng for leaflet polygons
-            ds.coordinates = coordsSwap(ds.coordinates)
-                //ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
+            //ds.coordinates = coordsSwap(ds.coordinates)
+            //ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
             ds.shape = L.geoJSON({
                 type: "Feature",
                 properties: {
