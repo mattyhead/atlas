@@ -405,7 +405,7 @@
 
     function grouper(markers) {
         var group = new L.featureGroup(markers)
-        lmap.fitBounds(groups.core.getBounds())
+        lmap.fitBounds(group.getBounds())
     }
 
     function coordsSwap(coords) {
