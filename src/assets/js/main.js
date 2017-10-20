@@ -84,37 +84,32 @@
                 },
                 'params': {
                     'gatekeeperKey': GATEKEEPER_KEY
-                },
-                'resolve': '{ coordinates: [response.features[0].geometry.coordinates[1], response.features[0].geometry.coordinates[0]], style: { color: "#FF0000" }, name: input }'
+                }
             },
             'indexer': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//www.philadelphiavotes.com/index.php?option=com_divisions&view=json&division_id={encInput}'.replace('{encInput}', encInput)
-                },
-                'resolve': 'response.features[0].attributes'
+                }
             },
             'polling_place': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//apis.philadelphiavotes.com/pollingplaces/{encInput}'.replace('{encInput}', encInput)
-                },
-                'resolve': '{ coordinates: [response.features.attributes[0].lat, response.features.attributes[0].lng], style: { color: "#FF0000" }, name: input }'
+                }
             },
             'division_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input, 4))
                     return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/22/query?f=pjson&callback=?&outSR=4326&where=DIVISION_NUM=\'{encInput}\''.replace('{encInput}', encInput)
-                },
-                'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#00FF00" }, name: input }'
+                }
             },
             // ward service - single quotes
             'ward_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer/21/query?f=pjson&callback=?&outSR=4326&where=WARD_NUM=\'{encInput}\''.replace('{encInput}', encInput)
-                },
-                'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#0000FF" }, name: input }'
+                }
             },
             // council service - single quotes
             'council_shape': {
@@ -129,30 +124,26 @@
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/25/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER=\'{encInput}\''.replace('{encInput}', encInput)
-                },
-                'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#751675" }, name: input }'
+                }
             },
             // state sen service - no single quotes
             'state_sen_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(parseInt(input, 10))
                     return '//gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer/24/query?f=pjson&callback=?&outSR=4326&where=DISTRICT_NUMBER={encInput}'.replace('{encInput}', encInput)
-                },
-                'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#875010" }, name: input }'
+                }
             },
             'us_rep_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input))
                     return '//maps1.arcgisonline.com/ArcGIS/rest/services/USA_Congressional_Districts/MapServer/2/query?f=pjson&callback=?&where=DISTRICTID=42{encInput}'.replace('{encInput}', encInput)
-                },
-                'resolve': '{ coordinates: response.features[0].geometry.rings[0], style: { color: "#0C727D" }, name: parseInt(input).toString() }'
+                }
             },
             'new_us_rep_shape': {
                 url(input) {
                     const encInput = encodeURIComponent(pad(input))
                     return '//apis.philadelphiavotes.com/shapes/us_congress/42{encInput}'.replace('{encInput}', encInput)
-                },
-                'resolve': '{ coordinates: response.features[0].coords, style: { color: "#0C727D" }, name: parseInt(input).toString() }'
+                }
             }
         }
 
