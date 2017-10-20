@@ -241,7 +241,7 @@
               '  <div>Other stuff</div>' +
               '</div>'
               )
-$( "#accordion" ).accordion();
+              $( "#accordion" ).accordion();
         })
 
     }
