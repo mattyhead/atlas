@@ -215,28 +215,17 @@
                 icon: ICONS.polling
             }).addTo(lmap)
 
-            grouper([h.marker, pp.marker])
-
-            // coordinate pairs are lng/lat.  we need lat/lng for leaflet polygons
-            //ds.coordinates = coordsSwap(ds.coordinates)
-            //ds.marker = L.polygon(ds.coordinates, ds.style).addTo(lmap)
-            console.log(ds.coordinates)
             ds.shape = L.geoJSON(ds.geoJSON, ds.style)
-
             ds.shape.addTo(lmap)
+
+            // zoom to our rendered elements
             grouper([h.marker, pp.marker, ds.shape])
 
-            //ds.marker = L.polygon(ds.coordinates, ds.style).bindTooltip(ds.name, {
-            //    permanant: true,
-            //    className: "polygon-labels",
-            //    offset: [0, 0]
-            //}).addTo(lmap).openTooltip()
-
-            // save data
-            vars.home = h
-            vars.pollingPlace = pp
-
+            // save data (late, in case we've had to transform)
             vars.indexes = idx
+            markers.home = h
+            markers.pollingPlace = pp
+            shapes.divisionShape = ds
 
             // draw info display
             $('#panel').html(
