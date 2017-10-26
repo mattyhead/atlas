@@ -122,23 +122,3 @@
     }
   })
 })()
-
-
-/*   geocoder: {
-      // forward: {
-        // direction: 'forward',
-      url: function (input) {
-        var inputEncoded = encodeURIComponent(input);
-        return '//api.phila.gov/ais/v1/search/' + inputEncoded;
-      },
-      params: {
-        gatekeeperKey: GATEKEEPER_KEY,
-        include_units: true
-      }
-
-            selected = response.features[0].attributes;
-            selected.building = buildingCodes[selected.building];
-            selected.parking = parkingCodes[selected.parking];
-            console.log(response.features[0].attributes)
-
-*/
